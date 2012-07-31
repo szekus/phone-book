@@ -4,6 +4,6 @@
   <inherits name='com.opensource.phonebook.PhoneBook' />
 
   <!-- Specify the path to any remote services.                   -->
-  <servlet path="/PhoneBook/greet" class="com.opensource.phonebook.server.GreetingServiceImpl" />
+  <servlet path="/PhoneBook/greet" class="com.opensource.phonebook.server.rpc.GreetingServiceImpl" />
 
 </module>

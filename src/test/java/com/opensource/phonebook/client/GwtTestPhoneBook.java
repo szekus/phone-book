@@ -1,10 +1,12 @@
 package com.opensource.phonebook.client;
 
-import com.opensource.phonebook.shared.FieldVerifier;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
+import com.opensource.phonebook.client.services.GreetingService;
+import com.opensource.phonebook.client.services.GreetingServiceAsync;
+import com.opensource.phonebook.shared.FieldVerifier;
 
 /**
  * GWT JUnit <b>integration</b> tests must extend GWTTestCase.

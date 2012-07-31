@@ -1,7 +1,7 @@
-package com.opensource.phonebook.server;
+package com.opensource.phonebook.server.rpc;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
-import com.opensource.phonebook.client.GreetingService;
+import com.opensource.phonebook.client.services.GreetingService;
 import com.opensource.phonebook.shared.FieldVerifier;
 
 /**

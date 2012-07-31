@@ -4,6 +4,15 @@
     "http://java.sun.com/dtd/web-app_2_3.dtd">
 
 <web-app>
+    
+    <context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:/applicationContext.xml</param-value>
+	</context-param>
+
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
 
 	<!-- Servlets -->
 	<servlet>
@@ -13,8 +22,22 @@
 
 	<servlet>
 		<servlet-name>greetServlet</servlet-name>
-		<servlet-class>com.opensource.phonebook.server.GreetingServiceImpl</servlet-class>
+		<servlet-class>com.opensource.phonebook.server.rpc.GreetingServiceImpl</servlet-class>
 	</servlet>
+	
+	<servlet>
+		<servlet-name>emailTypeServlet</servlet-name>
+		<servlet-class>com.opensource.phonebook.server.rpc.EmailTypeServiceImpl</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>emailTypeServlet</servlet-name>
+		<url-pattern>/Troop22Master/roleRpc</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+  		<servlet-name>emailTypeServlet</servlet-name>
+  		<url-pattern>/com.opensource.phonebook.PhoneBookJUnit/PhoneBook/roleRpc</url-pattern>
+	</servlet-mapping>
 
 	<servlet-mapping>
 		<servlet-name>greetServlet</servlet-name>
