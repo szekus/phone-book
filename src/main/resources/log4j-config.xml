@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<log4j:configuration debug="true" xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+	<!-- Asynchronous appender queues BufferSize logging events -->
+	<appender name="ASYNC" class="org.apache.log4j.AsyncAppender">
+		<param name="BufferSize" value="256" />
+		<appender-ref ref="FILE" />
+	</appender>
+
+	<!--
+		File appender. Outputs a log file which is rolled every day. Allows
+		user to decide location of log file via a -D parameter to the JVM. Use
+		when the application is to be deployed on a remote server.
+	-->
+	<appender name="FILE" class="org.apache.log4j.DailyRollingFileAppender">
+		<!--
+			Use Java option -Dlog.dir=<directory> to output logs in the desired
+			<directory>
+		-->
+		<param name="File" value="${log.dir}/cosmic.log" />
+		<!-- The date pattern below controls the rollover schedule -->
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<!-- The conversion pattern controls what is being written -->
+			<!-- by the log                                            -->
+			<param name="ConversionPattern" value="%d{DATE},%r %-5p [%t] %c{2} - %m%n" />
+		</layout>
+	</appender>
+
+	<!--
+		Standard out appender. Use only for local debugging during
+		development. If you enable the STDOUT appender, please do not check
+		this file into StarTeam.
+	-->
+	<appender name="STDOUT" class="org.apache.log4j.ConsoleAppender">
+		<param name="Target" value="System.out"/> 
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d %-5p [%t] {%x} %C{2} (%F:%L) - %m%n" />
+		</layout>
+	</appender>
+	
+	<!--  Set debug level logging for our classes. -->
+	<logger name="com.opensource.phonebook">
+		<level value="debug" />
+	</logger>
+
+	<root>
+		<!--
+			Set info level logging for ALL classes. Change this to debug to get
+			debug output from all classes, including external libraries. If you 
+			make such a change locally, please do not check it into StarTeam.
+		-->
+		<priority value ="info" /> 
+		<!-- Set the line below to STDOUT to see logging output           -->
+		<!-- on standard out, for example during development on a         -->
+		<!-- local desktop.                                               -->
+		<!-- Set the line below to FILE for use on a remote system        -->
+		<!-- and all logging output will be output to cosmic.log,          -->
+		<!-- which will roll over at midnight every day.                  -->
+		<!-- You may have to restart the webapp for the changes to take.  -->
+		<appender-ref ref="FILE" />
+	</root>
+
+</log4j:configuration>
+
