@@ -20,13 +20,13 @@ import javax.persistence.Table;
  */
 @SuppressWarnings("serial")
 @Entity
-@Table(name="contacts_email")
-public class ContactEmailDTO implements Serializable {
+@Table(name="contacts_phone")
+public class ContactPhoneDTO implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="contacts_email_id")
-	private long emailId;
+	@Column(name="contacts_phone_id")
+	private long phoneId;
 	
 	// bi-directional many-to-one association to ContactDTO
 	@ManyToOne(fetch =  FetchType.EAGER)
@@ -35,21 +35,21 @@ public class ContactEmailDTO implements Serializable {
 	
 	// bi-directional many-to-one association to ContactDTO
 	@ManyToOne(fetch =  FetchType.EAGER)
-	@JoinColumn(name="email_type_id")
-	private EmailTypeDTO emailType;
+	@JoinColumn(name="phone_type_id")
+	private PhoneTypeDTO phoneType;
 
-	@Column(name="email")
-	private String email;
+	@Column(name="phone")
+	private String phone;
 	
 	@Column(name="entered_date")
 	private Date enteredDate;
 
-	public long getEmailId() {
-		return emailId;
+	public long getPhoneId() {
+		return phoneId;
 	}
 
-	public void setEmailId(long emailId) {
-		this.emailId = emailId;
+	public void setPhoneId(long phoneId) {
+		this.phoneId = phoneId;
 	}
 
 	public ContactDTO getContact() {
@@ -60,20 +60,20 @@ public class ContactEmailDTO implements Serializable {
 		this.contact = contact;
 	}
 
-	public EmailTypeDTO getEmailType() {
-		return emailType;
+	public PhoneTypeDTO getPhoneType() {
+		return phoneType;
 	}
 
-	public void setEmailType(EmailTypeDTO emailType) {
-		this.emailType = emailType;
+	public void setPhoneType(PhoneTypeDTO phoneType) {
+		this.phoneType = phoneType;
 	}
 
-	public String getEmail() {
-		return email;
+	public String getPhone() {
+		return phone;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 
 	public Date getEnteredDate() {
@@ -88,10 +88,10 @@ public class ContactEmailDTO implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((email == null) ? 0 : email.hashCode());
-		result = prime * result + (int) (emailId ^ (emailId >>> 32));
+		result = prime * result + ((phone == null) ? 0 : phone.hashCode());
+		result = prime * result + (int) (phoneId ^ (phoneId >>> 32));
 		result = prime * result
-				+ ((emailType == null) ? 0 : emailType.hashCode());
+				+ ((phoneType == null) ? 0 : phoneType.hashCode());
 		result = prime * result
 				+ ((enteredDate == null) ? 0 : enteredDate.hashCode());
 		return result;
@@ -105,18 +105,18 @@ public class ContactEmailDTO implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ContactEmailDTO other = (ContactEmailDTO) obj;
-		if (email == null) {
-			if (other.email != null)
+		ContactPhoneDTO other = (ContactPhoneDTO) obj;
+		if (phone == null) {
+			if (other.phone != null)
 				return false;
-		} else if (!email.equals(other.email))
+		} else if (!phone.equals(other.phone))
 			return false;
-		if (emailId != other.emailId)
+		if (phoneId != other.phoneId)
 			return false;
-		if (emailType == null) {
-			if (other.emailType != null)
+		if (phoneType == null) {
+			if (other.phoneType != null)
 				return false;
-		} else if (!emailType.equals(other.emailType))
+		} else if (!phoneType.equals(other.phoneType))
 			return false;
 		if (enteredDate == null) {
 			if (other.enteredDate != null)
@@ -128,9 +128,10 @@ public class ContactEmailDTO implements Serializable {
 
 	@Override
 	public String toString() {
-		return "ContactEmailDTO [emailId=" + emailId + ", emailType="
-				+ emailType + ", email=" + email + ", enteredDate="
+		return "ContactPhoneDTO [phoneId=" + phoneId + ", phoneType="
+				+ phoneType + ", phone=" + phone + ", enteredDate="
 				+ enteredDate + "]";
 	}
 
 }
+

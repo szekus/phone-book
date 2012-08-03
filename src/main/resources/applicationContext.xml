@@ -38,6 +38,12 @@
 		<property name="annotatedClasses">
 			<list>
 				<value>com.opensource.phonebook.shared.dto.EmailTypeDTO</value>
+				<value>com.opensource.phonebook.shared.dto.PhoneTypeDTO</value>
+				<value>com.opensource.phonebook.shared.dto.LinkTypeDTO</value>
+				<value>com.opensource.phonebook.shared.dto.ContactDTO</value>
+				<value>com.opensource.phonebook.shared.dto.ContactEmailDTO</value>
+				<value>com.opensource.phonebook.shared.dto.ContactPhoneDTO</value>
+				<value>com.opensource.phonebook.shared.dto.ContactLinkDTO</value>
 			</list>
 		</property>
 		<property name="hibernateProperties">
@@ -54,10 +60,44 @@
 	<bean id="emailTypeDao" class="com.opensource.phonebook.server.dao.EmailTypeDaoImpl">
 	    <property name="sessionFactory" ref="sessionFactory" />
 	</bean>
+	<bean id="phoneTypeDao" class="com.opensource.phonebook.server.dao.PhoneTypeDaoImpl">
+	    <property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="linkTypeDao" class="com.opensource.phonebook.server.dao.LinkTypeDaoImpl">
+	    <property name="sessionFactory" ref="sessionFactory" />
+	</bean>
 	
-	<bean id="userService" class="com.opensource.phonebook.server.rpc.EmailTypeServiceImpl">
+	<bean id="contactDao" class="com.opensource.phonebook.server.dao.ContactDaoImpl">
+	    <property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<bean id="contactEmailDao" class="com.opensource.phonebook.server.dao.ContactEmailDaoImpl">
+	    <property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<bean id="contactPhoneDao" class="com.opensource.phonebook.server.dao.ContactPhoneDaoImpl">
+	    <property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<bean id="contactLinkDao" class="com.opensource.phonebook.server.dao.ContactLinkDaoImpl">
+	    <property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<bean id="emailTypeService" class="com.opensource.phonebook.server.rpc.EmailTypeServiceImpl">
 		<property name="emailTypeDao">
 			<ref bean="emailTypeDao" />
+		</property>
+	</bean>
+	
+	<bean id="phoneTypeService" class="com.opensource.phonebook.server.rpc.PhoneTypeServiceImpl">
+		<property name="phoneTypeDao">
+			<ref bean="phoneTypeDao" />
+		</property>
+	</bean>
+	
+	<bean id="linkTypeService" class="com.opensource.phonebook.server.rpc.LinkTypeServiceImpl">
+		<property name="linkTypeDao">
+			<ref bean="linkTypeDao" />
 		</property>
 	</bean>
 	

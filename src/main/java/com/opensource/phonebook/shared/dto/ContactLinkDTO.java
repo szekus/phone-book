@@ -20,13 +20,13 @@ import javax.persistence.Table;
  */
 @SuppressWarnings("serial")
 @Entity
-@Table(name="contacts_email")
-public class ContactEmailDTO implements Serializable {
+@Table(name="contacts_link")
+public class ContactLinkDTO implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="contacts_email_id")
-	private long emailId;
+	@Column(name="contacts_link_id")
+	private long linkId;
 	
 	// bi-directional many-to-one association to ContactDTO
 	@ManyToOne(fetch =  FetchType.EAGER)
@@ -35,21 +35,21 @@ public class ContactEmailDTO implements Serializable {
 	
 	// bi-directional many-to-one association to ContactDTO
 	@ManyToOne(fetch =  FetchType.EAGER)
-	@JoinColumn(name="email_type_id")
-	private EmailTypeDTO emailType;
+	@JoinColumn(name="link_type_id")
+	private LinkTypeDTO linkType;
 
-	@Column(name="email")
-	private String email;
+	@Column(name="link")
+	private String link;
 	
 	@Column(name="entered_date")
 	private Date enteredDate;
 
-	public long getEmailId() {
-		return emailId;
+	public long getLinkId() {
+		return linkId;
 	}
 
-	public void setEmailId(long emailId) {
-		this.emailId = emailId;
+	public void setLinkId(long linkId) {
+		this.linkId = linkId;
 	}
 
 	public ContactDTO getContact() {
@@ -60,20 +60,20 @@ public class ContactEmailDTO implements Serializable {
 		this.contact = contact;
 	}
 
-	public EmailTypeDTO getEmailType() {
-		return emailType;
+	public LinkTypeDTO getLinkType() {
+		return linkType;
 	}
 
-	public void setEmailType(EmailTypeDTO emailType) {
-		this.emailType = emailType;
+	public void setLinkType(LinkTypeDTO linkType) {
+		this.linkType = linkType;
 	}
 
-	public String getEmail() {
-		return email;
+	public String getLink() {
+		return link;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setLink(String link) {
+		this.link = link;
 	}
 
 	public Date getEnteredDate() {
@@ -88,10 +88,10 @@ public class ContactEmailDTO implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((email == null) ? 0 : email.hashCode());
-		result = prime * result + (int) (emailId ^ (emailId >>> 32));
+		result = prime * result + ((link == null) ? 0 : link.hashCode());
+		result = prime * result + (int) (linkId ^ (linkId >>> 32));
 		result = prime * result
-				+ ((emailType == null) ? 0 : emailType.hashCode());
+				+ ((linkType == null) ? 0 : linkType.hashCode());
 		result = prime * result
 				+ ((enteredDate == null) ? 0 : enteredDate.hashCode());
 		return result;
@@ -105,18 +105,18 @@ public class ContactEmailDTO implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ContactEmailDTO other = (ContactEmailDTO) obj;
-		if (email == null) {
-			if (other.email != null)
+		ContactLinkDTO other = (ContactLinkDTO) obj;
+		if (link == null) {
+			if (other.link != null)
 				return false;
-		} else if (!email.equals(other.email))
+		} else if (!link.equals(other.link))
 			return false;
-		if (emailId != other.emailId)
+		if (linkId != other.linkId)
 			return false;
-		if (emailType == null) {
-			if (other.emailType != null)
+		if (linkType == null) {
+			if (other.linkType != null)
 				return false;
-		} else if (!emailType.equals(other.emailType))
+		} else if (!linkType.equals(other.linkType))
 			return false;
 		if (enteredDate == null) {
 			if (other.enteredDate != null)
@@ -128,9 +128,10 @@ public class ContactEmailDTO implements Serializable {
 
 	@Override
 	public String toString() {
-		return "ContactEmailDTO [emailId=" + emailId + ", emailType="
-				+ emailType + ", email=" + email + ", enteredDate="
+		return "ContactLinkDTO [linkId=" + linkId + ", linkType="
+				+ linkType + ", link=" + link + ", enteredDate="
 				+ enteredDate + "]";
 	}
 
 }
+
