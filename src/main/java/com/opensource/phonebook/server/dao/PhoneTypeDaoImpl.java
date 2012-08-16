@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.opensource.phonebook.shared.dto.PhoneTypeDTO;
+import com.opensource.phonebook.domain.PhoneTypeEntity;
 
 @Transactional
 @Repository("phoneTypeDao")
@@ -25,35 +25,41 @@ public class PhoneTypeDaoImpl implements PhoneTypeDao {
 		this.sessionFactory = sessionFactory;
 	}
 	
-	public PhoneTypeDTO savePhoneTypeDTO(PhoneTypeDTO phoneType) {
+	@Override
+	public PhoneTypeEntity savePhoneTypeEntity(PhoneTypeEntity phoneType) {
 		//this.getHibernateTemplate().saveOrUpdate(phoneType);
 		return phoneType;
 	}
 
-	public void deletePhoneTypeDTO(Long phoneTypeId) {
+	@Override
+	public void deletePhoneTypeEntity(Long phoneTypeId) {
 		//this.getgetHibernateTemplate()().delete(interest);
 	}
 
-	public void deletePhoneTypeDTO(PhoneTypeDTO phoneType) {
+	@Override
+	public void deletePhoneTypeEntity(PhoneTypeEntity phoneType) {
 		//this.getHibernateTemplate().delete(phoneType);
 	}
 
-	public List<PhoneTypeDTO> getAllPhoneTypeDTOs() {
-		String queryString = "from PhoneTypeDTO";
-		//List<PhoneTypeDTO> users = this.getHibernateTemplate().find(queryString);
-		List<PhoneTypeDTO> users = this.sessionFactory.getCurrentSession().createQuery(queryString).list();
+	@Override
+	public List<PhoneTypeEntity> getAllPhoneTypeEntitys() {
+		String queryString = "from PhoneTypeEntity";
+		//List<PhoneTypeEntity> users = this.getHibernateTemplate().find(queryString);
+		List<PhoneTypeEntity> users = this.sessionFactory.getCurrentSession().createQuery(queryString).list();
 		return users;
 	}
 
-	public PhoneTypeDTO getPhoneTypeDTO(long id) {
-		//return (PhoneTypeDTO)this.getHibernateTemplate().get(PhoneTypeDTO.class, id);
-		return (PhoneTypeDTO)this.sessionFactory.getCurrentSession().get(PhoneTypeDTO.class, id);
+	@Override
+	public PhoneTypeEntity getPhoneTypeEntity(long id) {
+		//return (PhoneTypeEntity)this.getHibernateTemplate().get(PhoneTypeEntity.class, id);
+		return (PhoneTypeEntity)this.sessionFactory.getCurrentSession().get(PhoneTypeEntity.class, id);
 	}
 
-	public List<PhoneTypeDTO> getPhoneTypeDTO(PhoneTypeDTO exampleEntity) {
-		//List<PhoneTypeDTO> users = this.getHibernateTemplate().findByExample(exampleEntity);
-		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(PhoneTypeDTO.class);
-		List<PhoneTypeDTO> users = criteria.list();
+	@Override
+	public List<PhoneTypeEntity> getPhoneTypeEntity(PhoneTypeEntity exampleEntity) {
+		//List<PhoneTypeEntity> users = this.getHibernateTemplate().findByExample(exampleEntity);
+		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(PhoneTypeEntity.class);
+		List<PhoneTypeEntity> users = criteria.list();
 		return users;
 	}
 

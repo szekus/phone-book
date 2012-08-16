@@ -2,19 +2,19 @@ package com.opensource.phonebook.server.dao;
 
 import java.util.List;
 
-import com.opensource.phonebook.shared.dto.PhoneTypeDTO;
+import com.opensource.phonebook.domain.PhoneTypeEntity;
 
 public interface PhoneTypeDao {
 	
-	public PhoneTypeDTO savePhoneTypeDTO(PhoneTypeDTO phoneType);
+	public PhoneTypeEntity savePhoneTypeEntity(PhoneTypeEntity phoneType);
 	
-	public void deletePhoneTypeDTO(Long phoneTypeId);
-	public void deletePhoneTypeDTO(PhoneTypeDTO phoneType);
+	public void deletePhoneTypeEntity(Long phoneTypeId);
+	public void deletePhoneTypeEntity(PhoneTypeEntity phoneType);
 	
-	public List<PhoneTypeDTO> getAllPhoneTypeDTOs();
+	public List<PhoneTypeEntity> getAllPhoneTypeEntitys();
 	
 	// Retrieve
-	public PhoneTypeDTO getPhoneTypeDTO(long id);
-	public List<PhoneTypeDTO> getPhoneTypeDTO(PhoneTypeDTO exampleEntity);
+	public PhoneTypeEntity getPhoneTypeEntity(long id);
+	public List<PhoneTypeEntity> getPhoneTypeEntity(PhoneTypeEntity exampleEntity);
 	
 }

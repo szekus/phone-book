@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.opensource.phonebook.shared.dto.LinkTypeDTO;
+import com.opensource.phonebook.domain.LinkTypeEntity;
 
 @Transactional
 @Repository("linkTypeDao")
@@ -25,35 +25,41 @@ public class LinkTypeDaoImpl implements LinkTypeDao {
 		this.sessionFactory = sessionFactory;
 	}
 	
-	public LinkTypeDTO saveLinkTypeDTO(LinkTypeDTO linkType) {
+	@Override
+	public LinkTypeEntity saveLinkTypeEntity(LinkTypeEntity linkType) {
 		//this.getHibernateTemplate().saveOrUpdate(linkType);
 		return linkType;
 	}
 
-	public void deleteLinkTypeDTO(Long linkTypeId) {
+	@Override
+	public void deleteLinkTypeEntity(Long linkTypeId) {
 		//this.getgetHibernateTemplate()().delete(interest);
 	}
 
-	public void deleteLinkTypeDTO(LinkTypeDTO linkType) {
+	@Override
+	public void deleteLinkTypeEntity(LinkTypeEntity linkType) {
 		//this.getHibernateTemplate().delete(linkType);
 	}
 
-	public List<LinkTypeDTO> getAllLinkTypeDTOs() {
-		String queryString = "from LinkTypeDTO";
-		//List<LinkTypeDTO> users = this.getHibernateTemplate().find(queryString);
-		List<LinkTypeDTO> users = this.sessionFactory.getCurrentSession().createQuery(queryString).list();
+	@Override
+	public List<LinkTypeEntity> getAllLinkTypeEntitys() {
+		String queryString = "from LinkTypeEntity";
+		//List<LinkTypeEntity> users = this.getHibernateTemplate().find(queryString);
+		List<LinkTypeEntity> users = this.sessionFactory.getCurrentSession().createQuery(queryString).list();
 		return users;
 	}
 
-	public LinkTypeDTO getLinkTypeDTO(long id) {
-		//return (LinkTypeDTO)this.getHibernateTemplate().get(LinkTypeDTO.class, id);
-		return (LinkTypeDTO)this.sessionFactory.getCurrentSession().get(LinkTypeDTO.class, id);
+	@Override
+	public LinkTypeEntity getLinkTypeEntity(long id) {
+		//return (LinkTypeEntity)this.getHibernateTemplate().get(LinkTypeEntity.class, id);
+		return (LinkTypeEntity)this.sessionFactory.getCurrentSession().get(LinkTypeEntity.class, id);
 	}
 
-	public List<LinkTypeDTO> getLinkTypeDTO(LinkTypeDTO exampleEntity) {
-		//List<LinkTypeDTO> users = this.getHibernateTemplate().findByExample(exampleEntity);
-		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(LinkTypeDTO.class);
-		List<LinkTypeDTO> users = criteria.list();
+	@Override
+	public List<LinkTypeEntity> getLinkTypeEntity(LinkTypeEntity exampleEntity) {
+		//List<LinkTypeEntity> users = this.getHibernateTemplate().findByExample(exampleEntity);
+		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(LinkTypeEntity.class);
+		List<LinkTypeEntity> users = criteria.list();
 		return users;
 	}
 

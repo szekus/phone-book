@@ -2,19 +2,19 @@ package com.opensource.phonebook.server.dao;
 
 import java.util.List;
 
-import com.opensource.phonebook.shared.dto.LinkTypeDTO;
+import com.opensource.phonebook.domain.LinkTypeEntity;
 
 public interface LinkTypeDao {
 	
-	public LinkTypeDTO saveLinkTypeDTO(LinkTypeDTO linkType);
+	public LinkTypeEntity saveLinkTypeEntity(LinkTypeEntity linkType);
 	
-	public void deleteLinkTypeDTO(Long linkTypeId);
-	public void deleteLinkTypeDTO(LinkTypeDTO linkType);
+	public void deleteLinkTypeEntity(Long linkTypeId);
+	public void deleteLinkTypeEntity(LinkTypeEntity linkType);
 	
-	public List<LinkTypeDTO> getAllLinkTypeDTOs();
+	public List<LinkTypeEntity> getAllLinkTypeEntitys();
 	
 	// Retrieve
-	public LinkTypeDTO getLinkTypeDTO(long id);
-	public List<LinkTypeDTO> getLinkTypeDTO(LinkTypeDTO exampleEntity);
+	public LinkTypeEntity getLinkTypeEntity(long id);
+	public List<LinkTypeEntity> getLinkTypeEntity(LinkTypeEntity exampleEntity);
 	
 }

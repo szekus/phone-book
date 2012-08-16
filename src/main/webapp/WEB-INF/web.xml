@@ -9,6 +9,10 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>classpath:/applicationContext.xml</param-value>
 	</context-param>
+	<context-param>
+		<param-name>log4jConfigLocation</param-name>
+		<param-value>/WEB-INF/classes/log4j.properties</param-value>
+	</context-param>
 
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
@@ -30,10 +34,21 @@
 		<servlet-class>com.opensource.phonebook.server.rpc.EmailTypeServiceImpl</servlet-class>
 	</servlet>
 	
+	<servlet>
+		<servlet-name>login</servlet-name>
+		<servlet-class>com.opensource.phonebook.server.rpc.LoginServiceImpl</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>login</servlet-name>
+		<url-pattern>/PhoneBook/login</url-pattern>
+	</servlet-mapping>
+	
 	<servlet-mapping>
 		<servlet-name>emailTypeServlet</servlet-name>
-		<url-pattern>/Troop22Master/roleRpc</url-pattern>
+		<url-pattern>/PhoneBook/roleRpc</url-pattern>
 	</servlet-mapping>
+	
 	<servlet-mapping>
   		<servlet-name>emailTypeServlet</servlet-name>
   		<url-pattern>/com.opensource.phonebook.PhoneBookJUnit/PhoneBook/roleRpc</url-pattern>
@@ -58,7 +73,7 @@
 		<servlet-name>jUnitHostImpl</servlet-name>
 		<url-pattern>/PhoneBook/junithost/*</url-pattern>
 	</servlet-mapping>
-
+	
 	<!-- Default page to serve -->
 	<welcome-file-list>
 		<welcome-file>PhoneBook.html</welcome-file>

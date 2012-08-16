@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.opensource.phonebook.shared.dto.ContactLinkDTO;
+import com.opensource.phonebook.domain.ContactLinkEntity;
 
 @Transactional
 @Repository("contactLinkLinkDao")
@@ -25,49 +25,49 @@ public class ContactLinkDaoImpl implements ContactLinkDao {
 		this.sessionFactory = sessionFactory;
 	}
 	
-	public ContactLinkDTO createContactLinkDTO(ContactLinkDTO contactLink) {
+	public ContactLinkEntity createContactLinkEntity(ContactLinkEntity contactLink) {
 		//this.getHibernateTemplate().saveOrUpdate(contactLink);
 		this.sessionFactory.getCurrentSession().persist(contactLink);
 		return contactLink;
 	}
 	
-	public ContactLinkDTO saveContactLinkDTO(ContactLinkDTO contactLink) {
+	public ContactLinkEntity saveContactLinkEntity(ContactLinkEntity contactLink) {
 		//this.getHibernateTemplate().saveOrUpdate(contactLink);
 		this.sessionFactory.getCurrentSession().saveOrUpdate(contactLink);
 		return contactLink;
 	}
 	
-	public ContactLinkDTO updateContactLinkDTO(ContactLinkDTO contactLink) {
+	public ContactLinkEntity updateContactLinkEntity(ContactLinkEntity contactLink) {
 		//this.getHibernateTemplate().saveOrUpdate(contactLink);
 		this.sessionFactory.getCurrentSession().merge(contactLink);
 		return contactLink;
 	}
 
-	public void deleteContactLinkDTO(Long contactLinkId) {
+	public void deleteContactLinkEntity(Long contactLinkId) {
 		//this.getgetHibernateTemplate()().delete(interest);
 	}
 
-	public void deleteContactLinkDTO(ContactLinkDTO contactLink) {
+	public void deleteContactLinkEntity(ContactLinkEntity contactLink) {
 		//this.getHibernateTemplate().delete(contactLink);
 		this.sessionFactory.getCurrentSession().delete(contactLink);
 	}
 
-	public List<ContactLinkDTO> getAllContactLinkDTOs() {
-		String queryString = "from ContactLinkDTO";
-		//List<ContactLinkDTO> users = this.getHibernateTemplate().find(queryString);
-		List<ContactLinkDTO> users = this.sessionFactory.getCurrentSession().createQuery(queryString).list();
+	public List<ContactLinkEntity> getAllContactLinkEntitys() {
+		String queryString = "from ContactLinkEntity";
+		//List<ContactLinkEntity> users = this.getHibernateTemplate().find(queryString);
+		List<ContactLinkEntity> users = this.sessionFactory.getCurrentSession().createQuery(queryString).list();
 		return users;
 	}
 
-	public ContactLinkDTO getContactLinkDTO(long id) {
-		//return (ContactLinkDTO)this.getHibernateTemplate().get(ContactLinkDTO.class, id);
-		return (ContactLinkDTO)this.sessionFactory.getCurrentSession().get(ContactLinkDTO.class, id);
+	public ContactLinkEntity getContactLinkEntity(long id) {
+		//return (ContactLinkEntity)this.getHibernateTemplate().get(ContactLinkEntity.class, id);
+		return (ContactLinkEntity)this.sessionFactory.getCurrentSession().get(ContactLinkEntity.class, id);
 	}
 
-	public List<ContactLinkDTO> getContactLinkDTO(ContactLinkDTO exampleEntity) {
-		//List<ContactLinkDTO> users = this.getHibernateTemplate().findByExample(exampleEntity);
-		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(ContactLinkDTO.class);
-		List<ContactLinkDTO> users = criteria.list();
+	public List<ContactLinkEntity> getContactLinkEntity(ContactLinkEntity exampleEntity) {
+		//List<ContactLinkEntity> users = this.getHibernateTemplate().findByExample(exampleEntity);
+		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(ContactLinkEntity.class);
+		List<ContactLinkEntity> users = criteria.list();
 		return users;
 	}
 

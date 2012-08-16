@@ -3,7 +3,6 @@ package com.opensource.phonebook.server.dao;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import junit.framework.TestCase;
 
@@ -16,9 +15,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.ibm.icu.text.SimpleDateFormat;
-import com.opensource.phonebook.shared.dto.ContactDTO;
-import com.opensource.phonebook.shared.dto.ContactEmailDTO;
-import com.opensource.phonebook.shared.dto.EmailTypeDTO;
+import com.opensource.phonebook.domain.ContactEmailEntity;
+import com.opensource.phonebook.domain.ContactEntity;
+import com.opensource.phonebook.domain.EmailTypeEntity;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"classpath*:applicationContext.xml"})
@@ -60,15 +59,15 @@ public class ContactDaoTests extends TestCase {
 		System.out.println("tearDown: FINISH");
 	}
 	
-	private Set<ContactEmailDTO> createEmails(ContactDTO contact) {
-		Set<ContactEmailDTO> emails = new HashSet<ContactEmailDTO>();
+	private HashSet<ContactEmailEntity> createEmails(ContactEntity contact) {
+		HashSet<ContactEmailEntity> emails = new HashSet<ContactEmailEntity>();
 		logger.debug("createEmails: START");
-		ContactEmailDTO contactEmail = null;
+		ContactEmailEntity contactEmail = null;
 		//============================================================
 		String email1 = "tom1@tomholmes1.net";
-		EmailTypeDTO emailType1 = new EmailTypeDTO();
+		EmailTypeEntity emailType1 = new EmailTypeEntity();
 		emailType1.setId(1);
-		contactEmail = new ContactEmailDTO();
+		contactEmail = new ContactEmailEntity();
 		contactEmail.setContact(contact);
 		contactEmail.setEmail(email1);
 		contactEmail.setEnteredDate(new Date());	
@@ -76,9 +75,9 @@ public class ContactDaoTests extends TestCase {
 		emails.add(contactEmail);
 		//**********************************************
 		String email2 = "tom2@tomholmes2.net";
-		EmailTypeDTO emailType2 = new EmailTypeDTO();
+		EmailTypeEntity emailType2 = new EmailTypeEntity();
 		emailType2.setId(2);
-		contactEmail = new ContactEmailDTO();
+		contactEmail = new ContactEmailEntity();
 		contactEmail.setContact(contact);
 		contactEmail.setEmail(email2);
 		contactEmail.setEnteredDate(new Date());	
@@ -86,9 +85,9 @@ public class ContactDaoTests extends TestCase {
 		emails.add(contactEmail);
 		//**********************************************
 		String email3 = "tom3@tomholmes3.net";
-		EmailTypeDTO emailType3 = new EmailTypeDTO();
+		EmailTypeEntity emailType3 = new EmailTypeEntity();
 		emailType3.setId(3);
-		contactEmail = new ContactEmailDTO();
+		contactEmail = new ContactEmailEntity();
 		contactEmail.setContact(contact);
 		contactEmail.setEmail(email3);
 		contactEmail.setEnteredDate(new Date());	
@@ -121,9 +120,8 @@ public class ContactDaoTests extends TestCase {
 //		String state = "MA";
 //		String zip ="12345-1234";
 		// =================================================================================
-		ContactDTO contact = new ContactDTO();
+		ContactEntity contact = new ContactEntity();
 		//contact.setId(id);
-		contact.setActive(active);
 		contact.setAddress1(address1);
 		contact.setAddress2(address2);
 		contact.setAdmin(admin);
@@ -132,17 +130,15 @@ public class ContactDaoTests extends TestCase {
 		contact.setCompanyId(companyId);
 		contact.setFirstName(firstName);
 		contact.setLastName(lastName);
-		contact.setPassword(password);
 		contact.setPrefix(prefix);
 		contact.setState(state);
 		contact.setSuffix(suffix);
-		contact.setUsername(username);
 		contact.setZip(zip);
 		contact.setEmails(createEmails(contact));
 		System.out.println("testContactSave: " + contact.toString());
 		// ***************************************************************
 		System.out.println("testContactSave: START: CREATE");
-		contact = contactDao.saveContactDTO(contact);
+		contact = contactDao.saveContactEntity(contact);
 		assertNotNull(contact);
 		System.out.println("testContactSave: FINISH: CREATE");
 		// =================================================================================
@@ -155,11 +151,10 @@ public class ContactDaoTests extends TestCase {
 		// =================================================================================
 		// ***************************************************************
 		System.out.println("testContactRetrieve: START: CREATE");
-		List<ContactDTO> contacts = contactDao.getAllContactDTOs();
+		List<ContactEntity> contacts = contactDao.getAllContactEntitys();
 		assertNotNull(contacts);
-		for(ContactDTO contact:contacts) {
+		for(ContactEntity contact:contacts) {
 			assertNotNull(contact.getId());
-			assertNotNull(contact.isActive());
 			//************************************************************
 //			assertEquals(contact.getAddress1(),address1);
 //			assertEquals(contact.getAddress2(),address2);
@@ -189,9 +184,8 @@ public class ContactDaoTests extends TestCase {
 		// =================================================================================
 		// ***************************************************************
 		System.out.println("testContactRetrieveById: START: CREATE");
-		ContactDTO contact = contactDao.getContactDTO(id);
+		ContactEntity contact = contactDao.getContactEntity(id);
 		assertNotNull(contact.getId());
-		assertNotNull(contact.isActive());
 		//************************************************************
 		assertEquals(contact.getAddress1(),address1);
 		assertEquals(contact.getAddress2(),address2);
@@ -211,7 +205,7 @@ public class ContactDaoTests extends TestCase {
 		assertEquals(0,contact.getPhones().size());
 		assertEquals(0,contact.getLinks().size());
 		//************************************************************
-		System.out.println("testContactRetrieve: contact=" + contact.toString());
+		System.out.println("testContactRetrieveById: contact=" + contact.toString());
 		System.out.println("testContactRetrieveById: FINISH: CREATE");
 		// =================================================================================
 	}
@@ -221,12 +215,12 @@ public class ContactDaoTests extends TestCase {
 		System.out.println("testContactDelete: START");
 		long id = 4;
 		// =================================================================================
-		ContactDTO contact = contactDao.getContactDTO(id);
+		ContactEntity contact = contactDao.getContactEntity(id);
 		assertNotNull(contact);
 		System.out.println("testContactDelete: " + contact.toString());
-		contactDao.deleteContactDTO(contact);
+		contactDao.deleteContactEntity(contact);
 		System.out.println("testContactDelete: contact deleted");
-		contact = contactDao.getContactDTO(id);
+		contact = contactDao.getContactEntity(id);
 		assertEquals(contact,null);
 		// ***************************************************************
 		System.out.println("testContactDelete: FINISH");
@@ -234,52 +228,52 @@ public class ContactDaoTests extends TestCase {
 	}
 
 	/*
-	public void X_testContactDTOByName() {
-		System.out.println("testContactDTOByName: START");
+	public void X_testContactEntityByName() {
+		System.out.println("testContactEntityByName: START");
 		// =================================================================================
 		String interestName1 = "TEST";
 		String interestUuid1 = "AAA";
 		String interestPath1 = "ABC/AAA";
-		ContactDTO interest1 = new ContactDTO();
-		interest1.setContactDTOName(interestName1);
-		interest1.setContactDTOUuid(interestUuid1);
-		interest1.setContactDTOPath(interestPath1);
-		System.out.println("testContactDTOByName: " + interestName1 + " " + interestUuid1 + " " + interestPath1);
-		interest1 = contactDao.saveContactDTO(interest1);
+		ContactEntity interest1 = new ContactEntity();
+		interest1.setContactEntityName(interestName1);
+		interest1.setContactEntityUuid(interestUuid1);
+		interest1.setContactEntityPath(interestPath1);
+		System.out.println("testContactEntityByName: " + interestName1 + " " + interestUuid1 + " " + interestPath1);
+		interest1 = contactDao.saveContactEntity(interest1);
 		assertNotNull(interest1);
 		// =================================================================================
 		String interestName2 = "TEST";
 		String interestUuid2 = "BBB";
 		String interestPath2 = "ABC/BBB";
-		ContactDTO interest2 = new ContactDTO();
-		interest2.setContactDTOName(interestName2);
-		interest2.setContactDTOUuid(interestUuid2);
-		interest2.setContactDTOPath(interestPath2);
-		System.out.println("testContactDTOByName: " + interestName2 + " " + interestUuid2 + " " + interestPath2);
-		interest2 = contactDao.saveContactDTO(interest2);
+		ContactEntity interest2 = new ContactEntity();
+		interest2.setContactEntityName(interestName2);
+		interest2.setContactEntityUuid(interestUuid2);
+		interest2.setContactEntityPath(interestPath2);
+		System.out.println("testContactEntityByName: " + interestName2 + " " + interestUuid2 + " " + interestPath2);
+		interest2 = contactDao.saveContactEntity(interest2);
 		assertNotNull(interest2);
 		// =================================================================================
 		String interestName3 = "TEST";
 		String interestUuid3 = "BBB";
 		String interestPath3 = "ABC/BBB";
-		ContactDTO interest3 = new ContactDTO();
-		interest3.setContactDTOName(interestName3);
-		interest3.setContactDTOUuid(interestUuid3);
-		interest3.setContactDTOPath(interestPath3);
-		System.out.println("testContactDTOByName: " + interestName3 + " " + interestUuid3 + " " + interestPath3);
-		interest3 = contactDao.saveContactDTO(interest3);
+		ContactEntity interest3 = new ContactEntity();
+		interest3.setContactEntityName(interestName3);
+		interest3.setContactEntityUuid(interestUuid3);
+		interest3.setContactEntityPath(interestPath3);
+		System.out.println("testContactEntityByName: " + interestName3 + " " + interestUuid3 + " " + interestPath3);
+		interest3 = contactDao.saveContactEntity(interest3);
 		assertNotNull(interest2);
 		// =================================================================================
 		String interestName = "TEST";
-		List<ContactDTO> interests = contactDao.getContactDTOsByName(interestName);
-		System.out.println("testContactDTOByName: interests: size=" + interests.size() );
+		List<ContactEntity> interests = contactDao.getContactEntitysByName(interestName);
+		System.out.println("testContactEntityByName: interests: size=" + interests.size() );
 		assertEquals(3,interests.size());
 		// =================================================================================
-		System.out.println("testContactDTOCRUS: START: DELETE");
-		contactDao.deleteContactDTO(interest1);
-		contactDao.deleteContactDTO(interest2);
-		contactDao.deleteContactDTO(interest3);
-		System.out.println("testContactDTOCRUS: FINISH: DELETE");
+		System.out.println("testContactEntityCRUS: START: DELETE");
+		contactDao.deleteContactEntity(interest1);
+		contactDao.deleteContactEntity(interest2);
+		contactDao.deleteContactEntity(interest3);
+		System.out.println("testContactEntityCRUS: FINISH: DELETE");
 		// =================================================================================
 	}
 	*/
@@ -295,7 +289,7 @@ public class ContactDaoTests extends TestCase {
 		String updatePassword = "updated_pwd4";
 		String updateUsername = "updated_username4";
 		// =================================================================================
-		ContactDTO contact = contactDao.getContactDTO(id);
+		ContactEntity contact = contactDao.getContactEntity(id);
 //		assertEquals(contact.getAddress1(),address1);
 //		assertEquals(contact.getAddress2(),address2);
 //		assertEquals(contact.getCity(),city);
@@ -315,12 +309,10 @@ public class ContactDaoTests extends TestCase {
 		contact.setCity(updateCity);
 		contact.setFirstName(updateFirstName);
 		contact.setLastName(updateLastName);
-		contact.setPassword(updatePassword);
-		contact.setUsername(updateUsername);
 		// ***************************************************************
 		
-		ContactEmailDTO contactEmail = null;
-		for(ContactEmailDTO x : contact.getEmails() )
+		ContactEmailEntity contactEmail = null;
+		for(ContactEmailEntity x : contact.getEmails() )
 		{
 			if(x.getEmailId()==11)
 			{
@@ -331,13 +323,11 @@ public class ContactDaoTests extends TestCase {
 		contact.getEmails().remove(contactEmail);
 		// ***************************************************************
 		System.out.println("testContactUpdate: START: CREATE");
-		contact = contactDao.saveContactDTO(contact);
+		contact = contactDao.saveContactEntity(contact);
 		assertNotNull(contact);
 		assertEquals(contact.getCity(),updateCity);
 		assertEquals(contact.getFirstName(),updateFirstName);
 		assertEquals(contact.getLastName(),updateLastName);
-		assertEquals(contact.getPassword(),updatePassword);
-		assertEquals(contact.getUsername(),updateUsername);
 		assertEquals(contact.getEmails().size(),2);
 		System.out.println("testContactUpdate: FINISH: CREATE");
 		// =================================================================================

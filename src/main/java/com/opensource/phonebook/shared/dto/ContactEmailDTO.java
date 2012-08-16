@@ -15,7 +15,7 @@ import javax.persistence.Table;
 
 
 /**
- * The persistent class for the Positions database table.
+ * The persistent class for the contacts_email database table.
  * 
  */
 @SuppressWarnings("serial")

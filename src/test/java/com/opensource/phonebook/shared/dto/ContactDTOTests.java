@@ -43,25 +43,16 @@ public class ContactDTOTests extends TestCase {
 		assertNotNull(contact);
 		// ***************************************************************
 		contact.setId(id);
-		contact.setUsername(username);
-		contact.setPassword(password);
-		contact.setActive(active);
 		contact.setAdmin(admin);
 		contact.setBirthDate(birthDate);
 		System.out.println("testContactCreate: contact=" + contact.toString());
 		// ***************************************************************
 		assertNotNull(contact.getId());
-		assertNotNull(contact.getUsername());
-		assertNotNull(contact.getPassword());
-		assertNotNull(contact.isActive());
 		assertNotNull(contact.isAdmin());
 		assertNotNull(contact.getBirthDate());
 		assertNotNull(contact.toString());
 		// ***************************************************************
 		assertEquals(contact.getId(),id);
-		assertEquals(contact.getUsername(),username);
-		assertEquals(contact.getPassword(),password);
-		assertEquals(contact.isActive(),active);
 		assertEquals(contact.isAdmin(),admin);
 		assertEquals(contact.getBirthDate(),birthDate);
 		assertEquals(sdf.format(contact.getBirthDate()),dob);

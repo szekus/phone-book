@@ -2,23 +2,23 @@ package com.opensource.phonebook.server.dao;
 
 import java.util.List;
 
-import com.opensource.phonebook.shared.dto.ContactEmailDTO;
+import com.opensource.phonebook.domain.ContactEmailEntity;
 
 public interface ContactEmailDao {
 	
-	public ContactEmailDTO saveContactEmailDTO(ContactEmailDTO contactEmail);
+	public ContactEmailEntity saveContactEmailEntity(ContactEmailEntity contactEmail);
 	
-	public ContactEmailDTO createContactEmailDTO(ContactEmailDTO contactEmail);
+	public ContactEmailEntity createContactEmailEntity(ContactEmailEntity contactEmail);
 	
-	public ContactEmailDTO updateContactEmailDTO(ContactEmailDTO contactEmail);
+	public ContactEmailEntity updateContactEmailEntity(ContactEmailEntity contactEmail);
 	
-	public void deleteContactEmailDTO(Long contactEmailId);
-	public void deleteContactEmailDTO(ContactEmailDTO contactEmail);
+	public void deleteContactEmailEntity(Long contactEmailId);
+	public void deleteContactEmailEntity(ContactEmailEntity contactEmail);
 	
-	public List<ContactEmailDTO> getAllContactEmailDTOs();
+	public List<ContactEmailEntity> getAllContactEmailEntitys();
 	
 	// Retrieve
-	public ContactEmailDTO getContactEmailDTO(long id);
-	public List<ContactEmailDTO> getContactEmailDTO(ContactEmailDTO exampleEntity);
+	public ContactEmailEntity getContactEmailEntity(long id);
+	public List<ContactEmailEntity> getContactEmailEntity(ContactEmailEntity exampleEntity);
 	
 }

@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.opensource.phonebook.shared.dto.EmailTypeDTO;
+import com.opensource.phonebook.domain.EmailTypeEntity;
 
 @Transactional
 @Repository("emailTypeDao")
@@ -25,35 +25,39 @@ public class EmailTypeDaoImpl implements EmailTypeDao {
 		this.sessionFactory = sessionFactory;
 	}
 	
-	public EmailTypeDTO saveEmailTypeDTO(EmailTypeDTO emailType) {
+	@Override
+	public EmailTypeEntity saveEmailTypeEntity(EmailTypeEntity emailType) {
 		//this.getHibernateTemplate().saveOrUpdate(emailType);
 		return emailType;
 	}
 
-	public void deleteEmailTypeDTO(Long emailTypeId) {
+	@Override
+	public void deleteEmailTypeEntity(Long emailTypeId) {
 		//this.getgetHibernateTemplate()().delete(interest);
 	}
 
-	public void deleteEmailTypeDTO(EmailTypeDTO emailType) {
+	@Override
+	public void deleteEmailTypeEntity(EmailTypeEntity emailType) {
 		//this.getHibernateTemplate().delete(emailType);
 	}
-
-	public List<EmailTypeDTO> getAllEmailTypeDTOs() {
-		String queryString = "from EmailTypeDTO";
-		//List<EmailTypeDTO> users = this.getHibernateTemplate().find(queryString);
-		List<EmailTypeDTO> users = this.sessionFactory.getCurrentSession().createQuery(queryString).list();
+	
+	@Override
+	public List<EmailTypeEntity> getAllEmailTypeEntitys() {
+		String queryString = "from EmailTypeEntity";
+		List<EmailTypeEntity> users = this.sessionFactory.getCurrentSession().createQuery(queryString).list();
 		return users;
 	}
-
-	public EmailTypeDTO getEmailTypeDTO(long id) {
-		//return (EmailTypeDTO)this.getHibernateTemplate().get(EmailTypeDTO.class, id);
-		return (EmailTypeDTO)this.sessionFactory.getCurrentSession().get(EmailTypeDTO.class, id);
+		
+	@Override
+	public EmailTypeEntity getEmailTypeEntity(long id) {
+		return (EmailTypeEntity)this.sessionFactory.getCurrentSession().get(EmailTypeEntity.class, id);
 	}
-
-	public List<EmailTypeDTO> getEmailTypeDTO(EmailTypeDTO exampleEntity) {
-		//List<EmailTypeDTO> users = this.getHibernateTemplate().findByExample(exampleEntity);
-		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(EmailTypeDTO.class);
-		List<EmailTypeDTO> users = criteria.list();
+	
+	@Override
+	public List<EmailTypeEntity> getEmailTypeEntity(EmailTypeEntity exampleEntity) {
+		//List<EmailTypeEntity> users = this.getHibernateTemplate().findByExample(exampleEntity);
+		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(EmailTypeEntity.class);
+		List<EmailTypeEntity> users = criteria.list();
 		return users;
 	}
 

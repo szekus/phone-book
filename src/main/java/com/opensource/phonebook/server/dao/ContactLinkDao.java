@@ -2,23 +2,23 @@ package com.opensource.phonebook.server.dao;
 
 import java.util.List;
 
-import com.opensource.phonebook.shared.dto.ContactLinkDTO;
+import com.opensource.phonebook.domain.ContactLinkEntity;
 
 public interface ContactLinkDao {
 	
-	public ContactLinkDTO saveContactLinkDTO(ContactLinkDTO contactLink);
+	public ContactLinkEntity saveContactLinkEntity(ContactLinkEntity contactLink);
 	
-	public ContactLinkDTO createContactLinkDTO(ContactLinkDTO contactLink);
+	public ContactLinkEntity createContactLinkEntity(ContactLinkEntity contactLink);
 	
-	public ContactLinkDTO updateContactLinkDTO(ContactLinkDTO contactLink);
+	public ContactLinkEntity updateContactLinkEntity(ContactLinkEntity contactLink);
 	
-	public void deleteContactLinkDTO(Long contactLinkId);
-	public void deleteContactLinkDTO(ContactLinkDTO contactLink);
+	public void deleteContactLinkEntity(Long contactLinkId);
+	public void deleteContactLinkEntity(ContactLinkEntity contactLink);
 	
-	public List<ContactLinkDTO> getAllContactLinkDTOs();
+	public List<ContactLinkEntity> getAllContactLinkEntitys();
 	
 	// Retrieve
-	public ContactLinkDTO getContactLinkDTO(long id);
-	public List<ContactLinkDTO> getContactLinkDTO(ContactLinkDTO exampleEntity);
+	public ContactLinkEntity getContactLinkEntity(long id);
+	public List<ContactLinkEntity> getContactLinkEntity(ContactLinkEntity exampleEntity);
 	
 }

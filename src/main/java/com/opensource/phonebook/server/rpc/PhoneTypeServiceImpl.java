@@ -1,41 +1,28 @@
 package com.opensource.phonebook.server.rpc;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.opensource.phonebook.client.services.PhoneTypeService;
+import com.opensource.phonebook.domain.PhoneTypeEntity;
 import com.opensource.phonebook.server.dao.PhoneTypeDao;
 import com.opensource.phonebook.shared.dto.PhoneTypeDTO;
 
+@SuppressWarnings("serial")
 @Transactional
 @Service("phoneTypeService")
-public class PhoneTypeServiceImpl extends BaseRPC implements PhoneTypeService {
-
-	private static final long serialVersionUID = 1L;
-	
+public class PhoneTypeServiceImpl extends BaseRPC implements PhoneTypeService
+{
+	@Autowired
 	private PhoneTypeDao phoneTypeDao;
-	
-	public PhoneTypeServiceImpl () {
-		if(ctx == null) {
-			System.out.println("ctx is NULL");
-		} else {
-			System.out.println("ctx is NOT null");
-			
-			phoneTypeDao = (PhoneTypeDao) ctx.getBean("phoneTypeDao");
-			if(phoneTypeDao == null) {
-				System.out.println("phoneTypeDao is NULL");
-			} else {
-				System.out.println("phoneTypeDao is NOT null");
-			}
-		}
-	}
 	
 	public PhoneTypeDao getPhoneTypeDao() {
 		return phoneTypeDao;
 	}
-
 	public void setPhoneTypeDao(PhoneTypeDao phoneTypeDao) {
 		this.phoneTypeDao = phoneTypeDao;
 	}
@@ -59,18 +46,55 @@ public class PhoneTypeServiceImpl extends BaseRPC implements PhoneTypeService {
 	}
 
 	@Transactional
-	public List<PhoneTypeDTO> fetch(PhoneTypeDTO exampleEntity) {
-		return phoneTypeDao.getPhoneTypeDTO(exampleEntity);
+	public List<PhoneTypeDTO> fetch(PhoneTypeDTO exampleDTO)
+	{
+		List<PhoneTypeDTO> phoneTypeDTOList = new ArrayList<PhoneTypeDTO>();
+		if(exampleDTO != null)
+		{
+			
+			PhoneTypeEntity exampleEntity = new PhoneTypeEntity();
+			exampleEntity.setActive(exampleDTO.isActive());
+			exampleEntity.setDescription(exampleDTO.getDescription());
+			exampleEntity.setId(exampleDTO.getId());
+			
+			List<PhoneTypeEntity> phoneTypeEntityList = phoneTypeDao.getPhoneTypeEntity(exampleEntity);
+			
+			for(PhoneTypeEntity phoneTypeEntity : phoneTypeEntityList )
+			{
+				phoneTypeDTOList.add(createPhoneTypeDTO(phoneTypeEntity));
+			}
+		}
+		return phoneTypeDTOList;
 	}
 
 	@Transactional
 	public List<PhoneTypeDTO> fetch() {
-		return phoneTypeDao.getAllPhoneTypeDTOs();
+		List<PhoneTypeDTO> phoneTypeDTOList = new ArrayList<PhoneTypeDTO>();
+		List<PhoneTypeEntity> phoneTypeEntityList = phoneTypeDao.getAllPhoneTypeEntitys();
+		for(PhoneTypeEntity phoneTypeEntity : phoneTypeEntityList )
+		{
+			phoneTypeDTOList.add(createPhoneTypeDTO(phoneTypeEntity));
+		}
+		return phoneTypeDTOList;
 	}
 
 	@Transactional
 	public PhoneTypeDTO fetch(long id) {
-		return phoneTypeDao.getPhoneTypeDTO(id);
+		PhoneTypeEntity phoneTypeEntity = phoneTypeDao.getPhoneTypeEntity(id);
+		return createPhoneTypeDTO(phoneTypeEntity);
+	}
+	
+	private PhoneTypeDTO createPhoneTypeDTO(PhoneTypeEntity phoneTypeEntity)
+	{
+		PhoneTypeDTO phoneTypeDTO = null;
+		if(phoneTypeEntity != null)
+		{
+			phoneTypeDTO = new PhoneTypeDTO();
+			phoneTypeDTO.setActive(phoneTypeEntity.isActive());
+			phoneTypeDTO.setDescription(phoneTypeEntity.getDescription());
+			phoneTypeDTO.setId(phoneTypeEntity.getId());
+		}
+		return phoneTypeDTO;
 	}
 	
 	/*
@@ -87,6 +111,4 @@ public class PhoneTypeServiceImpl extends BaseRPC implements PhoneTypeService {
 	}
 	*/
 	
-	
-
 }

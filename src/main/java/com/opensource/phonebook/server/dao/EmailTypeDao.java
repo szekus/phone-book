@@ -2,20 +2,20 @@ package com.opensource.phonebook.server.dao;
 
 import java.util.List;
 
-import com.opensource.phonebook.shared.dto.EmailTypeDTO;
+import com.opensource.phonebook.domain.EmailTypeEntity;
 
 public interface EmailTypeDao {
 	
-	public EmailTypeDTO saveEmailTypeDTO(EmailTypeDTO emailType);
+	public EmailTypeEntity saveEmailTypeEntity(EmailTypeEntity emailType);
 	
-	public void deleteEmailTypeDTO(Long emailTypeId);
-	public void deleteEmailTypeDTO(EmailTypeDTO emailType);
+	public void deleteEmailTypeEntity(Long emailTypeId);
+	public void deleteEmailTypeEntity(EmailTypeEntity emailType);
 	
-	public List<EmailTypeDTO> getAllEmailTypeDTOs();
+	public List<EmailTypeEntity> getAllEmailTypeEntitys();
 	
 	// Retrieve
-	public EmailTypeDTO getEmailTypeDTO(long id);
-	public List<EmailTypeDTO> getEmailTypeDTO(EmailTypeDTO exampleEntity);
-	
+	public EmailTypeEntity getEmailTypeEntity(long id);
+	public List<EmailTypeEntity> getEmailTypeEntity(EmailTypeEntity exampleEntity);
+
 }
 
