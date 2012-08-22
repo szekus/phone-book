@@ -99,6 +99,14 @@
 		<property name="userDao"  ref="userDao" />
 	</bean>
 	
+	<bean id="contactService" class="com.opensource.phonebook.server.rpc.ContactServiceImpl">
+		<property name="contactDao"  ref="contactDao" />
+	</bean>
+	
+	<bean id="contactPhoneService" class="com.opensource.phonebook.server.rpc.ContactPhoneServiceImpl">
+		<property name="contactPhoneDao"  ref="contactPhoneDao" />
+	</bean>
+	
 	<bean id="emailTypeService" class="com.opensource.phonebook.server.rpc.EmailTypeServiceImpl">
 		<property name="emailTypeDao">
 			<ref bean="emailTypeDao" />

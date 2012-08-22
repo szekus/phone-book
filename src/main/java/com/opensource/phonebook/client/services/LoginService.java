@@ -11,4 +11,6 @@ import com.opensource.phonebook.shared.dto.UserDTO;
 public interface LoginService extends RemoteService
 {
 	UserDTO login(String username, String password);
+	
+	UserDTO login(String id);
 }

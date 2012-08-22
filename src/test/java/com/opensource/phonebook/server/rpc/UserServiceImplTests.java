@@ -7,33 +7,76 @@ import junit.framework.TestCase;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.Test;
-import org.springframework.context.ApplicationContext;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.opensource.phonebook.client.services.UserService;
+import com.opensource.phonebook.shared.dto.PositionDTO;
 import com.opensource.phonebook.shared.dto.UserDTO;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations={"classpath*:applicationContext.xml"})
 public class UserServiceImplTests  extends TestCase {
 	
 	private static final Log logger = LogFactory.getLog(UserServiceImplTests.class);
 
-	private static ApplicationContext context = null;
-	
+	@Autowired
 	private UserService service;
 	
 	@org.junit.Before
 	public void setUp() throws Exception {
-		context = new org.springframework.context.support.ClassPathXmlApplicationContext("classpath*:applicationContext.xml");
-		System.out.println("setUp: context: " + context.toString() );
-		service = (UserService)context.getBean("userService");
 		System.out.println("setUp: service: " + service);
 	}
 	
 	@org.junit.After
  	public void tearDown() {
 		service = null;
-		context = null;
  		System.out.println("tearDown: context set null.");
  	}
+	
+	private final static int id = 0;
+	private final static String email = "tom@tomholmes.net";
+	private final static int positionId = 2;
+	private final static String firstname = "tom";
+	private final static String lastname = "holmes";
+	private final static String username = "user1";
+    private final static String password = "pass1";
+    private final static String securityQuestion1 = "question1";
+    private final static String securityQuestion2 = "question2";
+    private final static String securityAnswer1 = "answer1";
+    private final static String securityAnswer2 = "answer2";
+	
+	private UserDTO createUserDto()
+	{
+	    UserDTO userDto = new UserDTO();
+	    userDto.setId(id);
+	    userDto.setActive(true);
+	    userDto.setEmail(email);
+	    PositionDTO position = new PositionDTO();
+	    position.setId(positionId);
+	    position.setActive(true);
+	    userDto.setPosition(position);
+	    userDto.setFirstname(firstname);
+	    userDto.setLastname(lastname);
+	    userDto.setUsername(username);
+	    userDto.setPassword(password);
+	    userDto.setSecurityQuestion1(securityQuestion1);
+        userDto.setSecurityAnswer1(securityAnswer1);
+        userDto.setSecurityQuestion2(securityQuestion2);
+        userDto.setSecurityAnswer2(securityAnswer2);
+	    return userDto;
+	}
+	
+	@Test
+    public void testCreateUser() throws Exception {
+        UserDTO userDto = createUserDto();
+        //==================================================
+        UserDTO newUserDto = service.add(userDto);
+        assertNotNull(newUserDto);
+        //==================================================
+    }
 
 	@Test
 	public void testFetchAll() throws Exception {

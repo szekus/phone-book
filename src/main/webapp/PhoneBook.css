@@ -32,3 +32,151 @@ h1 {
 #closeButton {
   margin: 15px 6px 6px;
 }
+
+/****************************************
+Green -> #b5e200
+CSS setting below this point
+****************************************/
+
+.offerBrowser-featuredOffers {
+	background-color:#aaaaff;
+}
+
+.offerBrowser-searchBar {
+	background-color:#ffaaaa;
+}
+
+.offerBrowser-results {
+	background-color:#aaffaa;
+}
+
+
+
+.offerViewer {
+	background-color:#aaaaff;
+}
+
+.headerTitle{
+    color:#0000ff;
+	font-size:16px;
+	font-weight:bold;
+}
+
+.headerLabel {
+	color:#444444;
+	font-size:16px;
+	font-weight:bold;
+}
+
+.defaultLabel {
+	color:#444444;
+	font-size:20px;
+	font-weight:bold;
+}
+
+.formTitle {
+	vertical-align:top;
+}
+
+
+.wireframe{
+    color:#ffffff;
+}
+
+
+.grey {
+	background-color:#AAAAAA;
+}
+.offergreen{
+	background-color:#759e17;
+}
+
+.boldLabel{
+    color:#759e17;
+	font-size:16px;
+	font-weight:bold;
+}
+.messageLabel{
+    font-size:12px;
+}
+.specialLabel{
+    color:#ff0000;
+	font-size:10px;
+	font-weight:italic;
+}
+
+.header {background: url(./images/header_bak.png) 0 0 repeat-x;}
+
+.loginheader {background: url(./images/loginheader_bak.png) 0 0 repeat-x;padding-top:20px;padding-left:35px;}
+
+.loginfooter {background: url(./images/foot_bak.png) 0 0 repeat-x;}
+
+.pageBackground {background: url(./images/body_bak.png) 0 0 repeat-x;}
+
+.supplyBackground {background: url(./images/body_bak2.png) 0 0 repeat-x;}
+
+.title {
+	color:#759e17;
+	font-size:16px;
+	font-weight:bold;
+}
+.copyright {
+	color:#ffffff;
+	font-size:10px;
+}
+.greenLabel{
+	color:#759e17;
+	font-size:12px;
+	font-weight:bold;
+}
+.footlink {
+	color:#ffffff;
+	font-size:10px;
+	text-decoration:none;
+}
+.footlink a{
+	color:#ffffff;
+	font-size:10px;
+	text-decoration:none;
+}
+.footlink a:hover{
+	color:#759e17;
+	font-size:10px;
+	text-decoration:none;
+}
+.loginmainbak {
+	background-color:#292929;
+	padding:20px;
+	overflow: hidden
+}
+.rightmessage {
+	padding-left:60px;
+}
+.logintitle1 {
+	color:#b5e200;
+	font-size:36px;
+}
+.messagebutton {
+
+}
+.logintitle2 {
+	color:#b5e200;
+	font-size:24px;
+}
+
+.paragraph1 {
+	color:#ffffff;
+	font-size:22px;
+}
+
+.paragraph2 {
+	color:#ffffff;
+	font-size:18px;
+}
+.paragraph3 {
+	color:#ffffff;
+	font-size:14px;
+}
+.wireframe{
+    color:#759e17;
+}

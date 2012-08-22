@@ -18,6 +18,7 @@ import com.ibm.icu.text.SimpleDateFormat;
 import com.opensource.phonebook.domain.ContactEmailEntity;
 import com.opensource.phonebook.domain.ContactEntity;
 import com.opensource.phonebook.domain.EmailTypeEntity;
+import com.opensource.phonebook.domain.UserEntity;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"classpath*:applicationContext.xml"})
@@ -97,6 +98,22 @@ public class ContactDaoTests extends TestCase {
 		logger.debug("createEmails: FINISH");
 		return emails;
 	}
+	
+	@Test
+    public void testContactFetchByUser() throws Exception {
+        System.out.println("testContactFetchByUser: START");
+        UserEntity user = new UserEntity();
+        user.setId(1);
+        
+        List<ContactEntity> contacts = contactDao.getContactEntityByUser(user);
+        if(contacts != null)
+        {
+            System.out.println("testContactFetchByUser: size=" + contacts.size());
+        }
+        assertNotNull(contacts);
+        
+        System.out.println("testContactFetchByUser: FINISH");
+    }
 	
 	//@Test
 	public void testContactSave() throws Exception {
@@ -181,6 +198,7 @@ public class ContactDaoTests extends TestCase {
 	public void testContactRetrieveById() {
 		System.out.println("testContactRetrieveById: START");
 		// =================================================================================
+		long id = 2;
 		// =================================================================================
 		// ***************************************************************
 		System.out.println("testContactRetrieveById: START: CREATE");

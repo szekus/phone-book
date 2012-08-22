@@ -9,4 +9,6 @@ import com.opensource.phonebook.shared.dto.UserDTO;
 public interface LoginServiceAsync
 {
 	void login(String username, String password, AsyncCallback<UserDTO> callback);
+	
+	void login(String id, AsyncCallback<UserDTO> callback);
 }

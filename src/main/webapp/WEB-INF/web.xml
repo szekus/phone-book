@@ -39,6 +39,36 @@
 		<servlet-class>com.opensource.phonebook.server.rpc.LoginServiceImpl</servlet-class>
 	</servlet>
 	
+	<servlet>
+		<servlet-name>userRpc</servlet-name>
+		<servlet-class>com.opensource.phonebook.server.rpc.UserServiceImpl</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>contactRpc</servlet-name>
+		<servlet-class>com.opensource.phonebook.server.rpc.ContactServiceImpl</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>contactPhoneRpc</servlet-name>
+		<servlet-class>com.opensource.phonebook.server.rpc.ContactPhoneServiceImpl</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>contactPhoneRpc</servlet-name>
+		<url-pattern>/PhoneBook/contactPhoneRpc</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>contactRpc</servlet-name>
+		<url-pattern>/PhoneBook/contactRpc</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>userRpc</servlet-name>
+		<url-pattern>/PhoneBook/userRpc</url-pattern>
+	</servlet-mapping>
+	
 	<servlet-mapping>
 		<servlet-name>login</servlet-name>
 		<url-pattern>/PhoneBook/login</url-pattern>

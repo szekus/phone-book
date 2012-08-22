@@ -65,6 +65,22 @@ public class LoginServiceImpl extends BaseRPC implements LoginService
 		return user;
 	}
 	
+	@Override
+	@Transactional(propagation = Propagation.NEVER, readOnly = true)
+	public UserDTO login(String userId) {
+		UserDTO user = null;
+		if(userId != null)
+		{
+			long id = Long.parseLong(userId);
+			UserEntity userEntity = userDao.getUserEntity(id);
+			if(userEntity != null)
+			{
+				user = createUser(userEntity);
+			}
+		}
+		return user;
+	}
+	
 	private UserDTO createUser(UserEntity userEntity)
 	{
 		UserDTO userDTO = null;
@@ -271,5 +287,5 @@ public class LoginServiceImpl extends BaseRPC implements LoginService
 		}
 		return positionDTO;
 	}
-
+	
 }
