@@ -5,10 +5,10 @@ import java.util.List;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.opensource.phonebook.client.services.EmailTypeService;
-import com.opensource.phonebook.client.services.EmailTypeServiceAsync;
+import com.opensource.phonebook.client.services.LinkTypeService;
+import com.opensource.phonebook.client.services.LinkTypeServiceAsync;
 import com.opensource.phonebook.client.utils.datasource.GwtRpcDataSource;
-import com.opensource.phonebook.shared.dto.EmailTypeDTO;
+import com.opensource.phonebook.shared.dto.LinkTypeDTO;
 import com.smartgwt.client.data.DSRequest;
 import com.smartgwt.client.data.DSResponse;
 import com.smartgwt.client.data.fields.DataSourceBooleanField;
@@ -18,38 +18,37 @@ import com.smartgwt.client.rpc.RPCResponse;
 import com.smartgwt.client.util.JSOHelper;
 import com.smartgwt.client.widgets.grid.ListGridRecord;
 
-public class EmailTypesDS extends GwtRpcDataSource
+public class LinkTypesDS extends GwtRpcDataSource
 {
+    private static LinkTypesDS instance = null;
 
-    private static EmailTypesDS instance = null;
+    private final LinkTypeServiceAsync service = GWT.create(LinkTypeService.class);
 
-    private final EmailTypeServiceAsync service = GWT.create(EmailTypeService.class);
-
-    public static EmailTypesDS getInstance()
+    public static LinkTypesDS getInstance()
     {
         if (instance == null)
         {
-            instance = new EmailTypesDS();
+            instance = new LinkTypesDS();
         }
         return instance;
     }
 
-    DataSourceIntegerField emailTypeIdField;
-    DataSourceBooleanField emailTypeActiveField;
-    DataSourceTextField emailTypeDescriptionField;
+    DataSourceIntegerField linkTypeIdField;
+    DataSourceBooleanField linkTypeActiveField;
+    DataSourceTextField linkTypeDescriptionField;
 
-    public EmailTypesDS()
+    public LinkTypesDS()
     {
         super();
-        setID("EmailTypesGWTRPCDataSource");
+        setID("LinkTypesGWTRPCDataSource");
 
-        emailTypeIdField = new DataSourceIntegerField("emailTypeId", null);
-        emailTypeIdField.setPrimaryKey(true);
+        linkTypeIdField = new DataSourceIntegerField("linkTypeId", null);
+        linkTypeIdField.setPrimaryKey(true);
 
-        emailTypeActiveField = new DataSourceBooleanField("emailTypeActive", null);
-        emailTypeDescriptionField = new DataSourceTextField("emailTypeDescription", null);
+        linkTypeActiveField = new DataSourceBooleanField("linkTypeActive", null);
+        linkTypeDescriptionField = new DataSourceTextField("linkTypeDescription", null);
 
-        setFields(emailTypeIdField, emailTypeDescriptionField, emailTypeActiveField);
+        setFields(linkTypeIdField, linkTypeDescriptionField, linkTypeActiveField);
 
     }
 
@@ -62,9 +61,9 @@ public class EmailTypesDS extends GwtRpcDataSource
         // Retrieve record which should be added.
         JavaScriptObject data = request.getData();
         final ListGridRecord rec = new ListGridRecord(data);
-        EmailTypeDTO testRec = new EmailTypeDTO();
+        LinkTypeDTO testRec = new LinkTypeDTO();
         copyValues(rec, testRec);
-        service.add(testRec, new AsyncCallback<EmailTypeDTO>()
+        service.add(testRec, new AsyncCallback<LinkTypeDTO>()
         {
             public void onFailure(Throwable caught)
             {
@@ -72,7 +71,7 @@ public class EmailTypesDS extends GwtRpcDataSource
                 processResponse(requestId, response);
             }
 
-            public void onSuccess(EmailTypeDTO arg0)
+            public void onSuccess(LinkTypeDTO arg0)
             {
                 ListGridRecord[] list = new ListGridRecord[1];
                 list[0] = rec;
@@ -88,7 +87,7 @@ public class EmailTypesDS extends GwtRpcDataSource
         // Retrieve record which should be removed.
         JavaScriptObject data = request.getData();
         final ListGridRecord rec = new ListGridRecord(data);
-        EmailTypeDTO testRec = new EmailTypeDTO();
+        LinkTypeDTO testRec = new LinkTypeDTO();
         copyValues(rec, testRec);
         service.remove(testRec, new AsyncCallback<Void>()
         {
@@ -121,7 +120,7 @@ public class EmailTypesDS extends GwtRpcDataSource
         final int startIndex = (request.getStartRow() < 0) ? 0 : request.getStartRow();
         final int endIndex = (request.getEndRow() == null) ? -1 : request.getEndRow();
 
-        service.fetch(new AsyncCallback<List<EmailTypeDTO>>()
+        service.fetch(new AsyncCallback<List<LinkTypeDTO>>()
         {
             public void onFailure(Throwable caught)
             {
@@ -130,7 +129,7 @@ public class EmailTypesDS extends GwtRpcDataSource
                 processResponse(requestId, response);
             }
 
-            public void onSuccess(List<EmailTypeDTO> result)
+            public void onSuccess(List<LinkTypeDTO> result)
             {
                 // Calculating size of return list
                 int size = result.size();
@@ -186,18 +185,18 @@ public class EmailTypesDS extends GwtRpcDataSource
     // DataSourceEnumField consumerInterestIdsField; //private String
     // consumerInterestIds;
 
-    private void copyValues(ListGridRecord from, EmailTypeDTO to)
+    private void copyValues(ListGridRecord from, LinkTypeDTO to)
     {
-        to.setId(from.getAttributeAsInt(emailTypeIdField.getAttribute("emailTypeId")));
-        to.setDescription(from.getAttributeAsString(emailTypeDescriptionField.getName()));
-        to.setActive(from.getAttributeAsBoolean(emailTypeActiveField.getName()));
+        to.setId(from.getAttributeAsInt(linkTypeIdField.getAttribute("linkTypeId")));
+        to.setDescription(from.getAttributeAsString(linkTypeDescriptionField.getName()));
+        to.setActive(from.getAttributeAsBoolean(linkTypeActiveField.getName()));
     }
 
-    private static void copyValues(EmailTypeDTO from, ListGridRecord to)
+    private static void copyValues(LinkTypeDTO from, ListGridRecord to)
     {
-        to.setAttribute("emailTypeId", from.getId());
-        to.setAttribute("emailTypeActive", from.isActive());
-        to.setAttribute("emailTypeDescription", from.getDescription());
+        to.setAttribute("linkTypeId", from.getId());
+        to.setAttribute("linkTypeActive", from.isActive());
+        to.setAttribute("linkTypeDescription", from.getDescription());
     }
 
     private ListGridRecord getEditedRecord(DSRequest request)

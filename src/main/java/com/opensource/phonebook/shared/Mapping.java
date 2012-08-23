@@ -111,6 +111,7 @@ public class Mapping
             Set<ContactLinkDTO> contactLinkDTOSet = null;
             if (contactEntity.getLinks() != null)
             {
+                contactLinkDTOSet = new HashSet<ContactLinkDTO>();
                 for (ContactLinkEntity contactLinkEntity : contactEntity.getLinks())
                 {
                     ContactLinkDTO contactLinkDTO = createContactLink(contactLinkEntity);
@@ -125,6 +126,7 @@ public class Mapping
             Set<ContactPhoneDTO> contactPhoneDTOSet = null;
             if (contactEntity.getPhones() != null)
             {
+                contactPhoneDTOSet = new HashSet<ContactPhoneDTO>();
                 for (ContactPhoneEntity contactPhoneEntity : contactEntity.getPhones())
                 {
                     ContactPhoneDTO contactPhoneDTO = createContactPhone(contactPhoneEntity);

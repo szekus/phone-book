@@ -107,6 +107,14 @@
 		<property name="contactPhoneDao"  ref="contactPhoneDao" />
 	</bean>
 	
+	<bean id="contactEmailService" class="com.opensource.phonebook.server.rpc.ContactEmailServiceImpl">
+		<property name="contactEmailDao"  ref="contactEmailDao" />
+	</bean>
+	
+	<bean id="contactLinkService" class="com.opensource.phonebook.server.rpc.ContactLinkServiceImpl">
+		<property name="contactLinkDao"  ref="contactLinkDao" />
+	</bean>
+	
 	<bean id="emailTypeService" class="com.opensource.phonebook.server.rpc.EmailTypeServiceImpl">
 		<property name="emailTypeDao">
 			<ref bean="emailTypeDao" />

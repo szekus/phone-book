@@ -18,7 +18,7 @@ import com.opensource.phonebook.shared.dto.ContactPhoneDTO;
 
 @SuppressWarnings("serial")
 @Transactional
-@Service("contactPhonePhoneService")
+@Service("contactPhoneService")
 public class ContactPhoneServiceImpl extends BaseRPC implements ContactPhoneService
 {
 
@@ -90,9 +90,12 @@ public class ContactPhoneServiceImpl extends BaseRPC implements ContactPhoneServ
             contactEntity.setId(exampleEntity.getContactId());
             exampleContactPhoneEntity.setContact(contactEntity);
 
-            PhoneTypeEntity phoneType = new PhoneTypeEntity();
-            phoneType.setId(exampleEntity.getPhoneType().getId());
-            exampleContactPhoneEntity.setPhoneType(phoneType);
+            if (exampleEntity.getPhoneType() != null)
+            {
+                PhoneTypeEntity phoneType = new PhoneTypeEntity();
+                phoneType.setId(exampleEntity.getPhoneType().getId());
+                exampleContactPhoneEntity.setPhoneType(phoneType);
+            }
 
             List<ContactPhoneEntity> contactPhoneEntityList =
                 contactPhoneDao.getContactPhoneEntity(exampleContactPhoneEntity);
@@ -113,8 +116,7 @@ public class ContactPhoneServiceImpl extends BaseRPC implements ContactPhoneServ
     }
 
     @Transactional
-    @Override
-    public List<ContactPhoneDTO> fetch(ContactDTO exampleEntity)
+    public List<ContactPhoneDTO> fetch_old(ContactDTO exampleEntity)
     {
         List<ContactPhoneDTO> contactPhoneList = null;
         if (exampleEntity != null)
@@ -124,6 +126,32 @@ public class ContactPhoneServiceImpl extends BaseRPC implements ContactPhoneServ
 
             List<ContactPhoneEntity> contactPhoneEntityList =
                 contactPhoneDao.getContactPhoneEntityByContact(exampleContactEntity);
+            if (contactPhoneEntityList != null)
+            {
+                contactPhoneList = new ArrayList<ContactPhoneDTO>();
+                for (ContactPhoneEntity contactPhoneEntity : contactPhoneEntityList)
+                {
+                    ContactPhoneDTO contactPhoneDTO = Mapping.createContactPhone(contactPhoneEntity);
+                    if (contactPhoneDTO != null)
+                    {
+                        contactPhoneList.add(contactPhoneDTO);
+                    }
+                }
+            }
+        }
+        return contactPhoneList;
+    }
+
+    @Transactional
+    @Override
+    public List<ContactPhoneDTO> fetch(ContactDTO exampleEntity)
+    {
+        List<ContactPhoneDTO> contactPhoneList = new ArrayList<ContactPhoneDTO>();
+        if (exampleEntity != null)
+        {
+            long contactId = exampleEntity.getId();
+            List<ContactPhoneEntity> contactPhoneEntityList =
+                contactPhoneDao.getContactPhoneEntityByContactId(contactId);
             if (contactPhoneEntityList != null)
             {
                 contactPhoneList = new ArrayList<ContactPhoneDTO>();

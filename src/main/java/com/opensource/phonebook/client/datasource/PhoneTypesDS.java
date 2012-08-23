@@ -5,10 +5,10 @@ import java.util.List;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.opensource.phonebook.client.services.EmailTypeService;
-import com.opensource.phonebook.client.services.EmailTypeServiceAsync;
+import com.opensource.phonebook.client.services.PhoneTypeService;
+import com.opensource.phonebook.client.services.PhoneTypeServiceAsync;
 import com.opensource.phonebook.client.utils.datasource.GwtRpcDataSource;
-import com.opensource.phonebook.shared.dto.EmailTypeDTO;
+import com.opensource.phonebook.shared.dto.PhoneTypeDTO;
 import com.smartgwt.client.data.DSRequest;
 import com.smartgwt.client.data.DSResponse;
 import com.smartgwt.client.data.fields.DataSourceBooleanField;
@@ -18,38 +18,38 @@ import com.smartgwt.client.rpc.RPCResponse;
 import com.smartgwt.client.util.JSOHelper;
 import com.smartgwt.client.widgets.grid.ListGridRecord;
 
-public class EmailTypesDS extends GwtRpcDataSource
+public class PhoneTypesDS extends GwtRpcDataSource
 {
 
-    private static EmailTypesDS instance = null;
+    private static PhoneTypesDS instance = null;
 
-    private final EmailTypeServiceAsync service = GWT.create(EmailTypeService.class);
+    private final PhoneTypeServiceAsync service = GWT.create(PhoneTypeService.class);
 
-    public static EmailTypesDS getInstance()
+    public static PhoneTypesDS getInstance()
     {
         if (instance == null)
         {
-            instance = new EmailTypesDS();
+            instance = new PhoneTypesDS();
         }
         return instance;
     }
 
-    DataSourceIntegerField emailTypeIdField;
-    DataSourceBooleanField emailTypeActiveField;
-    DataSourceTextField emailTypeDescriptionField;
+    DataSourceIntegerField phoneTypeIdField;
+    DataSourceBooleanField phoneTypeActiveField;
+    DataSourceTextField phoneTypeDescriptionField;
 
-    public EmailTypesDS()
+    public PhoneTypesDS()
     {
         super();
-        setID("EmailTypesGWTRPCDataSource");
+        setID("PhoneTypesGWTRPCDataSource");
 
-        emailTypeIdField = new DataSourceIntegerField("emailTypeId", null);
-        emailTypeIdField.setPrimaryKey(true);
+        phoneTypeIdField = new DataSourceIntegerField("phoneTypeId", null);
+        phoneTypeIdField.setPrimaryKey(true);
 
-        emailTypeActiveField = new DataSourceBooleanField("emailTypeActive", null);
-        emailTypeDescriptionField = new DataSourceTextField("emailTypeDescription", null);
+        phoneTypeActiveField = new DataSourceBooleanField("phoneTypeActive", null);
+        phoneTypeDescriptionField = new DataSourceTextField("phoneTypeDescription", null);
 
-        setFields(emailTypeIdField, emailTypeDescriptionField, emailTypeActiveField);
+        setFields(phoneTypeIdField, phoneTypeDescriptionField, phoneTypeActiveField);
 
     }
 
@@ -62,9 +62,9 @@ public class EmailTypesDS extends GwtRpcDataSource
         // Retrieve record which should be added.
         JavaScriptObject data = request.getData();
         final ListGridRecord rec = new ListGridRecord(data);
-        EmailTypeDTO testRec = new EmailTypeDTO();
+        PhoneTypeDTO testRec = new PhoneTypeDTO();
         copyValues(rec, testRec);
-        service.add(testRec, new AsyncCallback<EmailTypeDTO>()
+        service.add(testRec, new AsyncCallback<PhoneTypeDTO>()
         {
             public void onFailure(Throwable caught)
             {
@@ -72,7 +72,7 @@ public class EmailTypesDS extends GwtRpcDataSource
                 processResponse(requestId, response);
             }
 
-            public void onSuccess(EmailTypeDTO arg0)
+            public void onSuccess(PhoneTypeDTO arg0)
             {
                 ListGridRecord[] list = new ListGridRecord[1];
                 list[0] = rec;
@@ -88,7 +88,7 @@ public class EmailTypesDS extends GwtRpcDataSource
         // Retrieve record which should be removed.
         JavaScriptObject data = request.getData();
         final ListGridRecord rec = new ListGridRecord(data);
-        EmailTypeDTO testRec = new EmailTypeDTO();
+        PhoneTypeDTO testRec = new PhoneTypeDTO();
         copyValues(rec, testRec);
         service.remove(testRec, new AsyncCallback<Void>()
         {
@@ -116,12 +116,11 @@ public class EmailTypesDS extends GwtRpcDataSource
     @Override
     protected void executeFetch(final String requestId, DSRequest request, final DSResponse response)
     {
-
         // for this example I will do "paging" on client side
         final int startIndex = (request.getStartRow() < 0) ? 0 : request.getStartRow();
         final int endIndex = (request.getEndRow() == null) ? -1 : request.getEndRow();
 
-        service.fetch(new AsyncCallback<List<EmailTypeDTO>>()
+        service.fetch(new AsyncCallback<List<PhoneTypeDTO>>()
         {
             public void onFailure(Throwable caught)
             {
@@ -130,7 +129,7 @@ public class EmailTypesDS extends GwtRpcDataSource
                 processResponse(requestId, response);
             }
 
-            public void onSuccess(List<EmailTypeDTO> result)
+            public void onSuccess(List<PhoneTypeDTO> result)
             {
                 // Calculating size of return list
                 int size = result.size();
@@ -186,18 +185,18 @@ public class EmailTypesDS extends GwtRpcDataSource
     // DataSourceEnumField consumerInterestIdsField; //private String
     // consumerInterestIds;
 
-    private void copyValues(ListGridRecord from, EmailTypeDTO to)
+    private void copyValues(ListGridRecord from, PhoneTypeDTO to)
     {
-        to.setId(from.getAttributeAsInt(emailTypeIdField.getAttribute("emailTypeId")));
-        to.setDescription(from.getAttributeAsString(emailTypeDescriptionField.getName()));
-        to.setActive(from.getAttributeAsBoolean(emailTypeActiveField.getName()));
+        to.setId(from.getAttributeAsInt(phoneTypeIdField.getAttribute("phoneTypeId")));
+        to.setDescription(from.getAttributeAsString(phoneTypeDescriptionField.getName()));
+        to.setActive(from.getAttributeAsBoolean(phoneTypeActiveField.getName()));
     }
 
-    private static void copyValues(EmailTypeDTO from, ListGridRecord to)
+    private static void copyValues(PhoneTypeDTO from, ListGridRecord to)
     {
-        to.setAttribute("emailTypeId", from.getId());
-        to.setAttribute("emailTypeActive", from.isActive());
-        to.setAttribute("emailTypeDescription", from.getDescription());
+        to.setAttribute("phoneTypeId", from.getId());
+        to.setAttribute("phoneTypeActive", from.isActive());
+        to.setAttribute("phoneTypeDescription", from.getDescription());
     }
 
     private ListGridRecord getEditedRecord(DSRequest request)

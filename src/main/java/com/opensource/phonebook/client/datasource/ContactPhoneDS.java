@@ -25,7 +25,7 @@ public class ContactPhoneDS extends GwtRpcDataSource
 {
     private static ContactPhoneDS instance = null;
 
-    private final ContactPhoneServiceAsync contactService = GWT.create(ContactPhoneService.class);
+    private final ContactPhoneServiceAsync contactPhoneService = GWT.create(ContactPhoneService.class);
 
     public static ContactPhoneDS getInstance()
     {
@@ -38,7 +38,7 @@ public class ContactPhoneDS extends GwtRpcDataSource
 
     DataSourceIntegerField contactIdField;
     DataSourceIntegerField contactPhoneIdField;
-    DataSourceIntegerField phoneTypeIdField;
+    DataSourceTextField phoneTypeIdField;
     DataSourceTextField phoneField;
     DataSourceDateTimeField enteredDateField;
 
@@ -58,12 +58,12 @@ public class ContactPhoneDS extends GwtRpcDataSource
 
         phoneField = new DataSourceTextField(Constants.PHONE_NUMBER, Constants.TITLE_PHONE_NUMBER);
 
-        phoneTypeIdField = new DataSourceIntegerField(Constants.PHONE_CONTACT_ID, null);
+        phoneTypeIdField = new DataSourceTextField(Constants.PHONE_TYPE_ID, Constants.TITLE_PHONE_TYPE_ID);
 
         enteredDateField =
             new DataSourceDateTimeField(Constants.PHONE_ENTERED_DATE, Constants.TITLE_PHONE_ENTERED_DATE);
 
-        setFields(contactIdField, contactPhoneIdField, phoneField, enteredDateField);
+        setFields(contactIdField, contactPhoneIdField, phoneField, phoneTypeIdField, enteredDateField);
     }
 
     // *************************************************************************************
@@ -77,7 +77,7 @@ public class ContactPhoneDS extends GwtRpcDataSource
         ListGridRecord rec = new ListGridRecord(data);
         ContactPhoneDTO testRec = new ContactPhoneDTO();
         copyValues(rec, testRec);
-        contactService.add(testRec, new AsyncCallback<ContactPhoneDTO>()
+        contactPhoneService.add(testRec, new AsyncCallback<ContactPhoneDTO>()
         {
             public void onFailure(Throwable caught)
             {
@@ -105,7 +105,7 @@ public class ContactPhoneDS extends GwtRpcDataSource
         final ListGridRecord rec = new ListGridRecord(data);
         ContactPhoneDTO testRec = new ContactPhoneDTO();
         copyValues(rec, testRec);
-        contactService.remove(testRec, new AsyncCallback<Void>()
+        contactPhoneService.remove(testRec, new AsyncCallback<Void>()
         {
             public void onFailure(Throwable caught)
             {
@@ -140,7 +140,7 @@ public class ContactPhoneDS extends GwtRpcDataSource
         ContactDTO contactDto = new ContactDTO();
         contactDto.setId(Long.parseLong(contactId));
 
-        contactService.fetch(contactDto, new AsyncCallback<List<ContactPhoneDTO>>()
+        contactPhoneService.fetch(contactDto, new AsyncCallback<List<ContactPhoneDTO>>()
         {
             public void onFailure(Throwable caught)
             {

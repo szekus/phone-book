@@ -100,12 +100,42 @@ public class Constants
     public static final String PHONE_ID = "contactPhoneId";
     public static final String PHONE_TYPE_ID = "phoneTypeId";
     public static final String PHONE_ENTERED_DATE = "enteredDate";
-    public static final String PHONE_NUMBER = "phoneNumber";
+    public static final String PHONE_NUMBER = "phone";
 
     public static final String TITLE_PHONE_CONTACT_ID = "Contact Id";
     public static final String TITLE_PHONE_ID = "Contact Phone Id";
-    public static final String TITLE_PHONE_TYPE_ID = "Phone Type Id";
+    public static final String TITLE_PHONE_TYPE_ID = "Phone Type";
     public static final String TITLE_PHONE_ENTERED_DATE = "Entered Date";
     public static final String TITLE_PHONE_NUMBER = "Phone Number";
+
+    // Contact Email Form Constants
+    public static final String EMAIL_CONTACT_ID = "contactId";
+    public static final String EMAIL_ID = "contactEmailId";
+    public static final String EMAIL_TYPE_ID = "emailTypeId";
+    public static final String EMAIL_ENTERED_DATE = "enteredDate";
+    public static final String EMAIL_ADDRESS = "email";
+
+    public static final String TITLE_EMAIL_CONTACT_ID = "Contact Id";
+    public static final String TITLE_EMAIL_ID = "Contact Email Id";
+    public static final String TITLE_EMAIL_TYPE_ID = "Email Type";
+    public static final String TITLE_EMAIL_ENTERED_DATE = "Entered Date";
+    public static final String TITLE_EMAIL_ADDRESS = "Email";
+
+    // Contact Link Form Constants
+    public static final String LINK_CONTACT_ID = "contactId";
+    public static final String LINK_ID = "contactLinkId";
+    public static final String LINK_TYPE_ID = "linkTypeId";
+    public static final String LINK_ENTERED_DATE = "enteredDate";
+    public static final String LINK_URL = "link";
+
+    public static final String TITLE_LINK_CONTACT_ID = "Contact Id";
+    public static final String TITLE_LINK_ID = "Contact Link Id";
+    public static final String TITLE_LINK_TYPE_ID = "Link Type";
+    public static final String TITLE_LINK_ENTERED_DATE = "Entered Date";
+    public static final String TITLE_LINK_URL = "Link Url";
+
+    // Constants for lookup/picklist drop-down types
+    public static final String ID = "id";
+    public static final String DESCRIPTION = "description";
 
 }

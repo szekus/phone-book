@@ -5,95 +5,64 @@ import java.util.List;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.opensource.phonebook.client.services.UserService;
-import com.opensource.phonebook.client.services.UserServiceAsync;
+import com.opensource.phonebook.client.services.ContactLinkService;
+import com.opensource.phonebook.client.services.ContactLinkServiceAsync;
 import com.opensource.phonebook.client.utils.datasource.GwtRpcDataSource;
 import com.opensource.phonebook.shared.Constants;
-import com.opensource.phonebook.shared.dto.PositionDTO;
-import com.opensource.phonebook.shared.dto.UserDTO;
+import com.opensource.phonebook.shared.dto.ContactDTO;
+import com.opensource.phonebook.shared.dto.ContactLinkDTO;
+import com.opensource.phonebook.shared.dto.LinkTypeDTO;
 import com.smartgwt.client.data.DSRequest;
 import com.smartgwt.client.data.DSResponse;
-import com.smartgwt.client.data.fields.DataSourceBooleanField;
+import com.smartgwt.client.data.fields.DataSourceDateTimeField;
 import com.smartgwt.client.data.fields.DataSourceIntegerField;
 import com.smartgwt.client.data.fields.DataSourceTextField;
 import com.smartgwt.client.rpc.RPCResponse;
 import com.smartgwt.client.util.JSOHelper;
 import com.smartgwt.client.widgets.grid.ListGridRecord;
 
-public class UserDS extends GwtRpcDataSource
+public class ContactLinkDS extends GwtRpcDataSource
 {
+    private static ContactLinkDS instance = null;
 
-    private static UserDS instance = null;
+    private final ContactLinkServiceAsync contactLinkService = GWT.create(ContactLinkService.class);
 
-    private final UserServiceAsync userService = GWT.create(UserService.class);
-
-    public static UserDS getInstance()
+    public static ContactLinkDS getInstance()
     {
         if (instance == null)
         {
-            instance = new UserDS();
+            instance = new ContactLinkDS();
         }
         return instance;
     }
 
-    public final static String USER_ID = "id";
-    public final static String USER_ACTIVE = "active";
-    public final static String USER_POSITION = "position";
-    public final static String USER_USERNAME = "username";
-    public final static String USER_PASSWORD = "password";
-    public final static String USER_FIRSTNAME = "firstName";
-    public final static String USER_LASTNAME = "lastName";
-    public final static String USER_EMAIL = "email";
-    public final static String USER_QUESTION_1 = "securityQuestion1";
-    public final static String USER_ANSWER_1 = "securityAnswer1";
-    public final static String USER_QUESTION_2 = "securityQuestion2";
-    public final static String USER_ANSWER_2 = "securityAnswer2";
+    DataSourceIntegerField contactIdField;
+    DataSourceIntegerField contactLinkIdField;
+    DataSourceTextField linkTypeIdField;
+    DataSourceTextField linkField;
+    DataSourceDateTimeField enteredDateField;
 
-    DataSourceIntegerField userIdField;
-    DataSourceBooleanField userActiveField;
-    DataSourceIntegerField userPositionIdField;
-
-    DataSourceTextField usernameField;
-    DataSourceTextField passwordField;
-
-    DataSourceTextField userFirstNameField;
-    DataSourceTextField userLastNameField;
-    DataSourceTextField userEmailField;
-
-    DataSourceTextField userQuestion1Field;
-    DataSourceTextField userAnswer1Field;
-    DataSourceTextField userQuestion2Field;
-    DataSourceTextField userAnswer2Field;
-
-    public UserDS()
+    public ContactLinkDS()
     {
         super();
-        setID("UsersGwtRpcDataSource");
+        setID("ContactLinksGwtRpcDataSource");
 
-        userIdField = new DataSourceIntegerField(Constants.USER_ID, null);
-        userIdField.setPrimaryKey(true);
-        userIdField.setCanEdit(false);
-        userIdField.setHidden(true);
+        contactIdField = new DataSourceIntegerField(Constants.LINK_CONTACT_ID, null);
+        contactIdField.setCanEdit(false);
+        contactIdField.setHidden(true);
 
-        userActiveField = new DataSourceBooleanField(Constants.USER_ACTIVE, "Active");
-        userPositionIdField = new DataSourceIntegerField(Constants.USER_POSITION_ID, "Position");
+        contactLinkIdField = new DataSourceIntegerField(Constants.LINK_ID, null);
+        contactLinkIdField.setPrimaryKey(true);
+        contactLinkIdField.setCanEdit(false);
+        contactLinkIdField.setHidden(true);
 
-        usernameField = new DataSourceTextField(Constants.USER_USERNAME, "Username", 200);
-        passwordField = new DataSourceTextField(Constants.USER_PASSWORD, "Password", 200);
+        linkField = new DataSourceTextField(Constants.LINK_URL, Constants.TITLE_LINK_URL);
 
-        userFirstNameField = new DataSourceTextField(Constants.USER_FIRST_NAME, "First Name", 200);
-        userLastNameField = new DataSourceTextField(Constants.USER_LAST_NAME, "Last Name", 200);
-        userEmailField = new DataSourceTextField(Constants.USER_EMAIL, null);
+        linkTypeIdField = new DataSourceTextField(Constants.LINK_TYPE_ID, Constants.TITLE_LINK_TYPE_ID);
 
-        userQuestion1Field = new DataSourceTextField(Constants.USER_SECURITY_QUESTION_1, "Security Question 1", 200);
-        userAnswer1Field = new DataSourceTextField(Constants.USER_SECURITY_ANSWER_1, "Security Answer 1", 200);
+        enteredDateField = new DataSourceDateTimeField(Constants.LINK_ENTERED_DATE, Constants.TITLE_LINK_ENTERED_DATE);
 
-        userQuestion2Field = new DataSourceTextField(Constants.USER_SECURITY_QUESTION_2, "Security Question 2", 200);
-        userAnswer2Field = new DataSourceTextField(Constants.USER_SECURITY_ANSWER_2, "Security Answer 2", 200);
-
-        setFields(userIdField, userActiveField, userPositionIdField, usernameField, passwordField, userFirstNameField,
-            userLastNameField, userEmailField, userQuestion1Field, userAnswer1Field, userQuestion2Field,
-            userAnswer2Field);
+        setFields(contactIdField, contactLinkIdField, linkField, linkTypeIdField, enteredDateField);
     }
 
     // *************************************************************************************
@@ -105,10 +74,9 @@ public class UserDS extends GwtRpcDataSource
         // Retrieve record which should be added.
         JavaScriptObject data = request.getData();
         ListGridRecord rec = new ListGridRecord(data);
-        UserDTO testRec = new UserDTO();
+        ContactLinkDTO testRec = new ContactLinkDTO();
         copyValues(rec, testRec);
-        // ConsumerInterestServiceAsync service = GWT.create (ConsumerInterestService.class);
-        userService.add(testRec, new AsyncCallback<UserDTO>()
+        contactLinkService.add(testRec, new AsyncCallback<ContactLinkDTO>()
         {
             public void onFailure(Throwable caught)
             {
@@ -116,7 +84,7 @@ public class UserDS extends GwtRpcDataSource
                 processResponse(requestId, response);
             }
 
-            public void onSuccess(UserDTO result)
+            public void onSuccess(ContactLinkDTO result)
             {
                 ListGridRecord[] list = new ListGridRecord[1];
                 ListGridRecord newRec = new ListGridRecord();
@@ -134,9 +102,9 @@ public class UserDS extends GwtRpcDataSource
         // Retrieve record which should be removed.
         JavaScriptObject data = request.getData();
         final ListGridRecord rec = new ListGridRecord(data);
-        UserDTO testRec = new UserDTO();
+        ContactLinkDTO testRec = new ContactLinkDTO();
         copyValues(rec, testRec);
-        userService.remove(testRec, new AsyncCallback<Void>()
+        contactLinkService.remove(testRec, new AsyncCallback<Void>()
         {
             public void onFailure(Throwable caught)
             {
@@ -167,7 +135,11 @@ public class UserDS extends GwtRpcDataSource
         final int startIndex = (request.getStartRow() < 0) ? 0 : request.getStartRow();
         final int endIndex = (request.getEndRow() == null) ? -1 : request.getEndRow();
 
-        userService.fetch(new AsyncCallback<List<UserDTO>>()
+        String contactId = request.getCriteria().getAttribute("contactId");
+        ContactDTO contactDto = new ContactDTO();
+        contactDto.setId(Long.parseLong(contactId));
+
+        contactLinkService.fetch(contactDto, new AsyncCallback<List<ContactLinkDTO>>()
         {
             public void onFailure(Throwable caught)
             {
@@ -176,7 +148,7 @@ public class UserDS extends GwtRpcDataSource
                 processResponse(requestId, response);
             }
 
-            public void onSuccess(List<UserDTO> result)
+            public void onSuccess(List<ContactLinkDTO> result)
             {
                 // Calculating size of return list
                 int size = result.size();
@@ -224,40 +196,25 @@ public class UserDS extends GwtRpcDataSource
     // *************************************************************************************
     // *************************************************************************************
 
-    private void copyValues(ListGridRecord from, UserDTO to)
+    private void copyValues(ListGridRecord from, ContactLinkDTO to)
     {
-        to.setId(from.getAttributeAsInt(userIdField.getName()));
-        to.setActive(from.getAttributeAsBoolean(userActiveField.getName()));
+        to.setContactId(from.getAttributeAsInt(contactIdField.getName()));
+        to.setLinkId(from.getAttributeAsInt(contactLinkIdField.getName()));
+        to.setLink(from.getAttributeAsString(linkField.getName()));
+        to.setEnteredDate(from.getAttributeAsDate(enteredDateField.getName()));
         // ================================================================================
-        to.setUsername(from.getAttributeAsString(usernameField.getName()));
-        to.setPassword(from.getAttributeAsString(passwordField.getName()));
-        // ================================================================================
-        PositionDTO position = new PositionDTO();
-        int positionId = from.getAttributeAsInt(userPositionIdField.getName());
-        position.setId(positionId);
-        position.setActive(true);
-        to.setPosition(position);
-        // ================================================================================
-        to.setFirstname(from.getAttributeAsString(userFirstNameField.getName()));
-        to.setLastname(from.getAttributeAsString(userLastNameField.getName()));
-        to.setEmail(from.getAttributeAsString(userEmailField.getName()));
-        // ================================================================================
-        to.setSecurityQuestion1(from.getAttributeAsString(userQuestion1Field.getName()));
-        to.setSecurityAnswer1(from.getAttributeAsString(userAnswer1Field.getName()));
-        to.setSecurityQuestion2(from.getAttributeAsString(userQuestion2Field.getName()));
-        to.setSecurityAnswer2(from.getAttributeAsString(userAnswer2Field.getName()));
+        LinkTypeDTO linkType = new LinkTypeDTO();
+        linkType.setId(from.getAttributeAsInt(linkTypeIdField.getName()));
+        to.setLinkType(linkType);
     }
 
-    private static void copyValues(UserDTO from, ListGridRecord to)
+    private static void copyValues(ContactLinkDTO from, ListGridRecord to)
     {
-        to.setAttribute("userId", from.getId());
-        to.setAttribute("userActive", from.isActive());
-        // ================================================================================
-        to.setAttribute("userFirstName", from.getFirstname());
-        to.setAttribute("userLastName", from.getLastname());
-        // ================================================================================
-        to.setAttribute("userHomeEmail", from.getEmail());
-        // ================================================================================
+        to.setAttribute(Constants.LINK_CONTACT_ID, from.getContactId());
+        to.setAttribute(Constants.LINK_ID, from.getLinkId());
+        to.setAttribute(Constants.LINK_URL, from.getLink());
+        to.setAttribute(Constants.LINK_ENTERED_DATE, from.getEnteredDate());
+        to.setAttribute(Constants.LINK_TYPE_ID, from.getLinkType().getId());
     }
 
     private ListGridRecord getEditedRecord(DSRequest request)

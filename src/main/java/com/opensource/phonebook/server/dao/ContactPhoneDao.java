@@ -27,4 +27,6 @@ public interface ContactPhoneDao
 
     public List<ContactPhoneEntity> getContactPhoneEntityByContact(ContactEntity exampleContactEntity);
 
+    public List<ContactPhoneEntity> getContactPhoneEntityByContactId(long contactId);
+
 }

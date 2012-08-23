@@ -38,7 +38,6 @@ public class ContactPhoneDaoImpl implements ContactPhoneDao
 
     public ContactPhoneEntity saveContactPhoneEntity(ContactPhoneEntity contactPhone)
     {
-        // this.getHibernateTemplate().saveOrUpdate(contactPhone);
         this.sessionFactory.getCurrentSession().saveOrUpdate(contactPhone);
         return contactPhone;
     }
@@ -90,6 +89,17 @@ public class ContactPhoneDaoImpl implements ContactPhoneDao
             this.sessionFactory.getCurrentSession().createQuery(
                 "from ContactPhoneEntity cpe where cpe.contact = :contact");
         query.setParameter("contact", exampleContactEntity);
+        List<ContactPhoneEntity> contactPhones = query.list();
+        return contactPhones;
+    }
+
+    @Override
+    public List<ContactPhoneEntity> getContactPhoneEntityByContactId(long contactId)
+    {
+        Query query =
+            this.sessionFactory.getCurrentSession().createQuery(
+                "from ContactPhoneEntity cpe where cpe.contact.id = :contact");
+        query.setParameter("contact", contactId);
         List<ContactPhoneEntity> contactPhones = query.list();
         return contactPhones;
     }

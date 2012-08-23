@@ -54,6 +54,26 @@
 		<servlet-class>com.opensource.phonebook.server.rpc.ContactPhoneServiceImpl</servlet-class>
 	</servlet>
 	
+	<servlet>
+		<servlet-name>contactEmailRpc</servlet-name>
+		<servlet-class>com.opensource.phonebook.server.rpc.ContactEmailServiceImpl</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>contactLinkRpc</servlet-name>
+		<servlet-class>com.opensource.phonebook.server.rpc.ContactLinkServiceImpl</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>contactLinkRpc</servlet-name>
+		<url-pattern>/PhoneBook/contactLinkRpc</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>contactEmailRpc</servlet-name>
+		<url-pattern>/PhoneBook/contactEmailRpc</url-pattern>
+	</servlet-mapping>
+	
 	<servlet-mapping>
 		<servlet-name>contactPhoneRpc</servlet-name>
 		<url-pattern>/PhoneBook/contactPhoneRpc</url-pattern>
