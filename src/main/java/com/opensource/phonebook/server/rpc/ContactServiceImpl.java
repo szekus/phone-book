@@ -71,9 +71,11 @@ public class ContactServiceImpl extends BaseRPC implements ContactService
     }
 
     @Transactional
-    public void remove(ContactDTO record)
+    public void remove(ContactDTO contactDto)
     {
-        // TODO Auto-generated method stub
+        ContactEntity contactEntity = new ContactEntity();
+        contactEntity.setId(contactDto.getId());
+        contactDao.deleteContactEntity(contactEntity);
     }
 
     @Transactional

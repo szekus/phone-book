@@ -25,7 +25,6 @@ import com.smartgwt.client.widgets.form.DynamicForm;
 import com.smartgwt.client.widgets.form.events.SubmitValuesEvent;
 import com.smartgwt.client.widgets.form.events.SubmitValuesHandler;
 import com.smartgwt.client.widgets.form.fields.DateItem;
-import com.smartgwt.client.widgets.form.fields.FormItem;
 import com.smartgwt.client.widgets.form.fields.PasswordItem;
 import com.smartgwt.client.widgets.form.fields.SubmitItem;
 import com.smartgwt.client.widgets.form.fields.TextItem;
@@ -52,6 +51,25 @@ public class LoginDialog extends Window
     final static LoginDS loginDS = LoginDS.getInstance();
 
     private LoginDialogCallback callback;
+
+    private DynamicForm signupForm = new DynamicForm();
+    private TextItem idField;
+    private TextItem usernameField = new TextItem(Constants.USER_USERNAME);
+    private TextItem passwordField = new TextItem(Constants.USER_PASSWORD);
+    private TextItem otherPasswordField = new TextItem(Constants.USER_OTHER_PASSWORD);
+    private TextItem firstnameField = new TextItem(Constants.USER_FIRST_NAME);
+    private TextItem lastnameField = new TextItem(Constants.USER_LAST_NAME);
+    private TextItem emailField = new TextItem(Constants.USER_EMAIL);
+    private TextItem securityQuestion1Field = new TextItem(Constants.USER_SECURITY_QUESTION_1);
+    private TextItem securityAnswer1Field = new TextItem(Constants.USER_SECURITY_ANSWER_1);
+    private TextItem securityQuestion2Field = new TextItem(Constants.USER_SECURITY_QUESTION_1);
+    private TextItem securityAnswer2Field = new TextItem(Constants.USER_SECURITY_ANSWER_1);
+    private TextItem positionField = new TextItem(Constants.USER_POSITION_ID);
+    private DateItem birthdateField = new DateItem(Constants.USER_BIRTHDATE);
+
+    private DynamicForm loginForm;
+    private TextItem loginUserField;
+    private PasswordItem loginPasswordField;
 
     static public LoginDialog getInstance()
     {
@@ -99,7 +117,6 @@ public class LoginDialog extends Window
         // login.setBorder("1px solid yellow");
 
         // *************Login Form**************
-        final DynamicForm loginForm;
         loginForm = new DynamicForm();
         // loginForm.setBorder("1px solid black");
         loginForm.setPadding(Constants.UI_PADDING_2);
@@ -113,24 +130,21 @@ public class LoginDialog extends Window
         loginForm.setSaveOnEnter(true);
         loginForm.setLayoutAlign(VerticalAlignment.CENTER);
 
-        final TextItem userField;
-        userField = new TextItem("username");
-        userField.setIconVAlign(VerticalAlignment.CENTER);
-        userField.setTabIndex(0);
-        userField.setRequired(true);
-        userField.setSelectOnFocus(true);
-        userField.setWidth(150);
+        loginUserField = new TextItem("username");
+        loginUserField.setIconVAlign(VerticalAlignment.CENTER);
+        loginUserField.setTabIndex(0);
+        loginUserField.setRequired(true);
+        loginUserField.setSelectOnFocus(true);
+        loginUserField.setWidth(150);
+        loginUserField.setTitle("PhoneBook Id");
 
-        userField.setTitle("PhoneBook Id");
-
-        final PasswordItem passwordField;
-        passwordField = new PasswordItem("password");
-        // passwordField.setIconVAlign(VerticalAlignment.CENTER);
-        passwordField.setTabIndex(1);
-        passwordField.setRequired(true);
-        passwordField.setWidth(150);
-        passwordField.setTitle("Password");
-        // passwordField.setDefaultValue("Password");
+        loginPasswordField = new PasswordItem("password");
+        // loginPasswordField.setIconVAlign(VerticalAlignment.CENTER);
+        loginPasswordField.setTabIndex(1);
+        loginPasswordField.setRequired(true);
+        loginPasswordField.setWidth(150);
+        loginPasswordField.setTitle("Password");
+        // loginPasswordField.setDefaultValue("Password");
 
         SubmitItem submitButton = new SubmitItem();
         submitButton.setTitle(resources.login_submitButtonText());
@@ -149,8 +163,8 @@ public class LoginDialog extends Window
 
             public void onSubmitValues(SubmitValuesEvent event)
             {
-                String username = userField.getValueAsString();
-                String password = passwordField.getValueAsString();
+                String username = loginUserField.getValueAsString();
+                String password = loginPasswordField.getValueAsString();
 
                 loginService.login(username, password, new AsyncCallback<UserDTO>()
                 {
@@ -169,7 +183,7 @@ public class LoginDialog extends Window
                         if (userDTO == null)
                         {
                             SC.say("Invalid username/password combination");
-                            userField.focusInItem();
+                            loginUserField.focusInItem();
                         }
                         else
                         {
@@ -228,7 +242,7 @@ public class LoginDialog extends Window
             }
         });
 
-        loginForm.setFields(userField, passwordField, submitButton);
+        loginForm.setFields(loginUserField, loginPasswordField, submitButton);
         loginForm.setAutoFocus(true);
 
         VLayout messageLayout = getMessageLayout();
@@ -309,13 +323,11 @@ public class LoginDialog extends Window
         VLayout signupLayout = new VLayout();
         // signupLayout.setBorder("5px solid red");
 
-        final DynamicForm signupForm = new DynamicForm();
         // signupForm.setBorder("1px solid orange");
         signupForm.setDataSource(userDS);
         signupForm.setTitleWidth(200);
         signupForm.setWidth(400);
 
-        final TextItem idField;
         idField = new TextItem(Constants.USER_ID);
         idField.setIconVAlign(VerticalAlignment.CENTER);
         idField.setTabIndex(0);
@@ -324,62 +336,50 @@ public class LoginDialog extends Window
         idField.setDefaultValue(0);
         idField.setVisible(false);
 
-        final TextItem usernameField = new TextItem(Constants.USER_USERNAME);
         usernameField.setTitle(Constants.TITLE_USER_USERNAME);
         usernameField.setIconVAlign(VerticalAlignment.CENTER);
         usernameField.setRequired(true);
 
-        final TextItem passwordField = new TextItem(Constants.USER_PASSWORD);
         passwordField.setTitle(Constants.TITLE_USER_PASSWORD);
         passwordField.setIconVAlign(VerticalAlignment.CENTER);
         passwordField.setRequired(true);
 
-        final TextItem otherPasswordField = new TextItem(Constants.USER_OTHER_PASSWORD);
         otherPasswordField.setTitle(Constants.TITLE_USER_OTHER_PASSWORD);
         otherPasswordField.setIconVAlign(VerticalAlignment.CENTER);
         otherPasswordField.setRequired(true);
 
-        final TextItem firstnameField = new TextItem(Constants.USER_FIRST_NAME);
         firstnameField.setTitle(Constants.TITLE_USER_FIRST_NAME);
         firstnameField.setIconVAlign(VerticalAlignment.CENTER);
         firstnameField.setRequired(true);
 
-        final TextItem lastnameField = new TextItem(Constants.USER_LAST_NAME);
         lastnameField.setTitle(Constants.TITLE_USER_LAST_NAME);
         lastnameField.setIconVAlign(VerticalAlignment.CENTER);
         lastnameField.setRequired(true);
 
-        final TextItem emailField = new TextItem(Constants.USER_EMAIL);
         emailField.setTitle(Constants.TITLE_USER_EMAIL);
         emailField.setIconVAlign(VerticalAlignment.CENTER);
         emailField.setRequired(true);
 
-        final TextItem securityQuestion1Field = new TextItem(Constants.USER_SECURITY_QUESTION_1);
         securityQuestion1Field.setTitle(Constants.TITLE_USER_SECURITY_QUESTION_1);
         securityQuestion1Field.setIconVAlign(VerticalAlignment.CENTER);
         securityQuestion1Field.setRequired(true);
 
-        final TextItem securityAnswer1Field = new TextItem(Constants.USER_SECURITY_ANSWER_1);
         securityAnswer1Field.setTitle(Constants.TITLE_USER_SECURITY_ANSWER_1);
         securityAnswer1Field.setIconVAlign(VerticalAlignment.CENTER);
         securityAnswer1Field.setRequired(true);
 
-        final TextItem securityQuestion2Field = new TextItem(Constants.USER_SECURITY_QUESTION_1);
         securityQuestion2Field.setTitle(Constants.TITLE_USER_SECURITY_QUESTION_2);
         securityQuestion2Field.setIconVAlign(VerticalAlignment.CENTER);
         securityQuestion2Field.setRequired(true);
 
-        final TextItem securityAnswer2Field = new TextItem(Constants.USER_SECURITY_ANSWER_1);
         securityAnswer2Field.setTitle(Constants.TITLE_USER_SECURITY_ANSWER_2);
         securityAnswer2Field.setIconVAlign(VerticalAlignment.CENTER);
         securityAnswer2Field.setRequired(true);
 
-        final TextItem positionField = new TextItem(Constants.USER_POSITION_ID);
         positionField.setTitle(Constants.TITLE_USER_POSITION_ID);
         positionField.setDefaultValue(2);
         positionField.setVisible(false);
 
-        final DateItem birthdateField = new DateItem(Constants.USER_BIRTHDATE);
         birthdateField.setTitle(Constants.TITLE_USER_BIRTHDATE);
         birthdateField.setVisible(true);
         birthdateField.setRequired(true);
@@ -403,7 +403,8 @@ public class LoginDialog extends Window
             @Override
             public void onClick(ClickEvent event)
             {
-                if ("".equals(validateSignup(signupForm)))
+                String signupValidationMessage = getSignupValidation(signupForm);
+                if (signupValidationMessage == null || "".equals(signupValidationMessage))
                 {
                     Record record = new ListGridRecord();
                     record.setAttribute(Constants.USER_ID, idField.getValue());
@@ -423,7 +424,7 @@ public class LoginDialog extends Window
                 }
                 else
                 {
-
+                    SC.say("Signup", signupValidationMessage);
                 }
             }
         });
@@ -457,6 +458,58 @@ public class LoginDialog extends Window
         return signupLayout;
     }
 
+    private String getSignupValidation(DynamicForm signupForm)
+    {
+        String signupValidationMessage = null;
+        StringBuffer sb = new StringBuffer();
+        if (usernameField.getValue() == null)
+        {
+            sb.append("Username cannot be left blank!<br/>");
+        }
+        if (passwordField.getValue() == null)
+        {
+            sb.append("Password cannot be left blank!<br/>");
+        }
+        if (otherPasswordField.getValue() == null)
+        {
+            sb.append("Re-type Password cannot be left blank!<br/>");
+        }
+        if (firstnameField.getValue() == null)
+        {
+            sb.append("User First Name cannot be left blank!<br/>");
+        }
+        if (lastnameField.getValue() == null)
+        {
+            sb.append("User Last Name cannot be left blank!<br/>");
+        }
+        if (emailField.getValue() == null)
+        {
+            sb.append("User Email Address cannot be left blank!<br/>");
+        }
+        if (securityQuestion1Field.getValue() == null)
+        {
+            sb.append("Security Question 1 cannot be left blank!<br/>");
+        }
+        if (securityAnswer1Field.getValue() == null)
+        {
+            sb.append("Security Answer 1 cannot be left blank!<br/>");
+        }
+        if (securityQuestion2Field.getValue() == null)
+        {
+            sb.append("Security Question 2 cannot be left blank!<br/>");
+        }
+        if (securityAnswer2Field.getValue() == null)
+        {
+            sb.append("Security Answer 2 cannot be left blank!<br/>");
+        }
+        if (birthdateField.getValue() == null)
+        {
+            sb.append("Contact Birth Date cannot be left blank!<br/>");
+        }
+        signupValidationMessage = sb.toString();
+        return signupValidationMessage;
+    }
+
     private Label getSignupMessage()
     {
         Label signupMessageLabel = new Label("signupMessage");
@@ -471,22 +524,6 @@ public class LoginDialog extends Window
         signupMessageLabel.setContents(message);
 
         return signupMessageLabel;
-    }
-
-    private String validateSignup(DynamicForm signupForm)
-    {
-        String message = new String();
-
-        FormItem[] formItems = signupForm.getFields();
-        for (FormItem formItem : formItems)
-        {
-            if (formItem.getValue() == null || ("").equals(formItem.getValue()))
-            {
-                message = message + formItem.getName() + " cannot be null!<br/>";
-            }
-
-        }
-        return message;
     }
 
     private VLayout getMessageLayout()

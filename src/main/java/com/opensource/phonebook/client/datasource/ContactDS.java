@@ -141,9 +141,11 @@ public class ContactDS extends GwtRpcDataSource
         JavaScriptObject data = request.getData();
         final ListGridRecord rec = new ListGridRecord(data);
         ContactDTO testRec = new ContactDTO();
-        copyValues(rec, testRec);
+        // copyValues(rec, testRec);
+        testRec.setId(rec.getAttributeAsInt(contactIdField.getName()));
         service.remove(testRec, new AsyncCallback<Void>()
         {
+            @Override
             public void onFailure(Throwable caught)
             {
                 response.setStatus(RPCResponse.STATUS_FAILURE);
@@ -151,6 +153,7 @@ public class ContactDS extends GwtRpcDataSource
                 SC.say("Contact Delete", "Contact has not been deleted!");
             }
 
+            @Override
             public void onSuccess(Void result)
             {
                 ListGridRecord[] list = new ListGridRecord[1];
@@ -163,9 +166,6 @@ public class ContactDS extends GwtRpcDataSource
             }
         });
     }
-
-    // *************************************************************************************
-    // *************************************************************************************
 
     @Override
     protected void executeFetch(final String requestId, DSRequest request, final DSResponse response)

@@ -53,15 +53,14 @@ public class ContactDaoImpl implements ContactDao
     }
 
     @Override
-    public void deleteContactEntity(Long contactId)
+    public void deleteContactEntity(long contactId)
     {
-        // this.getgetHibernateTemplate()().delete(interest);
+        // this.sessionFactory.getCurrentSession().delete(contactId,ContactEntity.class);
     }
 
     @Override
     public void deleteContactEntity(ContactEntity contact)
     {
-        // this.getHibernateTemplate().delete(contact);
         this.sessionFactory.getCurrentSession().delete(contact);
     }
 

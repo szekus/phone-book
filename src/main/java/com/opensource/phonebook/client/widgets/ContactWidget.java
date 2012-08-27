@@ -527,6 +527,7 @@ public class ContactWidget extends HLayout
                 if (contactId != 0)
                 {
                     contactDS.removeData(record);
+                    contactForm.clearValues();
                 }
 
             }
@@ -546,7 +547,7 @@ public class ContactWidget extends HLayout
 
     private String getContactValidation(DynamicForm contactForm)
     {
-        String passwordValidationMessage = null;
+        String contactValidationMessage = null;
         StringBuffer sb = new StringBuffer();
         if (firstnameField.getValue() == null)
         {
@@ -576,7 +577,7 @@ public class ContactWidget extends HLayout
         {
             sb.append("Contact Birth Date cannot be left blank!<br/>");
         }
-        passwordValidationMessage = sb.toString();
-        return passwordValidationMessage;
+        contactValidationMessage = sb.toString();
+        return contactValidationMessage;
     }
 }
