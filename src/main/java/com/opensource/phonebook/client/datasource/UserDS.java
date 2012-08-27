@@ -14,10 +14,12 @@ import com.opensource.phonebook.shared.dto.UserDTO;
 import com.smartgwt.client.data.DSRequest;
 import com.smartgwt.client.data.DSResponse;
 import com.smartgwt.client.data.fields.DataSourceBooleanField;
+import com.smartgwt.client.data.fields.DataSourceDateField;
 import com.smartgwt.client.data.fields.DataSourceIntegerField;
 import com.smartgwt.client.data.fields.DataSourceTextField;
 import com.smartgwt.client.rpc.RPCResponse;
 import com.smartgwt.client.util.JSOHelper;
+import com.smartgwt.client.util.SC;
 import com.smartgwt.client.widgets.grid.ListGridRecord;
 
 public class UserDS extends GwtRpcDataSource
@@ -36,19 +38,6 @@ public class UserDS extends GwtRpcDataSource
         return instance;
     }
 
-    public final static String USER_ID = "id";
-    public final static String USER_ACTIVE = "active";
-    public final static String USER_POSITION = "position";
-    public final static String USER_USERNAME = "username";
-    public final static String USER_PASSWORD = "password";
-    public final static String USER_FIRSTNAME = "firstName";
-    public final static String USER_LASTNAME = "lastName";
-    public final static String USER_EMAIL = "email";
-    public final static String USER_QUESTION_1 = "securityQuestion1";
-    public final static String USER_ANSWER_1 = "securityAnswer1";
-    public final static String USER_QUESTION_2 = "securityQuestion2";
-    public final static String USER_ANSWER_2 = "securityAnswer2";
-
     DataSourceIntegerField userIdField;
     DataSourceBooleanField userActiveField;
     DataSourceIntegerField userPositionIdField;
@@ -65,35 +54,43 @@ public class UserDS extends GwtRpcDataSource
     DataSourceTextField userQuestion2Field;
     DataSourceTextField userAnswer2Field;
 
+    DataSourceDateField userBirthdateField;
+
     public UserDS()
     {
         super();
         setID("UsersGwtRpcDataSource");
 
-        userIdField = new DataSourceIntegerField(Constants.USER_ID, null);
+        userIdField = new DataSourceIntegerField(Constants.USER_ID, Constants.TITLE_USER_ID);
         userIdField.setPrimaryKey(true);
         userIdField.setCanEdit(false);
         userIdField.setHidden(true);
 
-        userActiveField = new DataSourceBooleanField(Constants.USER_ACTIVE, "Active");
-        userPositionIdField = new DataSourceIntegerField(Constants.USER_POSITION_ID, "Position");
+        userActiveField = new DataSourceBooleanField(Constants.USER_ACTIVE, Constants.TITLE_USER_ACTIVE);
+        userPositionIdField = new DataSourceIntegerField(Constants.USER_POSITION_ID, Constants.TITLE_USER_POSITION_ID);
 
-        usernameField = new DataSourceTextField(Constants.USER_USERNAME, "Username", 200);
-        passwordField = new DataSourceTextField(Constants.USER_PASSWORD, "Password", 200);
+        usernameField = new DataSourceTextField(Constants.USER_USERNAME, Constants.TITLE_USER_USERNAME, 200);
+        passwordField = new DataSourceTextField(Constants.USER_PASSWORD, Constants.TITLE_USER_PASSWORD, 200);
 
-        userFirstNameField = new DataSourceTextField(Constants.USER_FIRST_NAME, "First Name", 200);
-        userLastNameField = new DataSourceTextField(Constants.USER_LAST_NAME, "Last Name", 200);
-        userEmailField = new DataSourceTextField(Constants.USER_EMAIL, null);
+        userFirstNameField = new DataSourceTextField(Constants.USER_FIRST_NAME, Constants.TITLE_USER_FIRST_NAME, 200);
+        userLastNameField = new DataSourceTextField(Constants.USER_LAST_NAME, Constants.TITLE_USER_LAST_NAME, 200);
+        userEmailField = new DataSourceTextField(Constants.USER_EMAIL, Constants.TITLE_USER_EMAIL);
 
-        userQuestion1Field = new DataSourceTextField(Constants.USER_SECURITY_QUESTION_1, "Security Question 1", 200);
-        userAnswer1Field = new DataSourceTextField(Constants.USER_SECURITY_ANSWER_1, "Security Answer 1", 200);
+        userQuestion1Field =
+            new DataSourceTextField(Constants.USER_SECURITY_QUESTION_1, Constants.TITLE_USER_SECURITY_QUESTION_1, 200);
+        userAnswer1Field =
+            new DataSourceTextField(Constants.USER_SECURITY_ANSWER_1, Constants.TITLE_USER_SECURITY_ANSWER_1, 200);
 
-        userQuestion2Field = new DataSourceTextField(Constants.USER_SECURITY_QUESTION_2, "Security Question 2", 200);
-        userAnswer2Field = new DataSourceTextField(Constants.USER_SECURITY_ANSWER_2, "Security Answer 2", 200);
+        userQuestion2Field =
+            new DataSourceTextField(Constants.USER_SECURITY_QUESTION_2, Constants.TITLE_USER_SECURITY_QUESTION_2, 200);
+        userAnswer2Field =
+            new DataSourceTextField(Constants.USER_SECURITY_ANSWER_2, Constants.TITLE_USER_SECURITY_ANSWER_2, 200);
+
+        userBirthdateField = new DataSourceDateField(Constants.USER_BIRTHDATE, Constants.TITLE_USER_BIRTHDATE, 200);
 
         setFields(userIdField, userActiveField, userPositionIdField, usernameField, passwordField, userFirstNameField,
             userLastNameField, userEmailField, userQuestion1Field, userAnswer1Field, userQuestion2Field,
-            userAnswer2Field);
+            userAnswer2Field, userBirthdateField);
     }
 
     // *************************************************************************************
@@ -216,9 +213,35 @@ public class UserDS extends GwtRpcDataSource
     }
 
     @Override
-    protected void executeUpdate(String requestId, DSRequest request, DSResponse response)
+    protected void executeUpdate(final String requestId, DSRequest request, final DSResponse response)
     {
-        // TODO Auto-generated method stub
+        // Retrieve record which should be updated
+        JavaScriptObject data = request.getData();
+        final ListGridRecord rec = new ListGridRecord(data);
+        UserDTO testRec = new UserDTO();
+        copyValues(rec, testRec);
+        userService.update(testRec, new AsyncCallback<Void>()
+        {
+            @Override
+            public void onFailure(Throwable caught)
+            {
+                response.setStatus(RPCResponse.STATUS_FAILURE);
+                processResponse(requestId, response);
+                SC.say("Profile Edit Save", "User edits have NOT been saved!");
+            }
+
+            @Override
+            public void onSuccess(Void result)
+            {
+                ListGridRecord[] list = new ListGridRecord[1];
+                // We do not receive removed record from server.
+                // Return record from request.
+                list[0] = rec;
+                response.setData(list);
+                processResponse(requestId, response);
+                SC.say("Profile Edit Save", "User edits have been saved!");
+            }
+        });
     }
 
     // *************************************************************************************
@@ -246,6 +269,8 @@ public class UserDS extends GwtRpcDataSource
         to.setSecurityAnswer1(from.getAttributeAsString(userAnswer1Field.getName()));
         to.setSecurityQuestion2(from.getAttributeAsString(userQuestion2Field.getName()));
         to.setSecurityAnswer2(from.getAttributeAsString(userAnswer2Field.getName()));
+        // ================================================================================
+        to.setBirthdate(from.getAttributeAsDate(userBirthdateField.getName()));
     }
 
     private static void copyValues(UserDTO from, ListGridRecord to)

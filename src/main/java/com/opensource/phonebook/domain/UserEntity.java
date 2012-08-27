@@ -1,6 +1,7 @@
 package com.opensource.phonebook.domain;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -16,24 +17,25 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Cascade;
 
-//CREATE TABLE `users` (
-//  `user_id` int(11) NOT NULL AUTO_INCREMENT,
-//  `active` tinyint(1) NOT NULL DEFAULT '1',
-//  `position_id` int(11) NOT NULL DEFAULT '2',
-//  `username` varchar(10) NOT NULL,
-//  `password` varchar(15) NOT NULL,
-//  `firstname` varchar(45) DEFAULT NULL,
-//  `lastname` varchar(45) DEFAULT NULL,
-//  `email` varchar(45) NOT NULL,
-//  `security_question_1` varchar(145) NOT NULL,
-//  `security_answer_1` varchar(45) NOT NULL,
-//  `security_question_2` varchar(145) NOT NULL,
-//  `security_answer_2` varchar(45) NOT NULL,
-//  PRIMARY KEY (`user_id`),
-//  UNIQUE KEY `username_uq` (`username`),
-//  KEY `fk_users_1` (`position_id`),
-//  CONSTRAINT `fk_users_1` FOREIGN KEY (`position_id`) REFERENCES `position` (`position_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-//) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8$$
+// CREATE TABLE `users` (
+// `user_id` int(11) NOT NULL AUTO_INCREMENT,
+// `active` tinyint(1) NOT NULL DEFAULT '1',
+// `position_id` int(11) NOT NULL DEFAULT '2',
+// `username` varchar(10) NOT NULL,
+// `password` varchar(15) NOT NULL,
+// `firstname` varchar(45) DEFAULT NULL,
+// `lastname` varchar(45) DEFAULT NULL,
+// `email` varchar(45) NOT NULL,
+// `security_question_1` varchar(145) NOT NULL,
+// `security_answer_1` varchar(45) NOT NULL,
+// `security_question_2` varchar(145) NOT NULL,
+// `security_answer_2` varchar(45) NOT NULL,
+// PRIMARY KEY (`user_id`),
+// UNIQUE KEY `username_uq` (`username`),
+// KEY `fk_users_1` (`position_id`),
+// CONSTRAINT `fk_users_1` FOREIGN KEY (`position_id`) REFERENCES `position` (`position_id`) ON DELETE NO ACTION ON
+// UPDATE NO ACTION
+// ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8$$
 
 /**
  * The persistent class for the Positions database table.
@@ -41,285 +43,341 @@ import org.hibernate.annotations.Cascade;
  */
 @SuppressWarnings("serial")
 @Entity
-@Table(name="users")
-public class UserEntity implements Serializable {
-	
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="user_id")
-	private long id;
-	
-//  `active` tinyint(1) NOT NULL DEFAULT '1',
-	@Column(name="active")
-	private boolean active;
-	
-//  `position_id` int(11) NOT NULL DEFAULT '2',
+@Table(name = "users")
+public class UserEntity implements Serializable
+{
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "user_id")
+    private long id;
+
+// `active` tinyint(1) NOT NULL DEFAULT '1',
+    @Column(name = "active")
+    private boolean active;
+
+// `position_id` int(11) NOT NULL DEFAULT '2',
 // bi-directional many-to-one association to ContactEntity
-	@ManyToOne(fetch =  FetchType.EAGER)
-	@JoinColumn(name="position_id")
-	private PositionEntity position;
-	
-//  `username` varchar(10) NOT NULL,
-	@Column(name="username")
-	private String username;
-	
-//  `password` varchar(15) NOT NULL,
-	@Column(name="password")
-	private String password;
-	
-//  `firstname` varchar(45) DEFAULT NULL,
-	@Column(name="firstname")
-	private String firstname;
-	
-//  `lastname` varchar(45) DEFAULT NULL,
-	@Column(name="lastname")
-	private String lastname;
-	
-//  `lastname` varchar(45) DEFAULT NULL,
-	@Column(name="email")
-	private String email;
-	
-//  `security_question_1` varchar(145) NOT NULL,
-	@Column(name="security_question_1")
-	private String securityQuestion1;
-	
-//  `security_answer_1` varchar(45) NOT NULL,
-	@Column(name="security_answer_1")
-	private String securityAnswer1;
-	
-//  `security_question_2` varchar(245) NOT NULL,
-	@Column(name="security_question_2")
-	private String securityQuestion2;
-	
-//  `security_answer_2` varchar(45) NOT NULL,
-	@Column(name="security_answer_2")
-	private String securityAnswer2;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "position_id")
+    private PositionEntity position;
 
-	@OneToMany(fetch=FetchType.EAGER)
-	@Cascade({org.hibernate.annotations.CascadeType.ALL})
-	@JoinColumn(name = "user_id") 
-	private Set<ContactEntity> contacts;
-	
-	public long getId() {
-		return id;
-	}
+// `username` varchar(10) NOT NULL,
+    @Column(name = "username")
+    private String username;
 
-	public void setId(long id) {
-		this.id = id;
-	}
+// `password` varchar(15) NOT NULL,
+    @Column(name = "password")
+    private String password;
 
-	public boolean isActive() {
-		return active;
-	}
+// `firstname` varchar(45) DEFAULT NULL,
+    @Column(name = "firstname")
+    private String firstname;
 
-	public void setActive(boolean active) {
-		this.active = active;
-	}
+// `lastname` varchar(45) DEFAULT NULL,
+    @Column(name = "lastname")
+    private String lastname;
 
-	public PositionEntity getPosition() {
-		return position;
-	}
+// `lastname` varchar(45) DEFAULT NULL,
+    @Column(name = "email")
+    private String email;
 
-	public void setPosition(PositionEntity position) {
-		this.position = position;
-	}
+// `security_question_1` varchar(145) NOT NULL,
+    @Column(name = "security_question_1")
+    private String securityQuestion1;
 
-	public String getUsername() {
-		return username;
-	}
+// `security_answer_1` varchar(45) NOT NULL,
+    @Column(name = "security_answer_1")
+    private String securityAnswer1;
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+// `security_question_2` varchar(245) NOT NULL,
+    @Column(name = "security_question_2")
+    private String securityQuestion2;
 
-	public String getPassword() {
-		return password;
-	}
+// `security_answer_2` varchar(45) NOT NULL,
+    @Column(name = "security_answer_2")
+    private String securityAnswer2;
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    @Column(name = "birthdate")
+    private Date birthdate;
 
-	public String getFirstname() {
-		return firstname;
-	}
+    @OneToMany(fetch = FetchType.EAGER)
+    @Cascade(
+    { org.hibernate.annotations.CascadeType.ALL })
+    @JoinColumn(name = "user_id")
+    private Set<ContactEntity> contacts;
 
-	public void setFirstname(String firstname) {
-		this.firstname = firstname;
-	}
+    public long getId()
+    {
+        return id;
+    }
 
-	public String getLastname() {
-		return lastname;
-	}
+    public void setId(long id)
+    {
+        this.id = id;
+    }
 
-	public void setLastname(String lastname) {
-		this.lastname = lastname;
-	}
+    public boolean isActive()
+    {
+        return active;
+    }
 
-	public Set<ContactEntity> getContacts() {
-		return contacts;
-	}
+    public void setActive(boolean active)
+    {
+        this.active = active;
+    }
 
-	public void setContacts(Set<ContactEntity> contacts) {
-		this.contacts = contacts;
-	}
-	
-	public String getEmail() {
-		return email;
-	}
+    public PositionEntity getPosition()
+    {
+        return position;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public void setPosition(PositionEntity position)
+    {
+        this.position = position;
+    }
 
-	public String getSecurityQuestion1() {
-		return securityQuestion1;
-	}
+    public String getUsername()
+    {
+        return username;
+    }
 
-	public void setSecurityQuestion1(String securityQuestion1) {
-		this.securityQuestion1 = securityQuestion1;
-	}
+    public void setUsername(String username)
+    {
+        this.username = username;
+    }
 
-	public String getSecurityAnswer1() {
-		return securityAnswer1;
-	}
+    public String getPassword()
+    {
+        return password;
+    }
 
-	public void setSecurityAnswer1(String securityAnswer1) {
-		this.securityAnswer1 = securityAnswer1;
-	}
+    public void setPassword(String password)
+    {
+        this.password = password;
+    }
 
-	public String getSecurityQuestion2() {
-		return securityQuestion2;
-	}
+    public String getFirstname()
+    {
+        return firstname;
+    }
 
-	public void setSecurityQuestion2(String securityQuestion2) {
-		this.securityQuestion2 = securityQuestion2;
-	}
+    public void setFirstname(String firstname)
+    {
+        this.firstname = firstname;
+    }
 
-	public String getSecurityAnswer2() {
-		return securityAnswer2;
-	}
+    public String getLastname()
+    {
+        return lastname;
+    }
 
-	public void setSecurityAnswer2(String securityAnswer2) {
-		this.securityAnswer2 = securityAnswer2;
-	}
+    public void setLastname(String lastname)
+    {
+        this.lastname = lastname;
+    }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + (active ? 1231 : 1237);
-		result = prime * result
-				+ ((contacts == null) ? 0 : contacts.hashCode());
-		result = prime * result + ((email == null) ? 0 : email.hashCode());
-		result = prime * result
-				+ ((firstname == null) ? 0 : firstname.hashCode());
-		result = prime * result + (int) (id ^ (id >>> 32));
-		result = prime * result
-				+ ((lastname == null) ? 0 : lastname.hashCode());
-		result = prime * result
-				+ ((password == null) ? 0 : password.hashCode());
-		result = prime * result
-				+ ((position == null) ? 0 : position.hashCode());
-		result = prime * result
-				+ ((securityAnswer1 == null) ? 0 : securityAnswer1.hashCode());
-		result = prime * result
-				+ ((securityAnswer2 == null) ? 0 : securityAnswer2.hashCode());
-		result = prime
-				* result
-				+ ((securityQuestion1 == null) ? 0 : securityQuestion1
-						.hashCode());
-		result = prime
-				* result
-				+ ((securityQuestion2 == null) ? 0 : securityQuestion2
-						.hashCode());
-		result = prime * result
-				+ ((username == null) ? 0 : username.hashCode());
-		return result;
-	}
+    public Set<ContactEntity> getContacts()
+    {
+        return contacts;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		UserEntity other = (UserEntity) obj;
-		if (active != other.active)
-			return false;
-		if (contacts == null) {
-			if (other.contacts != null)
-				return false;
-		} else if (!contacts.equals(other.contacts))
-			return false;
-		if (email == null) {
-			if (other.email != null)
-				return false;
-		} else if (!email.equals(other.email))
-			return false;
-		if (firstname == null) {
-			if (other.firstname != null)
-				return false;
-		} else if (!firstname.equals(other.firstname))
-			return false;
-		if (id != other.id)
-			return false;
-		if (lastname == null) {
-			if (other.lastname != null)
-				return false;
-		} else if (!lastname.equals(other.lastname))
-			return false;
-		if (password == null) {
-			if (other.password != null)
-				return false;
-		} else if (!password.equals(other.password))
-			return false;
-		if (position == null) {
-			if (other.position != null)
-				return false;
-		} else if (!position.equals(other.position))
-			return false;
-		if (securityAnswer1 == null) {
-			if (other.securityAnswer1 != null)
-				return false;
-		} else if (!securityAnswer1.equals(other.securityAnswer1))
-			return false;
-		if (securityAnswer2 == null) {
-			if (other.securityAnswer2 != null)
-				return false;
-		} else if (!securityAnswer2.equals(other.securityAnswer2))
-			return false;
-		if (securityQuestion1 == null) {
-			if (other.securityQuestion1 != null)
-				return false;
-		} else if (!securityQuestion1.equals(other.securityQuestion1))
-			return false;
-		if (securityQuestion2 == null) {
-			if (other.securityQuestion2 != null)
-				return false;
-		} else if (!securityQuestion2.equals(other.securityQuestion2))
-			return false;
-		if (username == null) {
-			if (other.username != null)
-				return false;
-		} else if (!username.equals(other.username))
-			return false;
-		return true;
-	}
+    public void setContacts(Set<ContactEntity> contacts)
+    {
+        this.contacts = contacts;
+    }
 
-	@Override
-	public String toString() {
-		return "UserEntity [id=" + id + ", active=" + active + ", position="
-				+ position + ", username=" + username + ", password="
-				+ password + ", firstname=" + firstname + ", lastname="
-				+ lastname + ", email=" + email + ", securityQuestion1="
-				+ securityQuestion1 + ", securityAnswer1=" + securityAnswer1
-				+ ", securityQuestion2=" + securityQuestion2
-				+ ", securityAnswer2=" + securityAnswer2 + ", contacts="
-				+ contacts + "]";
-	}
+    public String getEmail()
+    {
+        return email;
+    }
 
-	
+    public void setEmail(String email)
+    {
+        this.email = email;
+    }
+
+    public String getSecurityQuestion1()
+    {
+        return securityQuestion1;
+    }
+
+    public void setSecurityQuestion1(String securityQuestion1)
+    {
+        this.securityQuestion1 = securityQuestion1;
+    }
+
+    public String getSecurityAnswer1()
+    {
+        return securityAnswer1;
+    }
+
+    public void setSecurityAnswer1(String securityAnswer1)
+    {
+        this.securityAnswer1 = securityAnswer1;
+    }
+
+    public String getSecurityQuestion2()
+    {
+        return securityQuestion2;
+    }
+
+    public void setSecurityQuestion2(String securityQuestion2)
+    {
+        this.securityQuestion2 = securityQuestion2;
+    }
+
+    public String getSecurityAnswer2()
+    {
+        return securityAnswer2;
+    }
+
+    public void setSecurityAnswer2(String securityAnswer2)
+    {
+        this.securityAnswer2 = securityAnswer2;
+    }
+
+    public Date getBirthdate()
+    {
+        return birthdate;
+    }
+
+    public void setBirthdate(Date birthdate)
+    {
+        this.birthdate = birthdate;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + (active ? 1231 : 1237);
+        result = prime * result + ((birthdate == null) ? 0 : birthdate.hashCode());
+        result = prime * result + ((contacts == null) ? 0 : contacts.hashCode());
+        result = prime * result + ((email == null) ? 0 : email.hashCode());
+        result = prime * result + ((firstname == null) ? 0 : firstname.hashCode());
+        result = prime * result + (int) (id ^ (id >>> 32));
+        result = prime * result + ((lastname == null) ? 0 : lastname.hashCode());
+        result = prime * result + ((password == null) ? 0 : password.hashCode());
+        result = prime * result + ((position == null) ? 0 : position.hashCode());
+        result = prime * result + ((securityAnswer1 == null) ? 0 : securityAnswer1.hashCode());
+        result = prime * result + ((securityAnswer2 == null) ? 0 : securityAnswer2.hashCode());
+        result = prime * result + ((securityQuestion1 == null) ? 0 : securityQuestion1.hashCode());
+        result = prime * result + ((securityQuestion2 == null) ? 0 : securityQuestion2.hashCode());
+        result = prime * result + ((username == null) ? 0 : username.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        UserEntity other = (UserEntity) obj;
+        if (active != other.active)
+            return false;
+        if (birthdate == null)
+        {
+            if (other.birthdate != null)
+                return false;
+        }
+        else if (!birthdate.equals(other.birthdate))
+            return false;
+        if (contacts == null)
+        {
+            if (other.contacts != null)
+                return false;
+        }
+        else if (!contacts.equals(other.contacts))
+            return false;
+        if (email == null)
+        {
+            if (other.email != null)
+                return false;
+        }
+        else if (!email.equals(other.email))
+            return false;
+        if (firstname == null)
+        {
+            if (other.firstname != null)
+                return false;
+        }
+        else if (!firstname.equals(other.firstname))
+            return false;
+        if (id != other.id)
+            return false;
+        if (lastname == null)
+        {
+            if (other.lastname != null)
+                return false;
+        }
+        else if (!lastname.equals(other.lastname))
+            return false;
+        if (password == null)
+        {
+            if (other.password != null)
+                return false;
+        }
+        else if (!password.equals(other.password))
+            return false;
+        if (position == null)
+        {
+            if (other.position != null)
+                return false;
+        }
+        else if (!position.equals(other.position))
+            return false;
+        if (securityAnswer1 == null)
+        {
+            if (other.securityAnswer1 != null)
+                return false;
+        }
+        else if (!securityAnswer1.equals(other.securityAnswer1))
+            return false;
+        if (securityAnswer2 == null)
+        {
+            if (other.securityAnswer2 != null)
+                return false;
+        }
+        else if (!securityAnswer2.equals(other.securityAnswer2))
+            return false;
+        if (securityQuestion1 == null)
+        {
+            if (other.securityQuestion1 != null)
+                return false;
+        }
+        else if (!securityQuestion1.equals(other.securityQuestion1))
+            return false;
+        if (securityQuestion2 == null)
+        {
+            if (other.securityQuestion2 != null)
+                return false;
+        }
+        else if (!securityQuestion2.equals(other.securityQuestion2))
+            return false;
+        if (username == null)
+        {
+            if (other.username != null)
+                return false;
+        }
+        else if (!username.equals(other.username))
+            return false;
+        return true;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "UserEntity [id=" + id + ", active=" + active + ", position=" + position + ", username=" + username
+            + ", password=" + password + ", firstname=" + firstname + ", lastname=" + lastname + ", email=" + email
+            + ", securityQuestion1=" + securityQuestion1 + ", securityAnswer1=" + securityAnswer1
+            + ", securityQuestion2=" + securityQuestion2 + ", securityAnswer2=" + securityAnswer2 + ", birthdate="
+            + birthdate + ", contacts=" + contacts + "]";
+    }
+
 }

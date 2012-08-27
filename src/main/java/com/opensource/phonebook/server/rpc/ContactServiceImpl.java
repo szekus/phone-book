@@ -1,6 +1,7 @@
 package com.opensource.phonebook.server.rpc;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,7 +63,6 @@ public class ContactServiceImpl extends BaseRPC implements ContactService
         newContact.setEditedDate(contactDto.getEditedDate());
         // ***************************************************
         newContact.setCompanyId(contactDto.getCompanyId());
-        newContact.setAdmin(contactDto.isAdmin());
         newContact.setBirthDate(contactDto.getBirthDate());
         // ***************************************************
         ContactEntity contactEntity = contactDao.createContactEntity(newContact);
@@ -77,9 +77,60 @@ public class ContactServiceImpl extends BaseRPC implements ContactService
     }
 
     @Transactional
-    public void update(ContactDTO record)
+    public void update(ContactDTO contactDto)
     {
-        // TODO Auto-generated method stub
+        UserEntity user = new UserEntity();
+        user.setId(contactDto.getUserId());
+
+        ContactEntity newContact = contactDao.getContactEntity(contactDto.getId());
+        newContact.setUser(user);
+        newContact.setId(contactDto.getId());
+
+        newContact.setPrefix(contactDto.getPrefix()); // not required
+        if (contactDto.getFirstName() != null)
+        {
+            newContact.setFirstName(contactDto.getFirstName());
+        }
+        if (contactDto.getMiddleName() != null)
+        {
+            newContact.setMiddleName(contactDto.getMiddleName());
+        }
+        if (contactDto.getLastName() != null)
+        {
+            newContact.setLastName(contactDto.getLastName());
+        }
+        newContact.setSuffix(contactDto.getSuffix()); // not required
+        // ***************************************************
+        if (contactDto.getAddress1() != null)
+        {
+            newContact.setAddress1(contactDto.getAddress1());
+        }
+        newContact.setAddress2(contactDto.getAddress2()); // not required
+        if (contactDto.getCity() != null)
+        {
+            newContact.setCity(contactDto.getCity());
+        }
+        if (contactDto.getState() != null)
+        {
+            newContact.setState(contactDto.getState());
+        }
+        if (contactDto.getZip() != null)
+        {
+            newContact.setZip(contactDto.getZip());
+        }
+        // ***************************************************
+        // newContact.setEnteredBy(contactDto.getEditedBy());
+        // newContact.setEnteredDate(contactDto.getEnteredDate());
+        newContact.setEditedBy(contactDto.getUserId());
+        newContact.setEditedDate(new Date());
+        // ***************************************************
+        newContact.setCompanyId(contactDto.getCompanyId());
+        if (contactDto.getBirthDate() != null)
+        {
+            newContact.setBirthDate(contactDto.getBirthDate());
+        }
+        // ***************************************************
+        contactDao.saveContactEntity(newContact);
     }
 
     @Transactional

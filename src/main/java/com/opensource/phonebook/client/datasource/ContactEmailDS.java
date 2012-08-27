@@ -47,21 +47,21 @@ public class ContactEmailDS extends GwtRpcDataSource
         super();
         setID("ContactEmailsGwtRpcDataSource");
 
-        contactIdField = new DataSourceIntegerField(Constants.EMAIL_CONTACT_ID, null);
+        contactIdField = new DataSourceIntegerField(Constants.C_EMAIL_CONTACT_ID, null);
         contactIdField.setCanEdit(false);
         contactIdField.setHidden(true);
 
-        contactEmailIdField = new DataSourceIntegerField(Constants.EMAIL_ID, null);
+        contactEmailIdField = new DataSourceIntegerField(Constants.C_EMAIL_ID, null);
         contactEmailIdField.setPrimaryKey(true);
         contactEmailIdField.setCanEdit(false);
         contactEmailIdField.setHidden(true);
 
-        emailField = new DataSourceTextField(Constants.EMAIL_ADDRESS, Constants.TITLE_EMAIL_ADDRESS);
+        emailField = new DataSourceTextField(Constants.C_EMAIL_ADDRESS, Constants.TITLE_C_EMAIL_ADDRESS);
 
-        emailTypeIdField = new DataSourceTextField(Constants.EMAIL_TYPE_ID, Constants.TITLE_EMAIL_TYPE_ID);
+        emailTypeIdField = new DataSourceTextField(Constants.C_EMAIL_TYPE_ID, Constants.TITLE_C_EMAIL_TYPE_ID);
 
         enteredDateField =
-            new DataSourceDateTimeField(Constants.EMAIL_ENTERED_DATE, Constants.TITLE_EMAIL_ENTERED_DATE);
+            new DataSourceDateTimeField(Constants.C_EMAIL_ENTERED_DATE, Constants.TITLE_C_EMAIL_ENTERED_DATE);
 
         setFields(contactIdField, contactEmailIdField, emailField, emailTypeIdField, enteredDateField);
     }
@@ -136,7 +136,7 @@ public class ContactEmailDS extends GwtRpcDataSource
         final int startIndex = (request.getStartRow() < 0) ? 0 : request.getStartRow();
         final int endIndex = (request.getEndRow() == null) ? -1 : request.getEndRow();
 
-        String contactId = request.getCriteria().getAttribute("contactId");
+        String contactId = request.getCriteria().getAttribute(Constants.C_EMAIL_CONTACT_ID);
         ContactDTO contactDto = new ContactDTO();
         contactDto.setId(Long.parseLong(contactId));
 
@@ -211,11 +211,11 @@ public class ContactEmailDS extends GwtRpcDataSource
 
     private static void copyValues(ContactEmailDTO from, ListGridRecord to)
     {
-        to.setAttribute(Constants.EMAIL_CONTACT_ID, from.getContactId());
-        to.setAttribute(Constants.EMAIL_ID, from.getEmailId());
-        to.setAttribute(Constants.EMAIL_ADDRESS, from.getEmail());
-        to.setAttribute(Constants.EMAIL_ENTERED_DATE, from.getEnteredDate());
-        to.setAttribute(Constants.EMAIL_TYPE_ID, from.getEmailType().getId());
+        to.setAttribute(Constants.C_EMAIL_CONTACT_ID, from.getContactId());
+        to.setAttribute(Constants.C_EMAIL_ID, from.getEmailId());
+        to.setAttribute(Constants.C_EMAIL_ADDRESS, from.getEmail());
+        to.setAttribute(Constants.C_EMAIL_ENTERED_DATE, from.getEnteredDate());
+        to.setAttribute(Constants.C_EMAIL_TYPE_ID, from.getEmailType().getId());
     }
 
     private ListGridRecord getEditedRecord(DSRequest request)

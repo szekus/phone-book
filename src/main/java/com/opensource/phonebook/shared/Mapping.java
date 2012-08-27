@@ -59,7 +59,9 @@ public class Mapping
             userDTO.setSecurityQuestion1(userEntity.getSecurityQuestion1());
             userDTO.setSecurityQuestion2(userEntity.getSecurityQuestion2());
             userDTO.setUsername(userEntity.getUsername());
+            userDTO.setBirthdate(userEntity.getBirthdate());
         }
+        ;
         return userDTO;
     }
 
@@ -89,7 +91,6 @@ public class Mapping
             contactDTO.setEditedBy(contactEntity.getEditedBy());
             contactDTO.setEditedDate(contactEntity.getEditedDate());
 
-            contactDTO.setAdmin(contactEntity.isAdmin());
             contactDTO.setBirthDate(contactEntity.getBirthDate());
             contactDTO.setCompanyId(contactEntity.getCompanyId());
             // ==============================================================

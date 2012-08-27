@@ -18,8 +18,7 @@ package com.opensource.phonebook.domain;
 // `entered_date` datetime DEFAULT NULL,
 // `edited_by` int(11) DEFAULT NULL,
 // `edited_date` datetime DEFAULT NULL,
-// `birthdate` datetime DEFAULT NULL,
-// `admin` tinyint(1) NOT NULL DEFAULT '0',
+// `birthdate` datetime DEFAULT NULL
 // PRIMARY KEY (`contact_id`),
 // UNIQUE KEY `username_UNIQUE` (`username`)
 // ) ENGINE=InnoDB DEFAULT CHARSET=utf8$$
@@ -124,10 +123,6 @@ public class ContactEntity implements Serializable
 // `birthdate` datetime DEFAULT NULL,
     @Column(name = "birthdate")
     private Date birthDate;
-
-// `admin` tinyint(1) NOT NULL DEFAULT '0',
-    @Column(name = "admin")
-    private boolean admin;
 
     @OneToMany(fetch = FetchType.EAGER)
     @Cascade(
@@ -327,16 +322,6 @@ public class ContactEntity implements Serializable
         this.birthDate = birthDate;
     }
 
-    public boolean isAdmin()
-    {
-        return admin;
-    }
-
-    public void setAdmin(boolean admin)
-    {
-        this.admin = admin;
-    }
-
     public Set<ContactEmailEntity> getEmails()
     {
         return emails;
@@ -374,8 +359,8 @@ public class ContactEntity implements Serializable
             + middleName + ", lastName=" + lastName + ", suffix=" + suffix + ", address1=" + address1 + ", address2="
             + address2 + ", city=" + city + ", state=" + state + ", zip=" + zip + ", companyId=" + companyId
             + ", enteredBy=" + enteredBy + ", enteredDate=" + enteredDate + ", editedBy=" + editedBy + ", editedDate="
-            + editedDate + ", birthDate=" + birthDate + ", admin=" + admin + ", emails=" + emails + ", phones="
-            + phones + ", links=" + links + "]";
+            + editedDate + ", birthDate=" + birthDate + ", emails=" + emails + ", phones=" + phones + ", links="
+            + links + "]";
     }
 
 }

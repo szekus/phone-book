@@ -47,21 +47,21 @@ public class ContactPhoneDS extends GwtRpcDataSource
         super();
         setID("ContactPhonesGwtRpcDataSource");
 
-        contactIdField = new DataSourceIntegerField(Constants.PHONE_CONTACT_ID, null);
+        contactIdField = new DataSourceIntegerField(Constants.C_PHONE_CONTACT_ID, null);
         contactIdField.setCanEdit(false);
         contactIdField.setHidden(true);
 
-        contactPhoneIdField = new DataSourceIntegerField(Constants.PHONE_ID, null);
+        contactPhoneIdField = new DataSourceIntegerField(Constants.C_PHONE_ID, null);
         contactPhoneIdField.setPrimaryKey(true);
         contactPhoneIdField.setCanEdit(false);
         contactPhoneIdField.setHidden(true);
 
-        phoneField = new DataSourceTextField(Constants.PHONE_NUMBER, Constants.TITLE_PHONE_NUMBER);
+        phoneField = new DataSourceTextField(Constants.C_PHONE_NUMBER, Constants.TITLE_C_PHONE_NUMBER);
 
         phoneTypeIdField = new DataSourceTextField(Constants.PHONE_TYPE_ID, Constants.TITLE_PHONE_TYPE_ID);
 
         enteredDateField =
-            new DataSourceDateTimeField(Constants.PHONE_ENTERED_DATE, Constants.TITLE_PHONE_ENTERED_DATE);
+            new DataSourceDateTimeField(Constants.C_PHONE_ENTERED_DATE, Constants.TITLE_C_PHONE_ENTERED_DATE);
 
         setFields(contactIdField, contactPhoneIdField, phoneField, phoneTypeIdField, enteredDateField);
     }
@@ -136,7 +136,7 @@ public class ContactPhoneDS extends GwtRpcDataSource
         final int startIndex = (request.getStartRow() < 0) ? 0 : request.getStartRow();
         final int endIndex = (request.getEndRow() == null) ? -1 : request.getEndRow();
 
-        String contactId = request.getCriteria().getAttribute("contactId");
+        String contactId = request.getCriteria().getAttribute(Constants.C_PHONE_CONTACT_ID);
         ContactDTO contactDto = new ContactDTO();
         contactDto.setId(Long.parseLong(contactId));
 
@@ -211,11 +211,11 @@ public class ContactPhoneDS extends GwtRpcDataSource
 
     private static void copyValues(ContactPhoneDTO from, ListGridRecord to)
     {
-        to.setAttribute(Constants.PHONE_CONTACT_ID, from.getContactId());
-        to.setAttribute(Constants.PHONE_ID, from.getPhoneId());
-        to.setAttribute(Constants.PHONE_NUMBER, from.getPhone());
-        to.setAttribute(Constants.PHONE_ENTERED_DATE, from.getEnteredDate());
-        to.setAttribute(Constants.PHONE_TYPE_ID, from.getPhoneType().getId());
+        to.setAttribute(Constants.C_PHONE_CONTACT_ID, from.getContactId());
+        to.setAttribute(Constants.C_PHONE_ID, from.getPhoneId());
+        to.setAttribute(Constants.C_PHONE_NUMBER, from.getPhone());
+        to.setAttribute(Constants.C_PHONE_ENTERED_DATE, from.getEnteredDate());
+        to.setAttribute(Constants.C_PHONE_TYPE_ID, from.getPhoneType().getId());
     }
 
     private ListGridRecord getEditedRecord(DSRequest request)

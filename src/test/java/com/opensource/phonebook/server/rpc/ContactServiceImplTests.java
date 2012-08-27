@@ -87,7 +87,6 @@ public class ContactServiceImplTests extends TestCase
 
         // contactDto.setCompanyId(companyId);
         contactDto.setBirthDate(birthDate);
-        contactDto.setAdmin(admin);
 
         return contactDto;
     }

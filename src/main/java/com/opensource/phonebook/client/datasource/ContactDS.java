@@ -13,19 +13,19 @@ import com.opensource.phonebook.shared.dto.ContactDTO;
 import com.opensource.phonebook.shared.dto.UserDTO;
 import com.smartgwt.client.data.DSRequest;
 import com.smartgwt.client.data.DSResponse;
-import com.smartgwt.client.data.fields.DataSourceBooleanField;
 import com.smartgwt.client.data.fields.DataSourceDateTimeField;
 import com.smartgwt.client.data.fields.DataSourceIntegerField;
 import com.smartgwt.client.data.fields.DataSourceTextField;
 import com.smartgwt.client.rpc.RPCResponse;
 import com.smartgwt.client.util.JSOHelper;
+import com.smartgwt.client.util.SC;
 import com.smartgwt.client.widgets.grid.ListGridRecord;
 
 public class ContactDS extends GwtRpcDataSource
 {
     private static ContactDS instance = null;
 
-    private final ContactServiceAsync contactService = GWT.create(ContactService.class);
+    private final ContactServiceAsync service = GWT.create(ContactService.class);
 
     public static ContactDS getInstance()
     {
@@ -59,7 +59,6 @@ public class ContactDS extends GwtRpcDataSource
     DataSourceDateTimeField editedDateField;
 
     DataSourceDateTimeField birthDateField;
-    DataSourceBooleanField adminField;
 
     public ContactDS()
     {
@@ -99,11 +98,9 @@ public class ContactDS extends GwtRpcDataSource
 
         birthDateField = new DataSourceDateTimeField(Constants.CONTACT_BIRTHDATE, Constants.TITLE_CONTACT_BIRTHDATE);
 
-        adminField = new DataSourceBooleanField(Constants.CONTACT_ADMIN, Constants.TITLE_CONTACT_ADMIN, 200);
-
         setFields(userIdField, contactIdField, prefixField, firstNameField, middleNameField, lastNameField,
             suffixField, address1Field, address2Field, cityField, stateField, zipField, companyIdField, enteredByField,
-            enteredDateField, editedByField, editedDateField, birthDateField, adminField);
+            enteredDateField, editedByField, editedDateField, birthDateField);
     }
 
     // *************************************************************************************
@@ -117,7 +114,7 @@ public class ContactDS extends GwtRpcDataSource
         ListGridRecord rec = new ListGridRecord(data);
         ContactDTO testRec = new ContactDTO();
         copyValues(rec, testRec);
-        contactService.add(testRec, new AsyncCallback<ContactDTO>()
+        service.add(testRec, new AsyncCallback<ContactDTO>()
         {
             public void onFailure(Throwable caught)
             {
@@ -138,19 +135,20 @@ public class ContactDS extends GwtRpcDataSource
     }
 
     @Override
-    protected void executeRemove(final String requestId, final DSRequest request, final DSResponse response)
+    protected void executeRemove(final String requestId, DSRequest request, final DSResponse response)
     {
-        // Retrieve record which should be removed.
+        // Retrieve record which should be updated
         JavaScriptObject data = request.getData();
         final ListGridRecord rec = new ListGridRecord(data);
         ContactDTO testRec = new ContactDTO();
         copyValues(rec, testRec);
-        contactService.remove(testRec, new AsyncCallback<Void>()
+        service.remove(testRec, new AsyncCallback<Void>()
         {
             public void onFailure(Throwable caught)
             {
                 response.setStatus(RPCResponse.STATUS_FAILURE);
                 processResponse(requestId, response);
+                SC.say("Contact Delete", "Contact has not been deleted!");
             }
 
             public void onSuccess(Void result)
@@ -161,6 +159,7 @@ public class ContactDS extends GwtRpcDataSource
                 list[0] = rec;
                 response.setData(list);
                 processResponse(requestId, response);
+                SC.say("Contact Delete", "Contact has been deleted!");
             }
         });
     }
@@ -180,7 +179,7 @@ public class ContactDS extends GwtRpcDataSource
         UserDTO userDto = new UserDTO();
         userDto.setId(Long.parseLong(userId));
 
-        contactService.fetch(userDto, new AsyncCallback<List<ContactDTO>>()
+        service.fetch(userDto, new AsyncCallback<List<ContactDTO>>()
         {
             public void onFailure(Throwable caught)
             {
@@ -229,9 +228,35 @@ public class ContactDS extends GwtRpcDataSource
     }
 
     @Override
-    protected void executeUpdate(String requestId, DSRequest request, DSResponse response)
+    protected void executeUpdate(final String requestId, DSRequest request, final DSResponse response)
     {
-        // TODO Auto-generated method stub
+        // Retrieve record which should be updated
+        JavaScriptObject data = request.getData();
+        final ListGridRecord rec = new ListGridRecord(data);
+        ContactDTO testRec = new ContactDTO();
+        copyValues(rec, testRec);
+        service.update(testRec, new AsyncCallback<Void>()
+        {
+            @Override
+            public void onFailure(Throwable caught)
+            {
+                response.setStatus(RPCResponse.STATUS_FAILURE);
+                processResponse(requestId, response);
+                SC.say("Contact Edit Save", "Contact edits have NOT been saved!");
+            }
+
+            @Override
+            public void onSuccess(Void result)
+            {
+                ListGridRecord[] list = new ListGridRecord[1];
+                // We do not receive removed record from server.
+                // Return record from request.
+                list[0] = rec;
+                response.setData(list);
+                processResponse(requestId, response);
+                SC.say("Contact Edit Save", "Contact edits have been saved!");
+            }
+        });
     }
 
     // *************************************************************************************
@@ -262,7 +287,6 @@ public class ContactDS extends GwtRpcDataSource
         to.setEditedDate(from.getAttributeAsDate(editedDateField.getName()));
         // ================================================================================
         to.setBirthDate(from.getAttributeAsDate(birthDateField.getName()));
-        to.setAdmin(from.getAttributeAsBoolean(adminField.getName()));
     }
 
     private static void copyValues(ContactDTO from, ListGridRecord to)
@@ -287,7 +311,6 @@ public class ContactDS extends GwtRpcDataSource
         to.setAttribute(Constants.CONTACT_EDITED_BY, from.getEditedBy());
         to.setAttribute(Constants.CONTACT_EDITED_DATE, from.getEditedDate());
         // ================================================================================
-        to.setAttribute(Constants.CONTACT_ADMIN, from.isAdmin());
         to.setAttribute(Constants.CONTACT_BIRTHDATE, from.getBirthDate());
         to.setAttribute(Constants.CONTACT_COMPANY_ID, from.getCompanyId());
     }

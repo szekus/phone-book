@@ -91,6 +91,12 @@ CSS setting below this point
 	background-color:#759e17;
 }
 
+.signupHeaderLabel{
+    color:#483D8B;
+	font-size:16px;
+	font-weight:bold;
+}
+
 .boldLabel{
     color:#759e17;
 	font-size:16px;

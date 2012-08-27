@@ -25,7 +25,6 @@ public class ContactDTO implements Serializable
     private long editedBy;
     private Date editedDate;
     private Date birthDate;
-    private boolean admin;
     private HashSet<ContactEmailDTO> emails;
     private HashSet<ContactPhoneDTO> phones;
     private HashSet<ContactLinkDTO> links;
@@ -210,16 +209,6 @@ public class ContactDTO implements Serializable
         this.birthDate = birthDate;
     }
 
-    public boolean isAdmin()
-    {
-        return admin;
-    }
-
-    public void setAdmin(boolean admin)
-    {
-        this.admin = admin;
-    }
-
     public HashSet<ContactEmailDTO> getEmails()
     {
         return emails;
@@ -257,7 +246,6 @@ public class ContactDTO implements Serializable
         int result = 1;
         result = prime * result + ((address1 == null) ? 0 : address1.hashCode());
         result = prime * result + ((address2 == null) ? 0 : address2.hashCode());
-        result = prime * result + (admin ? 1231 : 1237);
         result = prime * result + ((birthDate == null) ? 0 : birthDate.hashCode());
         result = prime * result + ((city == null) ? 0 : city.hashCode());
         result = prime * result + (int) (companyId ^ (companyId >>> 32));
@@ -303,16 +291,13 @@ public class ContactDTO implements Serializable
                 return false;
         }
         else if (!address2.equals(other.address2))
-            return false;
-        if (admin != other.admin)
-            return false;
-        if (birthDate == null)
-        {
-            if (other.birthDate != null)
+            if (birthDate == null)
+            {
+                if (other.birthDate != null)
+                    return false;
+            }
+            else if (!birthDate.equals(other.birthDate))
                 return false;
-        }
-        else if (!birthDate.equals(other.birthDate))
-            return false;
         if (city == null)
         {
             if (other.city != null)
@@ -424,8 +409,8 @@ public class ContactDTO implements Serializable
             + ", middleName=" + middleName + ", lastName=" + lastName + ", suffix=" + suffix + ", address1=" + address1
             + ", address2=" + address2 + ", city=" + city + ", state=" + state + ", zip=" + zip + ", companyId="
             + companyId + ", enteredBy=" + enteredBy + ", enteredDate=" + enteredDate + ", editedBy=" + editedBy
-            + ", editedDate=" + editedDate + ", birthDate=" + birthDate + ", admin=" + admin + ", emails=" + emails
-            + ", phones=" + phones + ", links=" + links + "]";
+            + ", editedDate=" + editedDate + ", birthDate=" + birthDate + ", emails=" + emails + ", phones=" + phones
+            + ", links=" + links + "]";
     }
 
 }

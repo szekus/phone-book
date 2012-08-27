@@ -1,6 +1,7 @@
 package com.opensource.phonebook.shared.dto;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.HashSet;
 
 @SuppressWarnings("serial")
@@ -18,6 +19,7 @@ public class UserDTO implements Serializable
     private String securityAnswer1;
     private String securityQuestion2;
     private String securityAnswer2;
+    private Date birthdate;
     private HashSet<ContactDTO> contacts;
 
     public long getId()
@@ -150,12 +152,23 @@ public class UserDTO implements Serializable
         this.securityAnswer2 = securityAnswer2;
     }
 
+    public Date getBirthdate()
+    {
+        return birthdate;
+    }
+
+    public void setBirthdate(Date birthdate)
+    {
+        this.birthdate = birthdate;
+    }
+
     @Override
     public int hashCode()
     {
         final int prime = 31;
         int result = 1;
         result = prime * result + (active ? 1231 : 1237);
+        result = prime * result + ((birthdate == null) ? 0 : birthdate.hashCode());
         result = prime * result + ((contacts == null) ? 0 : contacts.hashCode());
         result = prime * result + ((email == null) ? 0 : email.hashCode());
         result = prime * result + ((firstname == null) ? 0 : firstname.hashCode());
@@ -182,6 +195,13 @@ public class UserDTO implements Serializable
             return false;
         UserDTO other = (UserDTO) obj;
         if (active != other.active)
+            return false;
+        if (birthdate == null)
+        {
+            if (other.birthdate != null)
+                return false;
+        }
+        else if (!birthdate.equals(other.birthdate))
             return false;
         if (contacts == null)
         {
@@ -271,8 +291,8 @@ public class UserDTO implements Serializable
         return "UserDTO [id=" + id + ", active=" + active + ", position=" + position + ", username=" + username
             + ", password=" + password + ", firstname=" + firstname + ", lastname=" + lastname + ", email=" + email
             + ", securityQuestion1=" + securityQuestion1 + ", securityAnswer1=" + securityAnswer1
-            + ", securityQuestion2=" + securityQuestion2 + ", securityAnswer2=" + securityAnswer2 + ", contacts="
-            + contacts + "]";
+            + ", securityQuestion2=" + securityQuestion2 + ", securityAnswer2=" + securityAnswer2 + ", birthdate="
+            + birthdate + ", contacts=" + contacts + "]";
     }
 
 }

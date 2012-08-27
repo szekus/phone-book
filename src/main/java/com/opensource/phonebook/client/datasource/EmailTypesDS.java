@@ -116,10 +116,12 @@ public class EmailTypesDS extends GwtRpcDataSource
     @Override
     protected void executeFetch(final String requestId, DSRequest request, final DSResponse response)
     {
-
         // for this example I will do "paging" on client side
-        final int startIndex = (request.getStartRow() < 0) ? 0 : request.getStartRow();
-        final int endIndex = (request.getEndRow() == null) ? -1 : request.getEndRow();
+        // final int startIndex = (request.getStartRow() < 0) ? 0 : request.getStartRow();
+        // final int endIndex = (request.getEndRow() == null) ? -1 : request.getEndRow();
+
+        final int startIndex = 0;
+        final int endIndex = 10;
 
         service.fetch(new AsyncCallback<List<EmailTypeDTO>>()
         {

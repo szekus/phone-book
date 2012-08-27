@@ -47,20 +47,21 @@ public class ContactLinkDS extends GwtRpcDataSource
         super();
         setID("ContactLinksGwtRpcDataSource");
 
-        contactIdField = new DataSourceIntegerField(Constants.LINK_CONTACT_ID, null);
+        contactIdField = new DataSourceIntegerField(Constants.C_LINK_CONTACT_ID, null);
         contactIdField.setCanEdit(false);
         contactIdField.setHidden(true);
 
-        contactLinkIdField = new DataSourceIntegerField(Constants.LINK_ID, null);
+        contactLinkIdField = new DataSourceIntegerField(Constants.C_LINK_ID, null);
         contactLinkIdField.setPrimaryKey(true);
         contactLinkIdField.setCanEdit(false);
         contactLinkIdField.setHidden(true);
 
-        linkField = new DataSourceTextField(Constants.LINK_URL, Constants.TITLE_LINK_URL);
+        linkField = new DataSourceTextField(Constants.C_LINK_URL, Constants.TITLE_C_LINK_URL);
 
         linkTypeIdField = new DataSourceTextField(Constants.LINK_TYPE_ID, Constants.TITLE_LINK_TYPE_ID);
 
-        enteredDateField = new DataSourceDateTimeField(Constants.LINK_ENTERED_DATE, Constants.TITLE_LINK_ENTERED_DATE);
+        enteredDateField =
+            new DataSourceDateTimeField(Constants.C_LINK_ENTERED_DATE, Constants.TITLE_C_LINK_ENTERED_DATE);
 
         setFields(contactIdField, contactLinkIdField, linkField, linkTypeIdField, enteredDateField);
     }
@@ -135,7 +136,7 @@ public class ContactLinkDS extends GwtRpcDataSource
         final int startIndex = (request.getStartRow() < 0) ? 0 : request.getStartRow();
         final int endIndex = (request.getEndRow() == null) ? -1 : request.getEndRow();
 
-        String contactId = request.getCriteria().getAttribute("contactId");
+        String contactId = request.getCriteria().getAttribute(Constants.C_LINK_CONTACT_ID);
         ContactDTO contactDto = new ContactDTO();
         contactDto.setId(Long.parseLong(contactId));
 
@@ -210,11 +211,11 @@ public class ContactLinkDS extends GwtRpcDataSource
 
     private static void copyValues(ContactLinkDTO from, ListGridRecord to)
     {
-        to.setAttribute(Constants.LINK_CONTACT_ID, from.getContactId());
-        to.setAttribute(Constants.LINK_ID, from.getLinkId());
-        to.setAttribute(Constants.LINK_URL, from.getLink());
-        to.setAttribute(Constants.LINK_ENTERED_DATE, from.getEnteredDate());
-        to.setAttribute(Constants.LINK_TYPE_ID, from.getLinkType().getId());
+        to.setAttribute(Constants.C_LINK_CONTACT_ID, from.getContactId());
+        to.setAttribute(Constants.C_LINK_ID, from.getLinkId());
+        to.setAttribute(Constants.C_LINK_URL, from.getLink());
+        to.setAttribute(Constants.C_LINK_ENTERED_DATE, from.getEnteredDate());
+        to.setAttribute(Constants.C_LINK_TYPE_ID, from.getLinkType().getId());
     }
 
     private ListGridRecord getEditedRecord(DSRequest request)

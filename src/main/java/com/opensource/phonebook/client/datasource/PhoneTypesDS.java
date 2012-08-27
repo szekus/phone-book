@@ -8,6 +8,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.opensource.phonebook.client.services.PhoneTypeService;
 import com.opensource.phonebook.client.services.PhoneTypeServiceAsync;
 import com.opensource.phonebook.client.utils.datasource.GwtRpcDataSource;
+import com.opensource.phonebook.shared.Constants;
 import com.opensource.phonebook.shared.dto.PhoneTypeDTO;
 import com.smartgwt.client.data.DSRequest;
 import com.smartgwt.client.data.DSResponse;
@@ -43,11 +44,14 @@ public class PhoneTypesDS extends GwtRpcDataSource
         super();
         setID("PhoneTypesGWTRPCDataSource");
 
-        phoneTypeIdField = new DataSourceIntegerField("phoneTypeId", null);
+        phoneTypeIdField = new DataSourceIntegerField(Constants.PHONE_TYPE_ID, Constants.TITLE_PHONE_TYPE_ID);
         phoneTypeIdField.setPrimaryKey(true);
+        phoneTypeIdField.setCanEdit(false);
 
-        phoneTypeActiveField = new DataSourceBooleanField("phoneTypeActive", null);
-        phoneTypeDescriptionField = new DataSourceTextField("phoneTypeDescription", null);
+        phoneTypeActiveField =
+            new DataSourceBooleanField(Constants.PHONE_TYPE_ACTIVE, Constants.TITLE_PHONE_TYPE_ACTIVE);
+        phoneTypeDescriptionField =
+            new DataSourceTextField(Constants.PHONE_TYPE_DESCRIPTION, Constants.TITLE_PHONE_TYPE_DESCRIPTION);
 
         setFields(phoneTypeIdField, phoneTypeDescriptionField, phoneTypeActiveField);
 
@@ -117,8 +121,11 @@ public class PhoneTypesDS extends GwtRpcDataSource
     protected void executeFetch(final String requestId, DSRequest request, final DSResponse response)
     {
         // for this example I will do "paging" on client side
-        final int startIndex = (request.getStartRow() < 0) ? 0 : request.getStartRow();
-        final int endIndex = (request.getEndRow() == null) ? -1 : request.getEndRow();
+        // final int startIndex = (request.getStartRow() < 0) ? 0 : request.getStartRow();
+        // final int endIndex = (request.getEndRow() == null) ? -1 : request.getEndRow();
+
+        final int startIndex = 0;
+        final int endIndex = 10;
 
         service.fetch(new AsyncCallback<List<PhoneTypeDTO>>()
         {
@@ -165,9 +172,7 @@ public class PhoneTypesDS extends GwtRpcDataSource
                 response.setTotalRows(result.size());
                 processResponse(requestId, response);
             }
-
         });
-
     }
 
     @Override
@@ -187,16 +192,16 @@ public class PhoneTypesDS extends GwtRpcDataSource
 
     private void copyValues(ListGridRecord from, PhoneTypeDTO to)
     {
-        to.setId(from.getAttributeAsInt(phoneTypeIdField.getAttribute("phoneTypeId")));
+        to.setId(from.getAttributeAsInt(phoneTypeIdField.getName()));
         to.setDescription(from.getAttributeAsString(phoneTypeDescriptionField.getName()));
         to.setActive(from.getAttributeAsBoolean(phoneTypeActiveField.getName()));
     }
 
     private static void copyValues(PhoneTypeDTO from, ListGridRecord to)
     {
-        to.setAttribute("phoneTypeId", from.getId());
-        to.setAttribute("phoneTypeActive", from.isActive());
-        to.setAttribute("phoneTypeDescription", from.getDescription());
+        to.setAttribute(Constants.PHONE_TYPE_ID, from.getId());
+        to.setAttribute(Constants.PHONE_TYPE_ACTIVE, from.isActive());
+        to.setAttribute(Constants.PHONE_TYPE_DESCRIPTION, from.getDescription());
     }
 
     private ListGridRecord getEditedRecord(DSRequest request)
