@@ -12,8 +12,6 @@ public interface ContactPhoneServiceAsync
 
     void remove(ContactPhoneDTO record, AsyncCallback<Void> callback);
 
-    void update(ContactPhoneDTO record, AsyncCallback<Void> callback);
-
     void fetch(ContactPhoneDTO record, AsyncCallback<List<ContactPhoneDTO>> callback);
 
     void fetch(ContactDTO record, AsyncCallback<List<ContactPhoneDTO>> callback);
@@ -21,5 +19,7 @@ public interface ContactPhoneServiceAsync
     void fetch(AsyncCallback<List<ContactPhoneDTO>> callback);
 
     void fetch(long id, AsyncCallback<ContactPhoneDTO> callback);
+
+    void update(ContactPhoneDTO testRec, AsyncCallback<ContactPhoneDTO> asyncCallback);
 
 }

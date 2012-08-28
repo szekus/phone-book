@@ -173,7 +173,7 @@ public class Mapping
         if (contactEmailEntity != null)
         {
             contactEmailDTO = new ContactEmailDTO();
-            contactEmailDTO.setContactId(contactEmailEntity.getEmailType().getId());
+            contactEmailDTO.setContactId(contactEmailEntity.getContact().getId());
             contactEmailDTO.setEmail(contactEmailEntity.getEmail());
             contactEmailDTO.setEmailId(contactEmailEntity.getEmailId());
             contactEmailDTO.setEmailType(createEmailType(contactEmailEntity.getEmailType()));
@@ -201,7 +201,7 @@ public class Mapping
         if (contactLinkEntity != null)
         {
             contactLinkDTO = new ContactLinkDTO();
-            contactLinkDTO.setContactId(contactLinkEntity.getLinkType().getId());
+            contactLinkDTO.setContactId(contactLinkEntity.getContact().getId());
             contactLinkDTO.setLink(contactLinkEntity.getLink());
             contactLinkDTO.setLinkId(contactLinkEntity.getLinkId());
             contactLinkDTO.setLinkType(createLinkType(contactLinkEntity.getLinkType()));
@@ -229,7 +229,7 @@ public class Mapping
         if (contactPhoneEntity != null)
         {
             contactPhoneDTO = new ContactPhoneDTO();
-            contactPhoneDTO.setContactId(contactPhoneEntity.getPhoneType().getId());
+            contactPhoneDTO.setContactId(contactPhoneEntity.getContact().getId());
             contactPhoneDTO.setPhone(contactPhoneEntity.getPhone());
             contactPhoneDTO.setPhoneId(contactPhoneEntity.getPhoneId());
             contactPhoneDTO.setPhoneType(createPhoneType(contactPhoneEntity.getPhoneType()));

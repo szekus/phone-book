@@ -61,16 +61,36 @@ public class ContactPhoneServiceImpl extends BaseRPC implements ContactPhoneServ
 
     @Transactional
     @Override
-    public void remove(ContactPhoneDTO record)
+    public void remove(ContactPhoneDTO contactPhoneDto)
     {
-        // TODO Auto-generated method stub
+        ContactPhoneEntity contactPhoneEntity = new ContactPhoneEntity();
+        contactPhoneEntity.setPhoneId(contactPhoneDto.getPhoneId());
+        contactPhoneDao.deleteContactPhoneEntity(contactPhoneEntity);
     }
 
     @Transactional
     @Override
-    public void update(ContactPhoneDTO record)
+    public ContactPhoneDTO update(ContactPhoneDTO contactPhoneDto)
     {
-        // TODO Auto-generated method stub
+        ContactPhoneEntity contactPhone = contactPhoneDao.getContactPhoneEntity(contactPhoneDto.getPhoneId());
+        contactPhone.setPhoneId(contactPhoneDto.getPhoneId());
+
+        if (contactPhoneDto.getEnteredDate() != null)
+        {
+            contactPhone.setEnteredDate(contactPhoneDto.getEnteredDate());
+        }
+        if (contactPhoneDto.getPhone() != null)
+        {
+            contactPhone.setPhone(contactPhoneDto.getPhone());
+        }
+        if (contactPhoneDto.getPhoneType() != null)
+        {
+            PhoneTypeEntity phoneType = new PhoneTypeEntity();
+            phoneType.setId(contactPhoneDto.getPhoneType().getId());
+            contactPhone.setPhoneType(phoneType);
+        }
+        contactPhone = contactPhoneDao.saveContactPhoneEntity(contactPhone);
+        return Mapping.createContactPhone(contactPhone);
     }
 
     @Transactional

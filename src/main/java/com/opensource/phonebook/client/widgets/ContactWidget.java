@@ -14,9 +14,11 @@ import com.opensource.phonebook.shared.dto.UserDTO;
 import com.smartgwt.client.data.Criteria;
 import com.smartgwt.client.data.Record;
 import com.smartgwt.client.types.Alignment;
+import com.smartgwt.client.types.ListGridFieldType;
 import com.smartgwt.client.types.Overflow;
 import com.smartgwt.client.types.VerticalAlignment;
 import com.smartgwt.client.types.VisibilityMode;
+import com.smartgwt.client.util.BooleanCallback;
 import com.smartgwt.client.util.SC;
 import com.smartgwt.client.widgets.IButton;
 import com.smartgwt.client.widgets.Label;
@@ -82,7 +84,24 @@ public class ContactWidget extends HLayout
     private TextItem editedByField = new TextItem(Constants.CONTACT_EDITED_BY);
     private DateItem editedDateField = new DateItem(Constants.CONTACT_EDITED_DATE);
 
+    private IButton addPhoneButton = new IButton("Add Phone");
+    private IButton addEmailButton = new IButton("Add Email");
+    private IButton addLinkButton = new IButton("Add Link");
+
     private ListGrid contactListGrid = new ListGrid();
+
+    private ListGridField phoneContactIdField = new ListGridField(Constants.C_PHONE_CONTACT_ID,
+        Constants.TITLE_C_PHONE_CONTACT_ID);
+    private ListGridField phoneIdField = new ListGridField(Constants.C_PHONE_ID, Constants.TITLE_C_PHONE_ID);
+    private ListGridField phoneField = new ListGridField(Constants.C_PHONE_NUMBER, Constants.TITLE_C_PHONE_NUMBER);
+    private ListGridField phoneTypeField =
+        new ListGridField(Constants.C_PHONE_TYPE_ID, Constants.TITLE_C_PHONE_TYPE_ID);
+    private ListGridField phoneEnteredDateField = new ListGridField(Constants.C_PHONE_ENTERED_DATE,
+        Constants.TITLE_C_PHONE_ENTERED_DATE);
+
+    private ListGridField emailField = new ListGridField(Constants.C_EMAIL_ADDRESS, Constants.TITLE_C_EMAIL_ADDRESS);
+
+    private ListGridField linkField = new ListGridField(Constants.C_LINK_URL, Constants.TITLE_C_LINK_URL);
 
     public ContactWidget(UserDTO userDto)
     {
@@ -97,6 +116,16 @@ public class ContactWidget extends HLayout
 
         addMember(getContactGridFormLayout());
         addMember(getContactGridsLayout());
+    }
+
+    private HLayout getSpacerLayout()
+    {
+        HLayout spacerLayout = new HLayout();
+        // spacerLayout.setBorder("5px solid black");
+        Label spacerLabel = new Label();
+        spacerLabel.setContents("&nbsp;");
+        spacerLayout.addMember(spacerLabel);
+        return spacerLayout;
     }
 
     private VLayout getContactGridsLayout()
@@ -135,8 +164,63 @@ public class ContactWidget extends HLayout
         gridSectionStack.addSection(sectionLinks);
 
         contactGridsLayout.addMember(gridSectionStack);
+        contactGridsLayout.addMember(getGridButtonLayout());
 
         return contactGridsLayout;
+    }
+
+    private HLayout getGridButtonLayout()
+    {
+        HLayout gridButtonLayout = new HLayout();
+        gridButtonLayout.setAlign(Alignment.CENTER);
+        gridButtonLayout.setLayoutAlign(VerticalAlignment.CENTER);
+        // gridButtonLayout.setBorder("5px solid red");
+
+        addPhoneButton.setDisabled(true);
+        addPhoneButton.setAlign(Alignment.CENTER);
+        addPhoneButton.setValign(VerticalAlignment.CENTER);
+        addPhoneButton.addClickHandler(new ClickHandler()
+        {
+            @Override
+            public void onClick(ClickEvent event)
+            {
+                phonesListGrid.startEditingNew();
+            }
+        });
+
+        addEmailButton.setDisabled(true);
+        addEmailButton.setAlign(Alignment.CENTER);
+        addEmailButton.setValign(VerticalAlignment.CENTER);
+        addEmailButton.addClickHandler(new ClickHandler()
+        {
+            @Override
+            public void onClick(ClickEvent event)
+            {
+                emailsListGrid.startEditingNew();
+            }
+        });
+
+        addLinkButton.setDisabled(true);
+        addLinkButton.setAlign(Alignment.CENTER);
+        addLinkButton.setValign(VerticalAlignment.CENTER);
+        addLinkButton.addClickHandler(new ClickHandler()
+        {
+            @Override
+            public void onClick(ClickEvent event)
+            {
+                linksListGrid.startEditingNew();
+            }
+        });
+
+        gridButtonLayout.addMember(getSpacerLayout());
+        gridButtonLayout.addMember(addPhoneButton);
+        gridButtonLayout.addMember(getSpacerLayout());
+        gridButtonLayout.addMember(addEmailButton);
+        gridButtonLayout.addMember(getSpacerLayout());
+        gridButtonLayout.addMember(addLinkButton);
+        gridButtonLayout.addMember(getSpacerLayout());
+
+        return gridButtonLayout;
     }
 
     private ListGrid gridPhones()
@@ -146,28 +230,77 @@ public class ContactWidget extends HLayout
         phonesListGrid.setInitialCriteria(new Criteria(Constants.C_PHONE_CONTACT_ID, contactId));
         phonesListGrid.setDataSource(contactPhoneDS);
         phonesListGrid.setPadding(GRID_PADDING);
+        // phonesListGrid.setAlwaysShowEditors(true);
 
-        ListGridField phoneField = new ListGridField(Constants.C_PHONE_NUMBER, Constants.TITLE_C_PHONE_NUMBER);
+        phoneContactIdField.setCanEdit(false);
+        phoneContactIdField.setHidden(true);
+        phoneContactIdField.setType(ListGridFieldType.INTEGER);
+
+        phoneIdField.setCanEdit(false);
+        phoneIdField.setHidden(true);
+        phoneIdField.setDefaultValue(0);
+
         phoneField.setCanEdit(true);
+        phoneField.setWidth(100);
 
         SelectItem phoneTypeList = new SelectItem();
         phoneTypeList.setOptionDataSource(phoneTypesDS);
         phoneTypeList.setValueField(Constants.PHONE_TYPE_ID);
         phoneTypeList.setDisplayField(Constants.PHONE_TYPE_DESCRIPTION);
 
-        ListGridField phoneTypeField = new ListGridField(Constants.C_PHONE_TYPE_ID, Constants.TITLE_C_PHONE_TYPE_ID);
         phoneTypeField.setOptionDataSource(phoneTypesDS);
         phoneTypeField.setEditorType(phoneTypeList);
         phoneTypeField.setValueField(Constants.PHONE_TYPE_ID);
         phoneTypeField.setDisplayField(Constants.PHONE_TYPE_DESCRIPTION);
         phoneTypeField.setAutoFetchDisplayMap(true);
         phoneTypeField.setCanEdit(true);
+        phoneTypeField.setWidth(100);
+        phoneTypeField.setType(ListGridFieldType.INTEGER);
 
-        ListGridField enteredDateField =
-            new ListGridField(Constants.C_PHONE_ENTERED_DATE, Constants.TITLE_C_PHONE_ENTERED_DATE);
-        enteredDateField.setCanEdit(false);
+        phoneEnteredDateField.setCanEdit(false);
+        phoneEnteredDateField.setWidth(150);
+        phoneEnteredDateField.setDefaultValue(new Date());
+        phoneEnteredDateField.setType(ListGridFieldType.DATE);
 
-        phonesListGrid.setFields(phoneField, phoneTypeField, enteredDateField);
+        ListGridField phoneDeleteField = new ListGridField("deletePhoneField", 50);
+        phoneDeleteField.setAlign(Alignment.CENTER);
+        phoneDeleteField.setType(ListGridFieldType.ICON);
+        phoneDeleteField.setIcon("silk/delete.png");
+        phoneDeleteField.setCanEdit(false);
+
+        phoneDeleteField.addRecordClickHandler(new RecordClickHandler()
+        {
+            public void onRecordClick(RecordClickEvent event)
+            {
+                // SC.say("Remove Facet");
+                final ListGridRecord selectedRecord = phonesListGrid.getSelectedRecord();
+                if (selectedRecord != null)
+                {
+                    SC.confirm("Are you sure that you want to delete this record?", new BooleanCallback()
+                    {
+                        public void execute(Boolean value)
+                        {
+                            if (value != null && value)
+                            {
+                                // *** proceed with delete
+                                phonesListGrid.removeData(selectedRecord);
+                            }
+                            else
+                            {
+                                // Cancel
+                            }
+                        }
+                    });
+                }
+                else
+                {
+                    SC.say("Select a record before performing this action");
+                }
+            }
+        });
+
+        phonesListGrid.setFields(phoneContactIdField, phoneIdField, phoneField, phoneTypeField, phoneEnteredDateField,
+            phoneDeleteField);
         phonesListGrid.setAutoFetchDisplayMap(true);
         phonesListGrid.setAutoFetchData(true);
 
@@ -182,7 +315,6 @@ public class ContactWidget extends HLayout
         emailsListGrid.setDataSource(contactEmailDS);
         emailsListGrid.setPadding(GRID_PADDING);
 
-        ListGridField emailField = new ListGridField(Constants.C_EMAIL_ADDRESS, Constants.TITLE_C_EMAIL_ADDRESS);
         emailField.setCanEdit(true);
 
         SelectItem emailTypeList = new SelectItem();
@@ -217,7 +349,6 @@ public class ContactWidget extends HLayout
         linksListGrid.setDataSource(contactLinkDS);
         linksListGrid.setPadding(GRID_PADDING);
 
-        ListGridField linkField = new ListGridField(Constants.C_LINK_URL, Constants.TITLE_C_LINK_URL);
         linkField.setCanEdit(true);
 
         SelectItem linkTypeList = new SelectItem();
@@ -295,12 +426,18 @@ public class ContactWidget extends HLayout
 
                 phonesListGrid.setCriteria(new Criteria(Constants.C_PHONE_CONTACT_ID, contactId));
                 phonesListGrid.invalidateCache();
+                phoneContactIdField.setDefaultValue(contactId);
+                addPhoneButton.setDisabled(false);
 
                 emailsListGrid.setCriteria(new Criteria(Constants.C_EMAIL_CONTACT_ID, contactId));
                 emailsListGrid.invalidateCache();
+                // emailContactIdField.setDefaultValue(contactId);
+                addEmailButton.setDisabled(false);
 
                 linksListGrid.setCriteria(new Criteria(Constants.C_LINK_CONTACT_ID, contactId));
                 linksListGrid.invalidateCache();
+                // linkContactIdField.setDefaultValue(contactId);
+                addLinkButton.setDisabled(false);
 
                 contactForm.reset();
                 contactForm.editSelectedData(contactListGrid);
@@ -429,12 +566,6 @@ public class ContactWidget extends HLayout
         buttonLayout.setAlign(Alignment.CENTER);
         buttonLayout.setLayoutAlign(VerticalAlignment.CENTER);
 
-        HLayout spacerLayout = new HLayout();
-        // spacerLayout.setBorder("5px solid black");
-        Label spacerLabel = new Label();
-        spacerLabel.setContents("&nbsp;");
-        spacerLayout.addMember(spacerLabel);
-
         IButton saveButton = new IButton("Save");
         saveButton.setAlign(Alignment.CENTER);
         saveButton.setValign(VerticalAlignment.CENTER);
@@ -534,9 +665,9 @@ public class ContactWidget extends HLayout
         });
 
         buttonLayout.addMember(addnewButton);
-        buttonLayout.addMember(spacerLayout);
+        buttonLayout.addMember(getSpacerLayout());
         buttonLayout.addMember(saveButton);
-        buttonLayout.addMember(spacerLayout);
+        buttonLayout.addMember(getSpacerLayout());
         buttonLayout.addMember(deleteButton);
 
         contactFormLayout.addMember(contactForm);

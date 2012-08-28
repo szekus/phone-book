@@ -19,6 +19,8 @@ import com.smartgwt.client.data.fields.DataSourceIntegerField;
 import com.smartgwt.client.data.fields.DataSourceTextField;
 import com.smartgwt.client.rpc.RPCResponse;
 import com.smartgwt.client.util.JSOHelper;
+import com.smartgwt.client.widgets.Canvas;
+import com.smartgwt.client.widgets.grid.ListGrid;
 import com.smartgwt.client.widgets.grid.ListGridRecord;
 
 public class ContactPhoneDS extends GwtRpcDataSource
@@ -38,7 +40,7 @@ public class ContactPhoneDS extends GwtRpcDataSource
 
     DataSourceIntegerField contactIdField;
     DataSourceIntegerField contactPhoneIdField;
-    DataSourceTextField phoneTypeIdField;
+    DataSourceIntegerField phoneTypeIdField;
     DataSourceTextField phoneField;
     DataSourceDateTimeField enteredDateField;
 
@@ -58,7 +60,7 @@ public class ContactPhoneDS extends GwtRpcDataSource
 
         phoneField = new DataSourceTextField(Constants.C_PHONE_NUMBER, Constants.TITLE_C_PHONE_NUMBER);
 
-        phoneTypeIdField = new DataSourceTextField(Constants.PHONE_TYPE_ID, Constants.TITLE_PHONE_TYPE_ID);
+        phoneTypeIdField = new DataSourceIntegerField(Constants.C_PHONE_TYPE_ID, Constants.TITLE_C_PHONE_TYPE_ID);
 
         enteredDateField =
             new DataSourceDateTimeField(Constants.C_PHONE_ENTERED_DATE, Constants.TITLE_C_PHONE_ENTERED_DATE);
@@ -189,9 +191,37 @@ public class ContactPhoneDS extends GwtRpcDataSource
     }
 
     @Override
-    protected void executeUpdate(String requestId, DSRequest request, DSResponse response)
+    protected void executeUpdate(final String requestId, DSRequest request, final DSResponse response)
     {
-        // TODO Auto-generated method stub
+        // Retrieve record which should be added.
+        // Retrieve record which should be updated.
+        JavaScriptObject data = request.getData();
+        ListGridRecord rec = new ListGridRecord(data);
+        // Find grid
+        ListGrid grid = (ListGrid) Canvas.getById(request.getComponentId());
+        // Get record with old and new values combined
+        int index = grid.getRecordIndex(rec);
+        rec = (ListGridRecord) grid.getEditedRecord(index);
+        ContactPhoneDTO testRec = new ContactPhoneDTO();
+        copyValues(rec, testRec);
+        contactPhoneService.update(testRec, new AsyncCallback<ContactPhoneDTO>()
+        {
+            public void onFailure(Throwable caught)
+            {
+                response.setStatus(RPCResponse.STATUS_FAILURE);
+                processResponse(requestId, response);
+            }
+
+            public void onSuccess(ContactPhoneDTO result)
+            {
+                ListGridRecord[] list = new ListGridRecord[1];
+                ListGridRecord updRec = new ListGridRecord();
+                copyValues(result, updRec);
+                list[0] = updRec;
+                response.setData(list);
+                processResponse(requestId, response);
+            }
+        });
     }
 
     // *************************************************************************************
@@ -199,14 +229,22 @@ public class ContactPhoneDS extends GwtRpcDataSource
 
     private void copyValues(ListGridRecord from, ContactPhoneDTO to)
     {
-        to.setContactId(from.getAttributeAsInt(contactIdField.getName()));
+        String contactId = from.getAttributeAsString(contactIdField.getName());
+        if (contactId != null)
+        {
+            to.setContactId(Long.parseLong(contactId));
+        }
         to.setPhoneId(from.getAttributeAsInt(contactPhoneIdField.getName()));
         to.setPhone(from.getAttributeAsString(phoneField.getName()));
         to.setEnteredDate(from.getAttributeAsDate(enteredDateField.getName()));
         // ================================================================================
-        PhoneTypeDTO phoneType = new PhoneTypeDTO();
-        phoneType.setId(from.getAttributeAsInt(phoneTypeIdField.getName()));
-        to.setPhoneType(phoneType);
+        String phoneTypeId = from.getAttributeAsString(phoneTypeIdField.getName());
+        if (phoneTypeId != null)
+        {
+            PhoneTypeDTO phoneType = new PhoneTypeDTO();
+            phoneType.setId(Long.parseLong(phoneTypeId));
+            to.setPhoneType(phoneType);
+        }
     }
 
     private static void copyValues(ContactPhoneDTO from, ListGridRecord to)

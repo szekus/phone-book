@@ -29,6 +29,7 @@ public class ContactPhoneDaoImpl implements ContactPhoneDao
         this.sessionFactory = sessionFactory;
     }
 
+    @Override
     public ContactPhoneEntity createContactPhoneEntity(ContactPhoneEntity contactPhone)
     {
         // this.getHibernateTemplate().saveOrUpdate(contactPhone);
@@ -36,30 +37,35 @@ public class ContactPhoneDaoImpl implements ContactPhoneDao
         return contactPhone;
     }
 
+    @Override
     public ContactPhoneEntity saveContactPhoneEntity(ContactPhoneEntity contactPhone)
     {
+        // this.getHibernateTemplate().saveOrUpdate(contact);
         this.sessionFactory.getCurrentSession().saveOrUpdate(contactPhone);
         return contactPhone;
     }
 
+    @Override
     public ContactPhoneEntity updateContactPhoneEntity(ContactPhoneEntity contactPhone)
     {
-        // this.getHibernateTemplate().saveOrUpdate(contactPhone);
+        // this.getHibernateTemplate().saveOrUpdate(contact);
         this.sessionFactory.getCurrentSession().merge(contactPhone);
         return contactPhone;
     }
 
+    @Override
     public void deleteContactPhoneEntity(Long contactPhoneId)
     {
         // this.getgetHibernateTemplate()().delete(interest);
     }
 
+    @Override
     public void deleteContactPhoneEntity(ContactPhoneEntity contactPhone)
     {
-        // this.getHibernateTemplate().delete(contactPhone);
         this.sessionFactory.getCurrentSession().delete(contactPhone);
     }
 
+    @Override
     public List<ContactPhoneEntity> getAllContactPhoneEntitys()
     {
         String queryString = "from ContactPhoneEntity";
@@ -68,12 +74,14 @@ public class ContactPhoneDaoImpl implements ContactPhoneDao
         return users;
     }
 
+    @Override
     public ContactPhoneEntity getContactPhoneEntity(long id)
     {
         // return (ContactPhoneEntity)this.getHibernateTemplate().get(ContactPhoneEntity.class, id);
         return (ContactPhoneEntity) this.sessionFactory.getCurrentSession().get(ContactPhoneEntity.class, id);
     }
 
+    @Override
     public List<ContactPhoneEntity> getContactPhoneEntity(ContactPhoneEntity exampleEntity)
     {
         // List<ContactPhoneEntity> users = this.getHibernateTemplate().findByExample(exampleEntity);

@@ -15,7 +15,7 @@ public interface ContactPhoneService extends RemoteService
 
     void remove(ContactPhoneDTO record);
 
-    void update(ContactPhoneDTO record);
+    ContactPhoneDTO update(ContactPhoneDTO record);
 
     List<ContactPhoneDTO> fetch(ContactPhoneDTO record);
 
