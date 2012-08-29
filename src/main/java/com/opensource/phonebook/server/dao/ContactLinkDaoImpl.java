@@ -40,7 +40,7 @@ public class ContactLinkDaoImpl implements ContactLinkDao
     @Override
     public ContactLinkEntity saveContactLinkEntity(ContactLinkEntity contactLink)
     {
-        // this.getHibernateTemplate().saveOrUpdate(contactLink);
+        // this.getHibernateTemplate().saveOrUpdate(contact);
         this.sessionFactory.getCurrentSession().saveOrUpdate(contactLink);
         return contactLink;
     }
@@ -48,7 +48,7 @@ public class ContactLinkDaoImpl implements ContactLinkDao
     @Override
     public ContactLinkEntity updateContactLinkEntity(ContactLinkEntity contactLink)
     {
-        // this.getHibernateTemplate().saveOrUpdate(contactLink);
+        // this.getHibernateTemplate().saveOrUpdate(contact);
         this.sessionFactory.getCurrentSession().merge(contactLink);
         return contactLink;
     }
@@ -62,7 +62,6 @@ public class ContactLinkDaoImpl implements ContactLinkDao
     @Override
     public void deleteContactLinkEntity(ContactLinkEntity contactLink)
     {
-        // this.getHibernateTemplate().delete(contactLink);
         this.sessionFactory.getCurrentSession().delete(contactLink);
     }
 
@@ -96,7 +95,7 @@ public class ContactLinkDaoImpl implements ContactLinkDao
     {
         Query query =
             this.sessionFactory.getCurrentSession().createQuery(
-                "from ContactLinkEntity cee where cee.contact = :contact");
+                "from ContactLinkEntity cpe where cpe.contact = :contact");
         query.setParameter("contact", exampleContactEntity);
         List<ContactLinkEntity> contactLinks = query.list();
         return contactLinks;
@@ -107,7 +106,7 @@ public class ContactLinkDaoImpl implements ContactLinkDao
     {
         Query query =
             this.sessionFactory.getCurrentSession().createQuery(
-                "from ContactLinkEntity cee where cee.contact.id = :contact");
+                "from ContactLinkEntity cpe where cpe.contact.id = :contact");
         query.setParameter("contact", contactId);
         List<ContactLinkEntity> contactLinks = query.list();
         return contactLinks;

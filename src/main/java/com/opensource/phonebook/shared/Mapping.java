@@ -204,6 +204,7 @@ public class Mapping
             contactLinkDTO.setContactId(contactLinkEntity.getContact().getId());
             contactLinkDTO.setLink(contactLinkEntity.getLink());
             contactLinkDTO.setLinkId(contactLinkEntity.getLinkId());
+            contactLinkDTO.setLinkDescription(contactLinkEntity.getLinkDescription());
             contactLinkDTO.setLinkType(createLinkType(contactLinkEntity.getLinkType()));
             contactLinkDTO.setEnteredDate(contactLinkEntity.getEnteredDate());
         }

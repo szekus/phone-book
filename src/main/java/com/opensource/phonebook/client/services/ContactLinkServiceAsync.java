@@ -12,7 +12,7 @@ public interface ContactLinkServiceAsync
 
     void remove(ContactLinkDTO record, AsyncCallback<Void> callback);
 
-    void update(ContactLinkDTO record, AsyncCallback<Void> callback);
+    void update(ContactLinkDTO record, AsyncCallback<ContactLinkDTO> callback);
 
     void fetch(ContactLinkDTO record, AsyncCallback<List<ContactLinkDTO>> callback);
 

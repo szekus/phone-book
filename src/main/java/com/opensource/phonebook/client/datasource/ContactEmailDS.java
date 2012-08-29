@@ -19,6 +19,8 @@ import com.smartgwt.client.data.fields.DataSourceIntegerField;
 import com.smartgwt.client.data.fields.DataSourceTextField;
 import com.smartgwt.client.rpc.RPCResponse;
 import com.smartgwt.client.util.JSOHelper;
+import com.smartgwt.client.widgets.Canvas;
+import com.smartgwt.client.widgets.grid.ListGrid;
 import com.smartgwt.client.widgets.grid.ListGridRecord;
 
 public class ContactEmailDS extends GwtRpcDataSource
@@ -38,7 +40,7 @@ public class ContactEmailDS extends GwtRpcDataSource
 
     DataSourceIntegerField contactIdField;
     DataSourceIntegerField contactEmailIdField;
-    DataSourceTextField emailTypeIdField;
+    DataSourceIntegerField emailTypeIdField;
     DataSourceTextField emailField;
     DataSourceDateTimeField enteredDateField;
 
@@ -56,9 +58,9 @@ public class ContactEmailDS extends GwtRpcDataSource
         contactEmailIdField.setCanEdit(false);
         contactEmailIdField.setHidden(true);
 
-        emailField = new DataSourceTextField(Constants.C_EMAIL_ADDRESS, Constants.TITLE_C_EMAIL_ADDRESS);
+        emailField = new DataSourceTextField(Constants.C_EMAIL, Constants.TITLE_C_EMAIL);
 
-        emailTypeIdField = new DataSourceTextField(Constants.C_EMAIL_TYPE_ID, Constants.TITLE_C_EMAIL_TYPE_ID);
+        emailTypeIdField = new DataSourceIntegerField(Constants.C_EMAIL_TYPE_ID, Constants.TITLE_C_EMAIL_TYPE_ID);
 
         enteredDateField =
             new DataSourceDateTimeField(Constants.C_EMAIL_ENTERED_DATE, Constants.TITLE_C_EMAIL_ENTERED_DATE);
@@ -189,9 +191,37 @@ public class ContactEmailDS extends GwtRpcDataSource
     }
 
     @Override
-    protected void executeUpdate(String requestId, DSRequest request, DSResponse response)
+    protected void executeUpdate(final String requestId, DSRequest request, final DSResponse response)
     {
-        // TODO Auto-generated method stub
+        // Retrieve record which should be added.
+        // Retrieve record which should be updated.
+        JavaScriptObject data = request.getData();
+        ListGridRecord rec = new ListGridRecord(data);
+        // Find grid
+        ListGrid grid = (ListGrid) Canvas.getById(request.getComponentId());
+        // Get record with old and new values combined
+        int index = grid.getRecordIndex(rec);
+        rec = (ListGridRecord) grid.getEditedRecord(index);
+        ContactEmailDTO testRec = new ContactEmailDTO();
+        copyValues(rec, testRec);
+        contactEmailService.update(testRec, new AsyncCallback<ContactEmailDTO>()
+        {
+            public void onFailure(Throwable caught)
+            {
+                response.setStatus(RPCResponse.STATUS_FAILURE);
+                processResponse(requestId, response);
+            }
+
+            public void onSuccess(ContactEmailDTO result)
+            {
+                ListGridRecord[] list = new ListGridRecord[1];
+                ListGridRecord updRec = new ListGridRecord();
+                copyValues(result, updRec);
+                list[0] = updRec;
+                response.setData(list);
+                processResponse(requestId, response);
+            }
+        });
     }
 
     // *************************************************************************************
@@ -199,21 +229,29 @@ public class ContactEmailDS extends GwtRpcDataSource
 
     private void copyValues(ListGridRecord from, ContactEmailDTO to)
     {
-        to.setContactId(from.getAttributeAsInt(contactIdField.getName()));
+        String contactId = from.getAttributeAsString(contactIdField.getName());
+        if (contactId != null)
+        {
+            to.setContactId(Long.parseLong(contactId));
+        }
         to.setEmailId(from.getAttributeAsInt(contactEmailIdField.getName()));
         to.setEmail(from.getAttributeAsString(emailField.getName()));
         to.setEnteredDate(from.getAttributeAsDate(enteredDateField.getName()));
         // ================================================================================
-        EmailTypeDTO emailType = new EmailTypeDTO();
-        emailType.setId(from.getAttributeAsInt(emailTypeIdField.getName()));
-        to.setEmailType(emailType);
+        String emailTypeId = from.getAttributeAsString(emailTypeIdField.getName());
+        if (emailTypeId != null)
+        {
+            EmailTypeDTO emailType = new EmailTypeDTO();
+            emailType.setId(Long.parseLong(emailTypeId));
+            to.setEmailType(emailType);
+        }
     }
 
     private static void copyValues(ContactEmailDTO from, ListGridRecord to)
     {
         to.setAttribute(Constants.C_EMAIL_CONTACT_ID, from.getContactId());
         to.setAttribute(Constants.C_EMAIL_ID, from.getEmailId());
-        to.setAttribute(Constants.C_EMAIL_ADDRESS, from.getEmail());
+        to.setAttribute(Constants.C_EMAIL, from.getEmail());
         to.setAttribute(Constants.C_EMAIL_ENTERED_DATE, from.getEnteredDate());
         to.setAttribute(Constants.C_EMAIL_TYPE_ID, from.getEmailType().getId());
     }

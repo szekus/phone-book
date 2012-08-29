@@ -110,39 +110,41 @@ public class Constants
     public static final String C_PHONE_ID = "contactPhoneId";
     public static final String C_PHONE_TYPE_ID = "contactPhonePhoneTypeId";
     public static final String C_PHONE_ENTERED_DATE = "contactPhoneEnteredDate";
-    public static final String C_PHONE_NUMBER = "contactPhone";
+    public static final String C_PHONE = "contactPhone";
 
     public static final String TITLE_C_PHONE_CONTACT_ID = "Contact Id";
     public static final String TITLE_C_PHONE_ID = "Contact Phone Id";
     public static final String TITLE_C_PHONE_TYPE_ID = "Phone Type";
     public static final String TITLE_C_PHONE_ENTERED_DATE = "Entered Date";
-    public static final String TITLE_C_PHONE_NUMBER = "Phone Number";
+    public static final String TITLE_C_PHONE = "Phone Number";
 
     // Contact Email Form Constants
     public static final String C_EMAIL_CONTACT_ID = "contactEmailContactId";
     public static final String C_EMAIL_ID = "contactEmailId";
     public static final String C_EMAIL_TYPE_ID = "contactEmailEmailTypeId";
     public static final String C_EMAIL_ENTERED_DATE = "contactEmailEnteredDate";
-    public static final String C_EMAIL_ADDRESS = "contactEmail";
+    public static final String C_EMAIL = "contactEmail";
 
     public static final String TITLE_C_EMAIL_CONTACT_ID = "Contact Id";
     public static final String TITLE_C_EMAIL_ID = "Contact Email Id";
     public static final String TITLE_C_EMAIL_TYPE_ID = "Email Type";
     public static final String TITLE_C_EMAIL_ENTERED_DATE = "Entered Date";
-    public static final String TITLE_C_EMAIL_ADDRESS = "Email";
+    public static final String TITLE_C_EMAIL = "Email";
 
     // Contact Link Form Constants
     public static final String C_LINK_CONTACT_ID = "contactLinkContactId";
     public static final String C_LINK_ID = "contactLinkId";
     public static final String C_LINK_TYPE_ID = "contactLinkLinkTypeId";
     public static final String C_LINK_ENTERED_DATE = "contactLinkEnteredDate";
-    public static final String C_LINK_URL = "contactLink";
+    public static final String C_LINK = "contactLink";
+    public static final String C_LINK_DESCRIPTION = "contactLinkDescription";
 
     public static final String TITLE_C_LINK_CONTACT_ID = "Contact Id";
     public static final String TITLE_C_LINK_ID = "Contact Link Id";
     public static final String TITLE_C_LINK_TYPE_ID = "Link Type";
     public static final String TITLE_C_LINK_ENTERED_DATE = "Entered Date";
-    public static final String TITLE_C_LINK_URL = "Link Url";
+    public static final String TITLE_C_LINK = "Link Url";
+    public static final String TITLE_C_LINK_DESCRIPTION = "Link Description";
 
     // Constants for lookup/picklist drop-down types
     public static final String PHONE_TYPE_ID = "phoneTypeId";

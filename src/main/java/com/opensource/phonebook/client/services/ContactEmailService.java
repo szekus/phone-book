@@ -15,7 +15,7 @@ public interface ContactEmailService extends RemoteService
 
     void remove(ContactEmailDTO record);
 
-    void update(ContactEmailDTO record);
+    ContactEmailDTO update(ContactEmailDTO record);
 
     List<ContactEmailDTO> fetch(ContactEmailDTO record);
 

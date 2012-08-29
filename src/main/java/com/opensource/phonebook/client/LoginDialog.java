@@ -55,8 +55,8 @@ public class LoginDialog extends Window
     private DynamicForm signupForm = new DynamicForm();
     private TextItem idField;
     private TextItem usernameField = new TextItem(Constants.USER_USERNAME);
-    private TextItem passwordField = new TextItem(Constants.USER_PASSWORD);
-    private TextItem otherPasswordField = new TextItem(Constants.USER_OTHER_PASSWORD);
+    private PasswordItem passwordField = new PasswordItem(Constants.USER_PASSWORD);
+    private PasswordItem otherPasswordField = new PasswordItem(Constants.USER_OTHER_PASSWORD);
     private TextItem firstnameField = new TextItem(Constants.USER_FIRST_NAME);
     private TextItem lastnameField = new TextItem(Constants.USER_LAST_NAME);
     private TextItem emailField = new TextItem(Constants.USER_EMAIL);
@@ -462,47 +462,47 @@ public class LoginDialog extends Window
     {
         String signupValidationMessage = null;
         StringBuffer sb = new StringBuffer();
-        if (usernameField.getValue() == null)
+        if (usernameField.getValue() == null && !"".equals(usernameField.getValue()))
         {
             sb.append("Username cannot be left blank!<br/>");
         }
-        if (passwordField.getValue() == null)
+        if (passwordField.getValue() == null && !"".equals(passwordField.getValue()))
         {
             sb.append("Password cannot be left blank!<br/>");
         }
-        if (otherPasswordField.getValue() == null)
+        if (otherPasswordField.getValue() == null && !"".equals(otherPasswordField.getValue()))
         {
             sb.append("Re-type Password cannot be left blank!<br/>");
         }
-        if (firstnameField.getValue() == null)
+        if (firstnameField.getValue() == null && !"".equals(firstnameField.getValue()))
         {
             sb.append("User First Name cannot be left blank!<br/>");
         }
-        if (lastnameField.getValue() == null)
+        if (lastnameField.getValue() == null && !"".equals(lastnameField.getValue()))
         {
             sb.append("User Last Name cannot be left blank!<br/>");
         }
-        if (emailField.getValue() == null)
+        if (emailField.getValue() == null && !"".equals(emailField.getValue()))
         {
             sb.append("User Email Address cannot be left blank!<br/>");
         }
-        if (securityQuestion1Field.getValue() == null)
+        if (securityQuestion1Field.getValue() == null && !"".equals(securityQuestion1Field.getValue()))
         {
             sb.append("Security Question 1 cannot be left blank!<br/>");
         }
-        if (securityAnswer1Field.getValue() == null)
+        if (securityAnswer1Field.getValue() == null && !"".equals(securityAnswer1Field.getValue()))
         {
             sb.append("Security Answer 1 cannot be left blank!<br/>");
         }
-        if (securityQuestion2Field.getValue() == null)
+        if (securityQuestion2Field.getValue() == null && !"".equals(securityQuestion2Field.getValue()))
         {
             sb.append("Security Question 2 cannot be left blank!<br/>");
         }
-        if (securityAnswer2Field.getValue() == null)
+        if (securityAnswer2Field.getValue() == null && !"".equals(securityAnswer2Field.getValue()))
         {
             sb.append("Security Answer 2 cannot be left blank!<br/>");
         }
-        if (birthdateField.getValue() == null)
+        if (birthdateField.getValue() == null && !"".equals(birthdateField.getValue()))
         {
             sb.append("Contact Birth Date cannot be left blank!<br/>");
         }

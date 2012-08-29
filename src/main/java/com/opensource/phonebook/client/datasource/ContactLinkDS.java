@@ -19,6 +19,8 @@ import com.smartgwt.client.data.fields.DataSourceIntegerField;
 import com.smartgwt.client.data.fields.DataSourceTextField;
 import com.smartgwt.client.rpc.RPCResponse;
 import com.smartgwt.client.util.JSOHelper;
+import com.smartgwt.client.widgets.Canvas;
+import com.smartgwt.client.widgets.grid.ListGrid;
 import com.smartgwt.client.widgets.grid.ListGridRecord;
 
 public class ContactLinkDS extends GwtRpcDataSource
@@ -38,8 +40,9 @@ public class ContactLinkDS extends GwtRpcDataSource
 
     DataSourceIntegerField contactIdField;
     DataSourceIntegerField contactLinkIdField;
-    DataSourceTextField linkTypeIdField;
+    DataSourceIntegerField linkTypeIdField;
     DataSourceTextField linkField;
+    DataSourceTextField linkDescriptionField;
     DataSourceDateTimeField enteredDateField;
 
     public ContactLinkDS()
@@ -56,14 +59,18 @@ public class ContactLinkDS extends GwtRpcDataSource
         contactLinkIdField.setCanEdit(false);
         contactLinkIdField.setHidden(true);
 
-        linkField = new DataSourceTextField(Constants.C_LINK_URL, Constants.TITLE_C_LINK_URL);
+        linkField = new DataSourceTextField(Constants.C_LINK, Constants.TITLE_C_LINK);
 
-        linkTypeIdField = new DataSourceTextField(Constants.LINK_TYPE_ID, Constants.TITLE_LINK_TYPE_ID);
+        linkDescriptionField =
+            new DataSourceTextField(Constants.C_LINK_DESCRIPTION, Constants.TITLE_C_LINK_DESCRIPTION);
+
+        linkTypeIdField = new DataSourceIntegerField(Constants.C_LINK_TYPE_ID, Constants.TITLE_C_LINK_TYPE_ID);
 
         enteredDateField =
             new DataSourceDateTimeField(Constants.C_LINK_ENTERED_DATE, Constants.TITLE_C_LINK_ENTERED_DATE);
 
-        setFields(contactIdField, contactLinkIdField, linkField, linkTypeIdField, enteredDateField);
+        setFields(contactIdField, contactLinkIdField, linkField, linkDescriptionField, linkTypeIdField,
+            enteredDateField);
     }
 
     // *************************************************************************************
@@ -189,9 +196,37 @@ public class ContactLinkDS extends GwtRpcDataSource
     }
 
     @Override
-    protected void executeUpdate(String requestId, DSRequest request, DSResponse response)
+    protected void executeUpdate(final String requestId, DSRequest request, final DSResponse response)
     {
-        // TODO Auto-generated method stub
+        // Retrieve record which should be added.
+        // Retrieve record which should be updated.
+        JavaScriptObject data = request.getData();
+        ListGridRecord rec = new ListGridRecord(data);
+        // Find grid
+        ListGrid grid = (ListGrid) Canvas.getById(request.getComponentId());
+        // Get record with old and new values combined
+        int index = grid.getRecordIndex(rec);
+        rec = (ListGridRecord) grid.getEditedRecord(index);
+        ContactLinkDTO testRec = new ContactLinkDTO();
+        copyValues(rec, testRec);
+        contactLinkService.update(testRec, new AsyncCallback<ContactLinkDTO>()
+        {
+            public void onFailure(Throwable caught)
+            {
+                response.setStatus(RPCResponse.STATUS_FAILURE);
+                processResponse(requestId, response);
+            }
+
+            public void onSuccess(ContactLinkDTO result)
+            {
+                ListGridRecord[] list = new ListGridRecord[1];
+                ListGridRecord updRec = new ListGridRecord();
+                copyValues(result, updRec);
+                list[0] = updRec;
+                response.setData(list);
+                processResponse(requestId, response);
+            }
+        });
     }
 
     // *************************************************************************************
@@ -199,21 +234,31 @@ public class ContactLinkDS extends GwtRpcDataSource
 
     private void copyValues(ListGridRecord from, ContactLinkDTO to)
     {
-        to.setContactId(from.getAttributeAsInt(contactIdField.getName()));
+        String contactId = from.getAttributeAsString(contactIdField.getName());
+        if (contactId != null)
+        {
+            to.setContactId(Long.parseLong(contactId));
+        }
         to.setLinkId(from.getAttributeAsInt(contactLinkIdField.getName()));
         to.setLink(from.getAttributeAsString(linkField.getName()));
+        to.setLinkDescription(from.getAttributeAsString(linkDescriptionField.getName()));
         to.setEnteredDate(from.getAttributeAsDate(enteredDateField.getName()));
         // ================================================================================
-        LinkTypeDTO linkType = new LinkTypeDTO();
-        linkType.setId(from.getAttributeAsInt(linkTypeIdField.getName()));
-        to.setLinkType(linkType);
+        String linkTypeId = from.getAttributeAsString(linkTypeIdField.getName());
+        if (linkTypeId != null)
+        {
+            LinkTypeDTO linkType = new LinkTypeDTO();
+            linkType.setId(Long.parseLong(linkTypeId));
+            to.setLinkType(linkType);
+        }
     }
 
     private static void copyValues(ContactLinkDTO from, ListGridRecord to)
     {
         to.setAttribute(Constants.C_LINK_CONTACT_ID, from.getContactId());
         to.setAttribute(Constants.C_LINK_ID, from.getLinkId());
-        to.setAttribute(Constants.C_LINK_URL, from.getLink());
+        to.setAttribute(Constants.C_LINK, from.getLink());
+        to.setAttribute(Constants.C_LINK_DESCRIPTION, from.getLinkDescription());
         to.setAttribute(Constants.C_LINK_ENTERED_DATE, from.getEnteredDate());
         to.setAttribute(Constants.C_LINK_TYPE_ID, from.getLinkType().getId());
     }

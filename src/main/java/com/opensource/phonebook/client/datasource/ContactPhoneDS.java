@@ -58,7 +58,7 @@ public class ContactPhoneDS extends GwtRpcDataSource
         contactPhoneIdField.setCanEdit(false);
         contactPhoneIdField.setHidden(true);
 
-        phoneField = new DataSourceTextField(Constants.C_PHONE_NUMBER, Constants.TITLE_C_PHONE_NUMBER);
+        phoneField = new DataSourceTextField(Constants.C_PHONE, Constants.TITLE_C_PHONE);
 
         phoneTypeIdField = new DataSourceIntegerField(Constants.C_PHONE_TYPE_ID, Constants.TITLE_C_PHONE_TYPE_ID);
 
@@ -251,7 +251,7 @@ public class ContactPhoneDS extends GwtRpcDataSource
     {
         to.setAttribute(Constants.C_PHONE_CONTACT_ID, from.getContactId());
         to.setAttribute(Constants.C_PHONE_ID, from.getPhoneId());
-        to.setAttribute(Constants.C_PHONE_NUMBER, from.getPhone());
+        to.setAttribute(Constants.C_PHONE, from.getPhone());
         to.setAttribute(Constants.C_PHONE_ENTERED_DATE, from.getEnteredDate());
         to.setAttribute(Constants.C_PHONE_TYPE_ID, from.getPhoneType().getId());
     }

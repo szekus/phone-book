@@ -209,15 +209,15 @@ public class ProfileWidget extends HLayout
     {
         String passwordValidationMessage = null;
         StringBuffer sb = new StringBuffer();
-        if (oldPasswordField.getValue() == null)
+        if (oldPasswordField.getValue() == null && !"".equals(oldPasswordField.getValue()))
         {
             sb.append("Old Password cannot be left blank!<br/>");
         }
-        if (newPasswordField.getValue() == null)
+        if (newPasswordField.getValue() == null && !"".equals(newPasswordField.getValue()))
         {
             sb.append("New Password cannot be left blank!<br/>");
         }
-        if (retypePasswordField.getValue() == null)
+        if (retypePasswordField.getValue() == null && !"".equals(retypePasswordField.getValue()))
         {
             sb.append("Retype Password cannot be left blank!<br/>");
         }
@@ -225,7 +225,8 @@ public class ProfileWidget extends HLayout
         {
             sb.append("Old Password does not match current password!<br/>");
         }
-        if (newPasswordField.getValue() != null && retypePasswordField.getValue() != null)
+        if (newPasswordField.getValue() != null && retypePasswordField.getValue() != null
+            && !"".equals(oldPasswordField.getValue()) && !"".equals(retypePasswordField.getValue()))
         {
             if (!newPasswordField.getValue().equals(retypePasswordField.getValue()))
             {

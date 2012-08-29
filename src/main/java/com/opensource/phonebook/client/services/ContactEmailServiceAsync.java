@@ -12,7 +12,7 @@ public interface ContactEmailServiceAsync
 
     void remove(ContactEmailDTO record, AsyncCallback<Void> callback);
 
-    void update(ContactEmailDTO record, AsyncCallback<Void> callback);
+    void update(ContactEmailDTO record, AsyncCallback<ContactEmailDTO> callback);
 
     void fetch(ContactEmailDTO record, AsyncCallback<List<ContactEmailDTO>> callback);
 

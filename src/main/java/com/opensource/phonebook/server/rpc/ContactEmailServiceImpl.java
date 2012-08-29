@@ -61,16 +61,36 @@ public class ContactEmailServiceImpl extends BaseRPC implements ContactEmailServ
 
     @Transactional
     @Override
-    public void remove(ContactEmailDTO record)
+    public void remove(ContactEmailDTO contactEmailDto)
     {
-        // TODO Auto-generated method stub
+        ContactEmailEntity contactEmailEntity = new ContactEmailEntity();
+        contactEmailEntity.setEmailId(contactEmailDto.getEmailId());
+        contactEmailDao.deleteContactEmailEntity(contactEmailEntity);
     }
 
     @Transactional
     @Override
-    public void update(ContactEmailDTO record)
+    public ContactEmailDTO update(ContactEmailDTO contactEmailDto)
     {
-        // TODO Auto-generated method stub
+        ContactEmailEntity contactEmail = contactEmailDao.getContactEmailEntity(contactEmailDto.getEmailId());
+        contactEmail.setEmailId(contactEmailDto.getEmailId());
+
+        if (contactEmailDto.getEnteredDate() != null)
+        {
+            contactEmail.setEnteredDate(contactEmailDto.getEnteredDate());
+        }
+        if (contactEmailDto.getEmail() != null)
+        {
+            contactEmail.setEmail(contactEmailDto.getEmail());
+        }
+        if (contactEmailDto.getEmailType() != null)
+        {
+            EmailTypeEntity emailType = new EmailTypeEntity();
+            emailType.setId(contactEmailDto.getEmailType().getId());
+            contactEmail.setEmailType(emailType);
+        }
+        contactEmail = contactEmailDao.saveContactEmailEntity(contactEmail);
+        return Mapping.createContactEmail(contactEmail);
     }
 
     @Transactional

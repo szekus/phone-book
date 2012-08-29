@@ -93,15 +93,30 @@ public class ContactWidget extends HLayout
     private ListGridField phoneContactIdField = new ListGridField(Constants.C_PHONE_CONTACT_ID,
         Constants.TITLE_C_PHONE_CONTACT_ID);
     private ListGridField phoneIdField = new ListGridField(Constants.C_PHONE_ID, Constants.TITLE_C_PHONE_ID);
-    private ListGridField phoneField = new ListGridField(Constants.C_PHONE_NUMBER, Constants.TITLE_C_PHONE_NUMBER);
+    private ListGridField phoneField = new ListGridField(Constants.C_PHONE, Constants.TITLE_C_PHONE);
     private ListGridField phoneTypeField =
         new ListGridField(Constants.C_PHONE_TYPE_ID, Constants.TITLE_C_PHONE_TYPE_ID);
     private ListGridField phoneEnteredDateField = new ListGridField(Constants.C_PHONE_ENTERED_DATE,
         Constants.TITLE_C_PHONE_ENTERED_DATE);
 
-    private ListGridField emailField = new ListGridField(Constants.C_EMAIL_ADDRESS, Constants.TITLE_C_EMAIL_ADDRESS);
+    private ListGridField emailContactIdField = new ListGridField(Constants.C_EMAIL_CONTACT_ID,
+        Constants.TITLE_C_EMAIL_CONTACT_ID);
+    private ListGridField emailIdField = new ListGridField(Constants.C_EMAIL_ID, Constants.TITLE_C_EMAIL_ID);
+    private ListGridField emailField = new ListGridField(Constants.C_EMAIL, Constants.TITLE_C_EMAIL);
+    private ListGridField emailTypeField =
+        new ListGridField(Constants.C_EMAIL_TYPE_ID, Constants.TITLE_C_EMAIL_TYPE_ID);
+    private ListGridField emailEnteredDateField = new ListGridField(Constants.C_EMAIL_ENTERED_DATE,
+        Constants.TITLE_C_EMAIL_ENTERED_DATE);
 
-    private ListGridField linkField = new ListGridField(Constants.C_LINK_URL, Constants.TITLE_C_LINK_URL);
+    private ListGridField linkContactIdField = new ListGridField(Constants.C_LINK_CONTACT_ID,
+        Constants.TITLE_C_LINK_CONTACT_ID);
+    private ListGridField linkIdField = new ListGridField(Constants.C_LINK_ID, Constants.TITLE_C_LINK_ID);
+    private ListGridField linkField = new ListGridField(Constants.C_LINK, Constants.TITLE_C_LINK);
+    private ListGridField linkDescriptionField = new ListGridField(Constants.C_LINK_DESCRIPTION,
+        Constants.TITLE_C_LINK_DESCRIPTION);
+    private ListGridField linkTypeField = new ListGridField(Constants.C_LINK_TYPE_ID, Constants.TITLE_C_LINK_TYPE_ID);
+    private ListGridField linkEnteredDateField = new ListGridField(Constants.C_LINK_ENTERED_DATE,
+        Constants.TITLE_C_LINK_ENTERED_DATE);
 
     public ContactWidget(UserDTO userDto)
     {
@@ -242,6 +257,7 @@ public class ContactWidget extends HLayout
 
         phoneField.setCanEdit(true);
         phoneField.setWidth(100);
+        phoneField.setRequired(true);
 
         SelectItem phoneTypeList = new SelectItem();
         phoneTypeList.setOptionDataSource(phoneTypesDS);
@@ -256,6 +272,7 @@ public class ContactWidget extends HLayout
         phoneTypeField.setCanEdit(true);
         phoneTypeField.setWidth(100);
         phoneTypeField.setType(ListGridFieldType.INTEGER);
+        phoneTypeField.setRequired(true);
 
         phoneEnteredDateField.setCanEdit(false);
         phoneEnteredDateField.setWidth(150);
@@ -314,27 +331,79 @@ public class ContactWidget extends HLayout
         emailsListGrid.setInitialCriteria(new Criteria(Constants.C_EMAIL_CONTACT_ID, contactId));
         emailsListGrid.setDataSource(contactEmailDS);
         emailsListGrid.setPadding(GRID_PADDING);
+        // emailsListGrid.setAlwaysShowEditors(true);
+
+        emailContactIdField.setCanEdit(false);
+        emailContactIdField.setHidden(true);
+        emailContactIdField.setType(ListGridFieldType.INTEGER);
+
+        emailIdField.setCanEdit(false);
+        emailIdField.setHidden(true);
+        emailIdField.setDefaultValue(0);
 
         emailField.setCanEdit(true);
+        emailField.setWidth(100);
+        emailField.setRequired(true);
 
         SelectItem emailTypeList = new SelectItem();
         emailTypeList.setOptionDataSource(emailTypesDS);
         emailTypeList.setValueField(Constants.EMAIL_TYPE_ID);
         emailTypeList.setDisplayField(Constants.EMAIL_TYPE_DESCRIPTION);
 
-        ListGridField emailTypeField = new ListGridField(Constants.C_EMAIL_TYPE_ID, Constants.TITLE_C_EMAIL_TYPE_ID);
         emailTypeField.setOptionDataSource(emailTypesDS);
         emailTypeField.setEditorType(emailTypeList);
         emailTypeField.setValueField(Constants.EMAIL_TYPE_ID);
         emailTypeField.setDisplayField(Constants.EMAIL_TYPE_DESCRIPTION);
         emailTypeField.setAutoFetchDisplayMap(true);
         emailTypeField.setCanEdit(true);
+        emailTypeField.setWidth(100);
+        emailTypeField.setType(ListGridFieldType.INTEGER);
+        emailTypeField.setRequired(true);
 
-        ListGridField enteredDateField =
-            new ListGridField(Constants.C_EMAIL_ENTERED_DATE, Constants.TITLE_C_EMAIL_ENTERED_DATE);
-        enteredDateField.setCanEdit(false);
+        emailEnteredDateField.setCanEdit(false);
+        emailEnteredDateField.setWidth(150);
+        emailEnteredDateField.setDefaultValue(new Date());
+        emailEnteredDateField.setType(ListGridFieldType.DATE);
 
-        emailsListGrid.setFields(emailField, emailTypeField, enteredDateField);
+        ListGridField emailDeleteField = new ListGridField("deleteEmailField", 50);
+        emailDeleteField.setAlign(Alignment.CENTER);
+        emailDeleteField.setType(ListGridFieldType.ICON);
+        emailDeleteField.setIcon("silk/delete.png");
+        emailDeleteField.setCanEdit(false);
+
+        emailDeleteField.addRecordClickHandler(new RecordClickHandler()
+        {
+            public void onRecordClick(RecordClickEvent event)
+            {
+                // SC.say("Remove Facet");
+                final ListGridRecord selectedRecord = emailsListGrid.getSelectedRecord();
+                if (selectedRecord != null)
+                {
+                    SC.confirm("Are you sure that you want to delete this record?", new BooleanCallback()
+                    {
+                        public void execute(Boolean value)
+                        {
+                            if (value != null && value)
+                            {
+                                // *** proceed with delete
+                                emailsListGrid.removeData(selectedRecord);
+                            }
+                            else
+                            {
+                                // Cancel
+                            }
+                        }
+                    });
+                }
+                else
+                {
+                    SC.say("Select a record before performing this action");
+                }
+            }
+        });
+
+        emailsListGrid.setFields(emailContactIdField, emailIdField, emailField, emailTypeField, emailEnteredDateField,
+            emailDeleteField);
         emailsListGrid.setAutoFetchDisplayMap(true);
         emailsListGrid.setAutoFetchData(true);
 
@@ -348,27 +417,83 @@ public class ContactWidget extends HLayout
         linksListGrid.setInitialCriteria(new Criteria(Constants.C_LINK_CONTACT_ID, contactId));
         linksListGrid.setDataSource(contactLinkDS);
         linksListGrid.setPadding(GRID_PADDING);
+        // linksListGrid.setAlwaysShowEditors(true);
+
+        linkContactIdField.setCanEdit(false);
+        linkContactIdField.setHidden(true);
+        linkContactIdField.setType(ListGridFieldType.INTEGER);
+
+        linkIdField.setCanEdit(false);
+        linkIdField.setHidden(true);
+        linkIdField.setDefaultValue(0);
 
         linkField.setCanEdit(true);
+        linkField.setWidth(150);
+        linkField.setRequired(true);
+
+        linkDescriptionField.setCanEdit(true);
+        linkDescriptionField.setWidth(250);
+        linkDescriptionField.setRequired(true);
 
         SelectItem linkTypeList = new SelectItem();
         linkTypeList.setOptionDataSource(linkTypesDS);
         linkTypeList.setValueField(Constants.LINK_TYPE_ID);
         linkTypeList.setDisplayField(Constants.LINK_TYPE_DESCRIPTION);
 
-        ListGridField linkTypeField = new ListGridField(Constants.C_LINK_TYPE_ID, Constants.TITLE_C_LINK_TYPE_ID);
         linkTypeField.setOptionDataSource(linkTypesDS);
         linkTypeField.setEditorType(linkTypeList);
         linkTypeField.setValueField(Constants.LINK_TYPE_ID);
         linkTypeField.setDisplayField(Constants.LINK_TYPE_DESCRIPTION);
         linkTypeField.setAutoFetchDisplayMap(true);
         linkTypeField.setCanEdit(true);
+        linkTypeField.setWidth(100);
+        linkTypeField.setType(ListGridFieldType.INTEGER);
+        linkTypeField.setRequired(true);
 
-        ListGridField enteredDateField =
-            new ListGridField(Constants.C_LINK_ENTERED_DATE, Constants.TITLE_C_LINK_ENTERED_DATE);
-        enteredDateField.setCanEdit(false);
+        linkEnteredDateField.setCanEdit(false);
+        linkEnteredDateField.setWidth(150);
+        linkEnteredDateField.setDefaultValue(new Date());
+        linkEnteredDateField.setType(ListGridFieldType.DATE);
 
-        linksListGrid.setFields(linkField, linkTypeField, enteredDateField);
+        ListGridField linkDeleteField = new ListGridField("deleteLinkField", 50);
+        linkDeleteField.setAlign(Alignment.CENTER);
+        linkDeleteField.setType(ListGridFieldType.ICON);
+        linkDeleteField.setIcon("silk/delete.png");
+        linkDeleteField.setCanEdit(false);
+
+        linkDeleteField.addRecordClickHandler(new RecordClickHandler()
+        {
+            public void onRecordClick(RecordClickEvent event)
+            {
+                // SC.say("Remove Facet");
+                final ListGridRecord selectedRecord = linksListGrid.getSelectedRecord();
+                if (selectedRecord != null)
+                {
+                    SC.confirm("Are you sure that you want to delete this record?", new BooleanCallback()
+                    {
+                        public void execute(Boolean value)
+                        {
+                            if (value != null && value)
+                            {
+                                // *** proceed with delete
+                                linksListGrid.removeData(selectedRecord);
+                            }
+                            else
+                            {
+                                // Cancel
+                            }
+                        }
+                    });
+                }
+                else
+                {
+                    SC.say("Select a record before performing this action");
+                }
+            }
+        });
+
+        linksListGrid.setFields(linkContactIdField, linkIdField, linkField, linkDescriptionField, linkTypeField,
+            linkEnteredDateField, linkDeleteField);
         linksListGrid.setAutoFetchDisplayMap(true);
         linksListGrid.setAutoFetchData(true);
 
@@ -431,12 +556,12 @@ public class ContactWidget extends HLayout
 
                 emailsListGrid.setCriteria(new Criteria(Constants.C_EMAIL_CONTACT_ID, contactId));
                 emailsListGrid.invalidateCache();
-                // emailContactIdField.setDefaultValue(contactId);
+                emailContactIdField.setDefaultValue(contactId);
                 addEmailButton.setDisabled(false);
 
                 linksListGrid.setCriteria(new Criteria(Constants.C_LINK_CONTACT_ID, contactId));
                 linksListGrid.invalidateCache();
-                // linkContactIdField.setDefaultValue(contactId);
+                linkContactIdField.setDefaultValue(contactId);
                 addLinkButton.setDisabled(false);
 
                 contactForm.reset();
@@ -680,31 +805,31 @@ public class ContactWidget extends HLayout
     {
         String contactValidationMessage = null;
         StringBuffer sb = new StringBuffer();
-        if (firstnameField.getValue() == null)
+        if (firstnameField.getValue() == null && !"".equals(firstnameField.getValue()))
         {
             sb.append("Contact First Name cannot be left blank!<br/>");
         }
-        if (lastnameField.getValue() == null)
+        if (lastnameField.getValue() == null && !"".equals(lastnameField.getValue()))
         {
             sb.append("Contact Last Name cannot be left blank!<br/>");
         }
-        if (address1Field.getValue() == null)
+        if (address1Field.getValue() == null && !"".equals(address1Field.getValue()))
         {
             sb.append("Contact Address cannot be left blank!<br/>");
         }
-        if (cityField.getValue() == null)
+        if (cityField.getValue() == null && !"".equals(cityField.getValue()))
         {
             sb.append("Contact City cannot be left blank!<br/>");
         }
-        if (stateField.getValue() == null)
+        if (stateField.getValue() == null && !"".equals(stateField.getValue()))
         {
             sb.append("Contact State cannot be left blank!<br/>");
         }
-        if (zipField.getValue() == null)
+        if (zipField.getValue() == null && !"".equals(zipField.getValue()))
         {
             sb.append("Contact Zip cannot be left blank!<br/>");
         }
-        if (birthdateField.getValue() == null)
+        if (birthdateField.getValue() == null && !"".equals(birthdateField.getValue()))
         {
             sb.append("Contact Birth Date cannot be left blank!<br/>");
         }

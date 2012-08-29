@@ -47,6 +47,7 @@ public class ContactLinkServiceImpl extends BaseRPC implements ContactLinkServic
 
         newContactLink.setLinkId(contactLinkDto.getLinkId());
         newContactLink.setLink(contactLinkDto.getLink());
+        newContactLink.setLinkDescription(contactLinkDto.getLinkDescription());
         newContactLink.setEnteredDate(contactLinkDto.getEnteredDate());
 
         LinkTypeEntity linkTypeEntity = new LinkTypeEntity();
@@ -61,16 +62,40 @@ public class ContactLinkServiceImpl extends BaseRPC implements ContactLinkServic
 
     @Transactional
     @Override
-    public void remove(ContactLinkDTO record)
+    public void remove(ContactLinkDTO contactLinkDto)
     {
-        // TODO Auto-generated method stub
+        ContactLinkEntity contactLinkEntity = new ContactLinkEntity();
+        contactLinkEntity.setLinkId(contactLinkDto.getLinkId());
+        contactLinkDao.deleteContactLinkEntity(contactLinkEntity);
     }
 
     @Transactional
     @Override
-    public void update(ContactLinkDTO record)
+    public ContactLinkDTO update(ContactLinkDTO contactLinkDto)
     {
-        // TODO Auto-generated method stub
+        ContactLinkEntity contactLink = contactLinkDao.getContactLinkEntity(contactLinkDto.getLinkId());
+        contactLink.setLinkId(contactLinkDto.getLinkId());
+
+        if (contactLinkDto.getEnteredDate() != null)
+        {
+            contactLink.setEnteredDate(contactLinkDto.getEnteredDate());
+        }
+        if (contactLinkDto.getLink() != null)
+        {
+            contactLink.setLink(contactLinkDto.getLink());
+        }
+        if (contactLinkDto.getLinkDescription() != null)
+        {
+            contactLink.setLinkDescription(contactLinkDto.getLinkDescription());
+        }
+        if (contactLinkDto.getLinkType() != null)
+        {
+            LinkTypeEntity linkType = new LinkTypeEntity();
+            linkType.setId(contactLinkDto.getLinkType().getId());
+            contactLink.setLinkType(linkType);
+        }
+        contactLink = contactLinkDao.saveContactLinkEntity(contactLink);
+        return Mapping.createContactLink(contactLink);
     }
 
     @Transactional

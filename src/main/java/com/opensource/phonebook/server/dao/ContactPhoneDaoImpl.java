@@ -15,7 +15,7 @@ import com.opensource.phonebook.domain.ContactEntity;
 import com.opensource.phonebook.domain.ContactPhoneEntity;
 
 @Transactional
-@Repository("contactPhonePhoneDao")
+@Repository("contactPhoneDao")
 public class ContactPhoneDaoImpl implements ContactPhoneDao
 {
 

@@ -15,7 +15,7 @@ import com.opensource.phonebook.domain.ContactEmailEntity;
 import com.opensource.phonebook.domain.ContactEntity;
 
 @Transactional
-@Repository("contactEmailEmailDao")
+@Repository("contactEmailDao")
 public class ContactEmailDaoImpl implements ContactEmailDao
 {
 
@@ -40,7 +40,7 @@ public class ContactEmailDaoImpl implements ContactEmailDao
     @Override
     public ContactEmailEntity saveContactEmailEntity(ContactEmailEntity contactEmail)
     {
-        // this.getHibernateTemplate().saveOrUpdate(contactEmail);
+        // this.getHibernateTemplate().saveOrUpdate(contact);
         this.sessionFactory.getCurrentSession().saveOrUpdate(contactEmail);
         return contactEmail;
     }
@@ -48,7 +48,7 @@ public class ContactEmailDaoImpl implements ContactEmailDao
     @Override
     public ContactEmailEntity updateContactEmailEntity(ContactEmailEntity contactEmail)
     {
-        // this.getHibernateTemplate().saveOrUpdate(contactEmail);
+        // this.getHibernateTemplate().saveOrUpdate(contact);
         this.sessionFactory.getCurrentSession().merge(contactEmail);
         return contactEmail;
     }
@@ -62,7 +62,6 @@ public class ContactEmailDaoImpl implements ContactEmailDao
     @Override
     public void deleteContactEmailEntity(ContactEmailEntity contactEmail)
     {
-        // this.getHibernateTemplate().delete(contactEmail);
         this.sessionFactory.getCurrentSession().delete(contactEmail);
     }
 
@@ -96,7 +95,7 @@ public class ContactEmailDaoImpl implements ContactEmailDao
     {
         Query query =
             this.sessionFactory.getCurrentSession().createQuery(
-                "from ContactEmailEntity cee where cee.contact = :contact");
+                "from ContactEmailEntity cpe where cpe.contact = :contact");
         query.setParameter("contact", exampleContactEntity);
         List<ContactEmailEntity> contactEmails = query.list();
         return contactEmails;
@@ -107,7 +106,7 @@ public class ContactEmailDaoImpl implements ContactEmailDao
     {
         Query query =
             this.sessionFactory.getCurrentSession().createQuery(
-                "from ContactEmailEntity cee where cee.contact.id = :contact");
+                "from ContactEmailEntity cpe where cpe.contact.id = :contact");
         query.setParameter("contact", contactId);
         List<ContactEmailEntity> contactEmails = query.list();
         return contactEmails;

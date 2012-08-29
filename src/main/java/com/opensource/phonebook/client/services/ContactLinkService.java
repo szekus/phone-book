@@ -15,7 +15,7 @@ public interface ContactLinkService extends RemoteService
 
     void remove(ContactLinkDTO record);
 
-    void update(ContactLinkDTO record);
+    ContactLinkDTO update(ContactLinkDTO record);
 
     List<ContactLinkDTO> fetch(ContactLinkDTO record);
 
