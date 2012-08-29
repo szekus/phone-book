@@ -1,0 +1,50 @@
+
+Lessons learned:
+============================
+
+1) With Spring and Autowired, this explanation is about the LifeCycle of a Servlet, and
+when it is created/destroyed with a web-application and how it relates to Autowired
+and the Spring ApplicationContext file.  I don't want to go into too much detail here
+since that information can be found on the Internet.
+But, if you look at class "com.opensource.phonebook.server.rpc.BaseRPC" this is the new super
+class that I start all of my GWT-RPC's with.  This is the BETTER way of handling the application
+context from spring and actually being able to Autowire Services and Daos into the application.
+
+2) My first project used DTO's and Entities and we had to work out a mapping scheme
+to from Entity to DTO and DTO to Entity.  The second SmartGWT project did the same thing,
+we had to use a mapping to do the same thing.   I found this tedious and just decided to use
+Entities and DTOs at all.  However, I soon found out that with GWT-RPC and Serialization with Hibernate
+that some objects like PersistentSet are NOT serializable and that broke my application.
+There were other choices such as Gilead (formerly hibernate4gwt), or DTO to Entity mapping.
+I opted for this choice since it was more obvious and not a black-box like Gilead.
+
+3) I've learned a lot more about GWT-RPC from my last two SmartGWT projects.
+With this framework, I think I'll be able to build off of this app into much larger apps.
+
+Refactoring:
+============================
+
+No originally created project is going to be perfect from the beginning, and anyone who tells
+you that either doesn't or, or isn't being honest.  Refactoring happens all the time, and is for
+the betterment of the code.  Redundant or unneccessary code should be removed.  
+
+1) One of the things I want to do once this project is done, is look for redundant code.
+That is code cut-and-pasted from one place to another.  Maybe using some abstracts classes
+that i can build off of. 
+
+08/29/2012 - Done a lot of this already, but that work continues
+
+2) I want to go through the code and look for anything hard-coded.
+Sometimes these may seem trivial, but then you start using the same string over and over
+again, and if you mis-type something, that can lead to bugs.  So, i want to make sure
+I change anything that might be hard-coded to use Constants instead.
+
+08/29/2012 - Done a lot of this already, but that work continues
+
+3) Once this project is done, deployment to a new platform should be easy, but I am not there yet.
+I want to be able to run a SQL script to create the database and tables, etc.
+Then I should be able to just drop a war in place, and it should just work.
+This is something I will be testing over and over again.
+
+08/29/2012 - Working on this now.  Now that I have the project.
+I am going to deploy this WAR to tomcat and test it out.

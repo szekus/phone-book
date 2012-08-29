@@ -1,0 +1,57 @@
+FEATURES I LIKE TO ADD:
+========================
+1) When a user enters an email anywhere, it would be nice to verify that it is an email format, 
+but I didn't bother at this point.
+
+2) It would be nice to also enable Facebook Authentication, but that means getting the correct
+Facebook/Java API.   There are a few out there, but not sure which ones work best.
+
+3) On the signup form, when a user signs in, it does write cookies until the user chooses to Logout.
+It would be nice to add the remember me feature so writing cookies becomes an option.
+That way every time the user comes to the URL, they will be forced to sign back on again.
+
+4) I didn't add the Admin tools.  So when a user logins as a USER they get one View
+When the user logs on as the Admin, they get another view.  
+
+5) Add the Admin features to allow changing to and from Admin to User status and back again.
+
+6) Add the Admin features to allow adding, editing, removing Link, Email, and Phone Types.
+
+7) Right now the lookup tables do not take into account Active and Inactive statuses.
+
+8) I could rewrite this using JQuery and JQuery Widgets
+
+9) I could write this using Node.js ... once I find out what this.
+
+10) This could be modified to use the MongoDB, which is something I might do soon.
+
+More features:
+===========================
+
+1) The login form in the middle should get a clear button to clear the username/password.
+08/29/2012 - DONE!
+
+2) The header on the login form needs to be much nice, and that is coming.
+08/29/2012 - DONE!
+
+3) When the user signs up, and creates a new account, the following needs to be done:
+    a) The password needs to be masked - DONE!
+    b) There needs to be a re-typed password textbox - DONE!
+    c) I want to have an alternate email
+    d) I want to add a BirthDate to the signup form - DONE!
+    e) I want to add a clear button to this form - DONE!
+    f) I want to add a header to the top of this form - DONE!
+    g) I want to add red asterisks (*) to the form for what is required
+    h) I want to adjust the Save button so it is more locally centered. - DONE!
+    
+4) On the User Header, that code needs to be re-factored into a widget to be re-used.
+08/29/2012 - DONE!
+
+5) I want to create a log-out button so the app knows that the user has logged out and removed his cookies.
+08/29/2012 - DONE!
+
+6) I want to adjust the contact form on the Contact Tab
+    a) I want to add a clear button to this form - DONE!
+    b) I want to add a header to the top of this form - DONE!
+    c) I want to add red asterisks (*) to the form for what is required
+    d) I want to adjust the Save button so it is more locally centered. - DONE!
