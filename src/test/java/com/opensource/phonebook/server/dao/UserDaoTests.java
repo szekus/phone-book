@@ -1,5 +1,6 @@
 package com.opensource.phonebook.server.dao;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -14,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.ibm.icu.text.SimpleDateFormat;
 import com.opensource.phonebook.domain.ContactEmailEntity;
 import com.opensource.phonebook.domain.ContactEntity;
 import com.opensource.phonebook.domain.EmailTypeEntity;

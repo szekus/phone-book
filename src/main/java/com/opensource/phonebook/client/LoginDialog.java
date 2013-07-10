@@ -96,12 +96,12 @@ public class LoginDialog extends Window
         setShowCloseButton(false);
         setBorder("1px solid black");
 
-        addMember(getHeader());
-        addMember(getWorkArea());
-        addMember(getFooter());
+        addMember(getLoginHeader());
+        addMember(getLoginWorkArea());
+        addMember(getLoginFooter());
     }
 
-    private HLayout getWorkArea()
+    private HLayout getLoginWorkArea()
     {
 
         HLayout workArea = new HLayout();
@@ -284,7 +284,7 @@ public class LoginDialog extends Window
         return workArea;
     }
 
-    private HLayout getFooter()
+    private HLayout getLoginFooter()
     {
         HLayout footer = new HLayout();
         footer.setHeight("5%");
@@ -295,7 +295,7 @@ public class LoginDialog extends Window
         return footer;
     }
 
-    private HLayout getHeader()
+    private HLayout getLoginHeader()
     {
         HLayout topHeader = new HLayout();
         topHeader.setPadding(Constants.UI_PADDING_2);
